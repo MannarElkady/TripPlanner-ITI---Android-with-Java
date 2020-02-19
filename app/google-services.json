@@ -15,6 +15,51 @@
       },
       "oauth_client": [
         {
+          "client_id": "871602954442-v13dgmkke1jchc2rkvf2os9m07snmahp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tripplanner",
+            "certificate_hash": "35e8aea98c28421307371a3fcc36de771b3e9ca9"
+          }
+        },
+        {
+          "client_id": "871602954442-fhcjpg63ecld8b5csji0cqmacsmpmi9k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJxQW1SEOaWhE65r5Fc-DRV-ax0uOmaWs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "871602954442-fhcjpg63ecld8b5csji0cqmacsmpmi9k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:871602954442:android:96028df9c7756084671433",
+        "android_client_info": {
+          "package_name": "com.iti.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "871602954442-uqk1q8rs8hvssa0itpjpndfa9vn1k0ig.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iti.myapplication",
+            "certificate_hash": "35e8aea98c28421307371a3fcc36de771b3e9ca9"
+          }
+        },
+        {
           "client_id": "871602954442-fhcjpg63ecld8b5csji0cqmacsmpmi9k.apps.googleusercontent.com",
           "client_type": 3
         }

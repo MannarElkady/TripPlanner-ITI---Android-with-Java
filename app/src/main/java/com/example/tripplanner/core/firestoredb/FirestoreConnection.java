@@ -1,15 +1,13 @@
-package com.example.tripplanner;
+package com.example.tripplanner.core.firestoredb;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.example.tripplanner.MainActivity;
+import com.example.tripplanner.R;
 import com.example.tripplanner.core.model.Trip;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -21,52 +19,29 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
-    private FirebaseFirestore firebaseFirestore;
-    EditText title;
-    EditText desc;
-    final List<String> allDocumentsName = new ArrayList<>();
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        firebaseFirestore = FirebaseFirestore.getInstance();
-        desc = findViewById(R.id.description);
-        title = findViewById(R.id.title);
-        findViewById(R.id.clickme).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setupCasheFirestore();
-                addTrip(new Trip(MainActivity.this.title.getText().toString(), MainActivity.this.desc.getText().toString()));
-                ((TextView)findViewById(R.id.text)).setText("..");
-                setAllCollectionDocumentsNames(allDocumentsName,"Trips");
-                //Log.i("rere",list.toString());
-            }
-        });
+public class FirestoreConnection {
+    FirebaseFirestore firebaseFirestore;
+    public FirestoreConnection(FirebaseFirestore fs){
+        firebaseFirestore= fs;
     }
-
-    public void setAllCollectionDocumentsNames(final List<String> documentNames,String collectionName){
+    public void setAllCollectionDocumentsNames(final List<String> documentNames, String collectionName){
         firebaseFirestore.collection(collectionName).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         documentNames.add(document.getId());
-                  //      ((TextView)findViewById(R.id.text)).setText(document.getId().toString());
                     }
                     Log.i("docaa",documentNames.toString());
                     for(String s:documentNames) {
                         getDocumentByName("Trips",s);
                     }
                 } else {
-                   // Log.d(TAG, "Error getting documents: ", task.getException());
-                  //  ((TextView)findViewById(R.id.text)).setText("No data");
+                    // Log.d(TAG, "Error getting documents: ", task.getException());
                     Log.i("docaa",documentNames.toString());
                 }
             }
@@ -81,14 +56,11 @@ public class MainActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                       // ((TextView)findViewById(R.id.text)).setText(document.getData().toString());
                         Log.i("waw",document.getData().toString());
                     } else {
-                       // ((TextView)findViewById(R.id.text)).setText("No such document");
                         Log.i("help","No such document");
                     }
                 } else {
-                    ((TextView)findViewById(R.id.text)).setText(task.getException().getMessage());
                     Log.i("help",task.getException().getMessage());
                 }
             }
@@ -108,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         tripMap.put("title",trip.getTitle());
         tripMap.put("date",trip.getTripDate());
 
-        //to add document
+        //to add document by random generated id
         /*firebaseFirestore.collection("Trips").add(tripMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override
             public void onComplete(@NonNull Task<DocumentReference> task) {
@@ -120,17 +92,18 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Hi", Toast.LENGTH_SHORT).show();
             }
         });*/
+
         //to update document
         firebaseFirestore.collection("Trips").document(trip.getTitle()).set(tripMap)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(MainActivity.this, "Hi", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(MainActivity.this, "Hi", Toast.LENGTH_SHORT).show();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MainActivity.this, "Fail", Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(MainActivity.this, "Fail", Toast.LENGTH_SHORT).show();
             }
         });
     }
