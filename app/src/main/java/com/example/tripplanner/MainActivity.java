@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
                 Users me = new Users("1","Manar","manara@gmail.com","123");
                 firebaseFirestore = FirebaseFirestore.getInstance();
                 firestoreConnection = new FirestoreConnection(firebaseFirestore,me);
-                //firestoreConnection.addUserDocument(new Users("1","Manar","123","manar@gmail.com"));
-             //   firestoreConnection.addTrip(me,new Trip(MainActivity.this.title.getText().toString(), MainActivity.this.desc.getText().toString(),"giza","haram"));
+                firestoreConnection.addUserDocument(new Users("1","Manar","123","manar@gmail.com"));
+                firestoreConnection.addTrip(new Trip(MainActivity.this.title.getText().toString(), MainActivity.this.desc.getText().toString(),"giza","haram"));
                 firestoreConnection.getAllCollectionDocuments(allDocumentsName);
                 //Log.i("rere",list.toString());
             }
