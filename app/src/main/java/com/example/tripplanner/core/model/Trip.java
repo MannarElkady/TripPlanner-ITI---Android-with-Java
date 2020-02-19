@@ -8,15 +8,18 @@ public class Trip {
     private String startLocation;
     private String endLocation;
     private String tripDate;
-    List<Note> listOfNotes;
+    private List<Note> listOfNotes;
 
     //this for trip identification
+    //No setter for tripId to prevent external modification
     private String tripId ;
 
     /*public Trip(String title) {
         this.title = title;
     }*/
 
+
+    //construct a trip without list of notes
     public Trip(String title, String tripData, String startLocation, String endLocation) {
         this.tripDate = tripData;
         this.title = title;
@@ -27,6 +30,7 @@ public class Trip {
         tripId = title + startLocation + endLocation;
     }
 
+    //construct a trip with Notes
     public Trip(String title, String tripData, String startLocation, String endLocation,List<Note> notes) {
         this.tripDate = tripData;
         this.title = title;
@@ -38,6 +42,11 @@ public class Trip {
         tripId = title + startLocation + endLocation;
     }
 
+    public Trip(){
+    }
+
+
+    //setters
     public void setTitle(String title) {
         this.title = title;
     }
@@ -54,6 +63,8 @@ public class Trip {
         this.tripDate = tripDate;
     }
 
+
+    //getters
     public String getTitle() {
         return title;
     }
