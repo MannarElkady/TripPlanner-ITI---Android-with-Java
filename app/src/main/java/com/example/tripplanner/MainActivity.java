@@ -11,8 +11,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.tripplanner.core.firestoredb.FirestoreConnection;
+import com.example.tripplanner.core.model.Trip;
+import com.example.tripplanner.core.model.User;
 import com.example.tripplanner.homescreen.homeview.HomeActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +38,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
-      /*  desc = findViewById(R.id.description);
+        desc = findViewById(R.id.description);
         title = findViewById(R.id.title);
         firestoreConnection = FirestoreConnection.getInstance(new User("1","mannar","ashraf@gmail.com","1234567"));
 
-
+        Task<QuerySnapshot> docs = firestoreConnection.getAllTrips();
+        docs.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                List<DocumentSnapshot> result = task.getResult().getDocuments();
+                for(DocumentSnapshot documentSnapshot : result){
+                    Trip t = documentSnapshot.toObject(Trip.class);
+                    Log.i(TAG, t.getTitle());
+                }
+            }
+        });
         /*findViewById(R.id.clickme).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

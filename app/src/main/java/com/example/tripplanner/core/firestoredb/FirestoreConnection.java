@@ -7,13 +7,13 @@ import androidx.annotation.NonNull;
 import com.example.tripplanner.core.model.Trip;
 import com.example.tripplanner.core.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
+
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
+
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public class FirestoreConnection {
 
     private FirebaseFirestore db;
 
-    DocumentReference tripsCollectionReference;
+    private DocumentReference tripsCollectionReference;
 
     private FirestoreConnection() {
         db = FirebaseFirestore.getInstance();
@@ -135,7 +135,7 @@ public class FirestoreConnection {
     /*Reham*/
 
 
-    
+
     /*public void setupCasheFirestore(){
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setPersistenceEnabled(true)
