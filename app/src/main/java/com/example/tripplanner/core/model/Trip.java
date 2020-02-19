@@ -8,9 +8,14 @@ public class Trip {
     private String endLocation;
     private String tripDate;
 
-    public Trip(String title,String tripData){
+    public Trip(String title){
+        this.title = title;
+    }
+    public Trip(String title,String tripData, String startLocation, String endLocation){
         this.tripDate=tripData;
         this.title = title;
+        this.endLocation = endLocation;
+        this.startLocation = startLocation;
     }
     public void setTitle(String title) {
         this.title = title;

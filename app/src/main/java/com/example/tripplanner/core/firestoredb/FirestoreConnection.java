@@ -1,14 +1,9 @@
 package com.example.tripplanner.core.firestoredb;
 
 import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-
-import com.example.tripplanner.MainActivity;
-import com.example.tripplanner.R;
 import com.example.tripplanner.core.model.Trip;
+import com.example.tripplanner.core.model.Users;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -23,8 +18,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//Structure  : Document userTrips with userId as identifier >> Collection as TripsCollection per user >> Documents with the tripTitle as identifier
+
 public class FirestoreConnection {
     FirebaseFirestore firebaseFirestore;
+    String FIRETAG = "FireTag";
     public FirestoreConnection(FirebaseFirestore fs){
         firebaseFirestore= fs;
     }
@@ -36,14 +34,33 @@ public class FirestoreConnection {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         documentNames.add(document.getId());
                     }
-                    Log.i("docaa",documentNames.toString());
+                    Log.i(FIRETAG,documentNames.toString());
                     for(String s:documentNames) {
                         getDocumentByName("Trips",s);
                     }
                 } else {
                     // Log.d(TAG, "Error getting documents: ", task.getException());
-                    Log.i("docaa",documentNames.toString());
+                    Log.i(FIRETAG,task.getException().getMessage());
                 }
+            }
+        });
+    }
+
+    public void addUserDocument(Users user){
+        Map<String,Object> userMap= new HashMap<>();
+        userMap.put("userId",user.getUserId());
+        userMap.put("password",user.getPassword());
+        userMap.put("Email",user.getUserEmail());
+        userMap.put("userName",user.getUserName());
+        firebaseFirestore.collection("Trips").document(user.getUserId()).set(userMap).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i(FIRETAG,"Failed to add User");
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Log.i(FIRETAG,task.toString());
             }
         });
     }
@@ -56,9 +73,9 @@ public class FirestoreConnection {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Log.i("waw",document.getData().toString());
+                        Log.i(FIRETAG,document.getData().toString());
                     } else {
-                        Log.i("help","No such document");
+                        Log.i(FIRETAG,"No such document");
                     }
                 } else {
                     Log.i("help",task.getException().getMessage());
@@ -75,11 +92,12 @@ public class FirestoreConnection {
                 .build();
         firebaseFirestore.setFirestoreSettings(settings);
     }
-    public void addTrip(Trip trip){
+    public void addTrip(Users user,Trip trip){
         Map<String,Object> tripMap= new HashMap<>();
         tripMap.put("title",trip.getTitle());
         tripMap.put("date",trip.getTripDate());
-
+        tripMap.put("startLocation",trip.getStartLocation());
+        tripMap.put("endLocation",trip.getEndLocation());
         //to add document by random generated id
         /*firebaseFirestore.collection("Trips").add(tripMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override
@@ -94,16 +112,17 @@ public class FirestoreConnection {
         });*/
 
         //to update document
-        firebaseFirestore.collection("Trips").document(trip.getTitle()).set(tripMap)
+        firebaseFirestore.collection("Trips").document(user.getUserId())
+                .collection("UserTrips").document(trip.getTitle()).set(tripMap)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                       // Toast.makeText(MainActivity.this, "Hi", Toast.LENGTH_SHORT).show();
+                        //todo
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-             //   Toast.makeText(MainActivity.this, "Fail", Toast.LENGTH_SHORT).show();
+                //todo
             }
         });
     }

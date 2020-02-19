@@ -1,11 +1,24 @@
 package com.example.tripplanner.core.model;
 
+import com.google.firebase.firestore.IgnoreExtraProperties;
+
+@IgnoreExtraProperties
 public class Users {
     private String userId;
     private String userName;
     private String password;
     private String userEmail;
 
+    public Users(String userId,String userName){
+        this.userName = userName;
+        this.userId = userId;
+    }
+    public Users(String userId,String userName,String userEmail, String password){
+        this.password = password;
+        this.userEmail = userEmail;
+        this.userName = userName;
+        this.userId = userId;
+    }
     public void setUserId(String userId) {
         this.userId = userId;
     }
