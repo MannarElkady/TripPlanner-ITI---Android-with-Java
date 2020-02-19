@@ -2,6 +2,7 @@ package com.example.tripplanner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 import com.example.tripplanner.core.firestoredb.FirestoreConnection;
 import com.example.tripplanner.core.model.Trip;
 import com.example.tripplanner.core.model.Users;
+import com.example.tripplanner.homescreen.homeview.HomeActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -26,7 +28,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        desc = findViewById(R.id.description);
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+      /*  desc = findViewById(R.id.description);
         title = findViewById(R.id.title);
         findViewById(R.id.clickme).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
                 firestoreConnection.getAllCollectionDocuments(allDocumentsName);
                 //Log.i("rere",list.toString());
             }
-        });
+        });*/
+    }
+
+    public void goToAddTripFragment(View view) {
     }
 }
