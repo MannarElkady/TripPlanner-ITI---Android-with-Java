@@ -1,15 +1,16 @@
 package com.example.tripplanner;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.tripplanner.core.firestoredb.FirestoreConnection;
-import com.example.tripplanner.core.model.Trip;
-import com.example.tripplanner.core.model.Users;
 import com.example.tripplanner.homescreen.homeview.HomeActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
     private FirebaseFirestore firebaseFirestore;
     FirestoreConnection firestoreConnection;
     EditText title;
@@ -32,7 +34,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
       /*  desc = findViewById(R.id.description);
         title = findViewById(R.id.title);
-        findViewById(R.id.clickme).setOnClickListener(new View.OnClickListener() {
+        firestoreConnection = FirestoreConnection.getInstance(new User("1","mannar","ashraf@gmail.com","1234567"));
+
+
+        /*findViewById(R.id.clickme).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Users me = new Users("1","Manar","manara@gmail.com","123");
