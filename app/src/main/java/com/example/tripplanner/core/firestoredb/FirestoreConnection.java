@@ -5,18 +5,16 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.tripplanner.core.model.Trip;
-import com.example.tripplanner.core.model.User;
+import com.example.tripplanner.core.model.Users;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -42,31 +40,31 @@ public class FirestoreConnection {
     private static final String TRIP_COLLECTION = "Trips";
     private static final String SUB_COLLECTION_OF_TRIPS = "UserTrips";
     private static FirestoreConnection INSTANCE;
-    private static User _user;
-
+    private static Users _user;
     private FirebaseFirestore db;
-
-    DocumentReference tripsCollectionReference;
+    DocumentReference userDocReference;
+    CollectionReference tripsCollectionReference;
 
     private FirestoreConnection() {
         db = FirebaseFirestore.getInstance();
-        tripsCollectionReference = db.collection(TRIP_COLLECTION).document(_user.getUserId());
+        userDocReference = db.collection(TRIP_COLLECTION).document(_user.getUserId());
+        tripsCollectionReference = userDocReference.collection("UserTrips");
+        //   userDocReference = userDocReference.collection("UserTrips");
         //setupCasheFirestore();
     }
 
     //get instance of FirestoreConnection
-    public static FirestoreConnection getInstance(User user) {
+    public static FirestoreConnection getInstance(Users user) {
         if (INSTANCE == null) {
             _user = user;
             INSTANCE = new FirestoreConnection();
-
         }
         return INSTANCE;
     }
 
     /*Mannar*/
     public void getAllCollectionDocuments(final List<String> documentNames) {
-        /*tripsCollectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        /*userDocReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -95,7 +93,7 @@ public class FirestoreConnection {
         userDocReference.set(userMap).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.i(TAG,"Failed to add User");
+                Log.i(TAG,"Failed to add Users");
             }
         }).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -105,9 +103,8 @@ public class FirestoreConnection {
         });
     }*/
 
-
     public void getDocumentByName(String documentName) {
-        tripsCollectionReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        tripsCollectionReference.document(documentName).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -122,10 +119,14 @@ public class FirestoreConnection {
                 }
             }
         });
-
-
     }
-
+    public void setupCasheFirestore(){
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
+                .build();
+        db.setFirestoreSettings(settings);
+    }
     /*Mannar*/
 
 
@@ -133,16 +134,6 @@ public class FirestoreConnection {
     /*Reham*/
 
     /*Reham*/
-
-
-    
-    /*public void setupCasheFirestore(){
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setPersistenceEnabled(true)
-                .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
-                .build();
-        firebaseFirestore.setFirestoreSettings(settings);
-    }*/
 
 
     /*Ashraf*/
@@ -168,27 +159,27 @@ public class FirestoreConnection {
         });*/
 
         //to add trip document
-        return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS)
+        return userDocReference.collection(SUB_COLLECTION_OF_TRIPS)
                 .document(trip.getTripId()).set(trip);
     }
 
     // get all user trips
     public Task<QuerySnapshot> getAllTrips() {
         //TODO: optimize getAllTrips to get just titles of trips
-        return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS).get();
+        return userDocReference.collection(SUB_COLLECTION_OF_TRIPS).get();
     }
 
 
     // delete trip from user trip collection
     public Task<Void> deleteTrip(Trip trip){
-        return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS)
+        return userDocReference.collection(SUB_COLLECTION_OF_TRIPS)
                                 .document(trip.getTripId()).delete();
     }
 
 
     //update trip in user trip collection
     public Task<Void> updateTrip(Trip oldTrip, Trip newTrip){
-        return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS)
+        return userDocReference.collection(SUB_COLLECTION_OF_TRIPS)
                                 .document(oldTrip.getTripId()).set(newTrip);
         //TODO: optimize update, to update the changed field only, not the whole document of a trip
     }
@@ -196,7 +187,7 @@ public class FirestoreConnection {
 
     //get a specific trip
     public Task<DocumentSnapshot> getTrip(Trip trip){
-        Task<DocumentSnapshot> task = tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS).document(trip.getTripId()).get();
+        Task<DocumentSnapshot> task = userDocReference.collection(SUB_COLLECTION_OF_TRIPS).document(trip.getTripId()).get();
         return task;
     }
 

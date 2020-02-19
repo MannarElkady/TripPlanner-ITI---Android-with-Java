@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
       /*  desc = findViewById(R.id.description);
         title = findViewById(R.id.title);
-        firestoreConnection = FirestoreConnection.getInstance(new User("1","mannar","ashraf@gmail.com","1234567"));
+        firestoreConnection = FirestoreConnection.getInstance(new Users("1","mannar","ashraf@gmail.com","1234567"));
 
 
         /*findViewById(R.id.clickme).setOnClickListener(new View.OnClickListener() {

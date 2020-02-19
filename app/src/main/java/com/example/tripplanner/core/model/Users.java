@@ -3,17 +3,17 @@ package com.example.tripplanner.core.model;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
-public class User {
+public class Users {
     private String userId;
     private String userName;
     private String password;
     private String userEmail;
 
-    public User(String userId, String userName){
+    public Users(String userId, String userName){
         this.userName = userName;
         this.userId = userId;
     }
-    public User(String userId, String userName, String userEmail, String password){
+    public Users(String userId, String userName, String userEmail, String password){
         this.password = password;
         this.userEmail = userEmail;
         this.userName = userName;
