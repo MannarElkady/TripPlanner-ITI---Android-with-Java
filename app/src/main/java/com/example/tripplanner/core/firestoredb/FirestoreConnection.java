@@ -26,7 +26,7 @@ public class FirestoreConnection {
     public FirestoreConnection(FirebaseFirestore fs){
         firebaseFirestore= fs;
     }
-    public void setAllCollectionDocumentsNames(final List<String> documentNames, String collectionName){
+    public void getAllCollectionDocuments(final List<String> documentNames, String collectionName){
         firebaseFirestore.collection(collectionName).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
