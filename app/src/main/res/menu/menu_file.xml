@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
-        <item android:id="@+id/file"
-            android:title="Item 1" >
-        </item>
-        <item android:id="@+id/file2"
-            android:title="item 2" >
-            <!-- "file" submenu -->
-        </item>
-        <item android:id="@+id/file3"
-            android:title="Item 3" >
-        </item>
+        <group android:checkableBehavior="single">
+            <item android:id="@+id/refresh"
+                android:title="item1"
+                android:icon="@drawable/ic_undraw_cup_of_tea_6nqg" />
+            <item android:id="@+id/stop"
+                android:title="item2"
+                android:icon="@drawable/ic_undraw_cup_of_tea_6nqg" />
+        </group>
     </group>
 </menu>
