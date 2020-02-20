@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">TripPlanner</string>
     <string name="homePage">Home</string>
+    <string name="UsernameText">Hello Username</string>
 </resources>

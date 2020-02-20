@@ -37,8 +37,9 @@ public class AllTripsHomeAdapter extends RecyclerView.Adapter<AllTripsHomeAdapte
         holder.title.setText(myTripList.get(position).getTitle());
         holder.date.setText(myTripList.get(position).getTripDate());
        // Picasso.get().load().into(holder.tripImage);
-        holder.locationFromTo.setText("From: "+myTripList.get(position).getStartLocation()
-                +"to: "+myTripList.get(position).getEndLocation());
+        holder.locationFromTo.setText("From:  "+myTripList.get(position).getStartLocation()
+                +"  to: "+myTripList.get(position).getEndLocation());
+        holder.locationFromTo.setTextSize(14f);
     }
 
     @Override
