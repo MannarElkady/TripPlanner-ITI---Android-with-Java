@@ -16,12 +16,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllTripsViewModel extends ViewModel {
+public class TripsHomeViewModel extends ViewModel {
     // TODO: Implement the ViewModel
     FirestoreConnection firestoreConnection;
     List<Trip> allTrips;
     private MutableLiveData<List<Trip>> allTripsLiveList;
-    public AllTripsViewModel(){
+    public TripsHomeViewModel(){
         firestoreConnection = FirestoreConnection.getInstance(MainActivity.me);
         allTrips=new ArrayList<>();
     }

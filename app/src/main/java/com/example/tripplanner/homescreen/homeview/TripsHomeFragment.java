@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.tripplanner.R;
 import com.example.tripplanner.core.model.Trip;
@@ -23,15 +24,15 @@ import java.util.List;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 
-public class AllTripsFragment extends Fragment {
+public class TripsHomeFragment extends Fragment {
 
-    private AllTripsViewModel mViewModel;
-    private AllTripsHomeAdapter tripsHomeAdapter;
+    private TripsHomeViewModel mViewModel;
+    private TripsHomeAdapter tripsHomeAdapter;
     private LinearLayoutManager layoutManager;
     private RecyclerView rv;
 
-    public static AllTripsFragment newInstance() {
-        return new AllTripsFragment();
+    public static TripsHomeFragment newInstance() {
+        return new TripsHomeFragment();
     }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class AllTripsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(AllTripsViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(TripsHomeViewModel.class);
         // TODO: Use the ViewModel
         mViewModel.getAllTrips().observe(getActivity(), new Observer<List<Trip>>() {
             @Override
@@ -81,7 +82,14 @@ public class AllTripsFragment extends Fragment {
     public void displayTrips(List<Trip> trips){
         getActivity().findViewById(R.id.no_trips_layout).setVisibility(INVISIBLE);
         getActivity().findViewById(R.id.trips_recyclerview).setVisibility(VISIBLE);
-        tripsHomeAdapter = new AllTripsHomeAdapter(getActivity(),trips);
+
+        //create adapter with it's listener
+        tripsHomeAdapter = new TripsHomeAdapter(getActivity(), trips, new HomeActivity.OnRecycleItemClickListener() {
+            @Override
+            public void onItemClick(View item, int position) {
+                Toast.makeText(getContext(), "Item Clicked with position: "+ position, Toast.LENGTH_LONG).show();
+            }
+        });
         rv.setAdapter(tripsHomeAdapter);
     }
 }

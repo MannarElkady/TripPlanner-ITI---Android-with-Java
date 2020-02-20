@@ -16,17 +16,18 @@ import com.example.tripplanner.core.model.Trip;
 
 import java.util.List;
 
-public class AllTripsHomeAdapter extends RecyclerView.Adapter<AllTripsHomeAdapter.TripHolder> {
-    Context ctx;
-    List<Trip> myTripList;
-    View generatedRow;
-
-    public AllTripsHomeAdapter(Context context, List<Trip> myTripList){
+public class TripsHomeAdapter extends RecyclerView.Adapter<TripsHomeAdapter.TripHolder> {
+    private Context ctx;
+    private List<Trip> myTripList;
+    private View generatedRow;
+    private HomeActivity.OnRecycleItemClickListener recycleListener;
+    public TripsHomeAdapter(Context context, List<Trip> myTripList, HomeActivity.OnRecycleItemClickListener listener){
         ctx = context;
         this.myTripList = myTripList;
+        recycleListener = listener;
     }
     @Override
-    public AllTripsHomeAdapter.TripHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TripsHomeAdapter.TripHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater =LayoutInflater.from(ctx);
         generatedRow = layoutInflater.inflate(R.layout.one_row_trip_layout,parent,false);
         TripHolder tripHolder = new TripHolder(generatedRow);
@@ -34,18 +35,18 @@ public class AllTripsHomeAdapter extends RecyclerView.Adapter<AllTripsHomeAdapte
     }
 
     @Override
-    public void onBindViewHolder(AllTripsHomeAdapter.TripHolder holder, int position) {
+    public void onBindViewHolder(TripsHomeAdapter.TripHolder holder, int position) {
         holder.title.setText(myTripList.get(position).getTitle());
         holder.date.setText(myTripList.get(position).getTripDate());
         holder.locationFromTo.setText("From:  "+myTripList.get(position).getStartLocation()
                 +"  to: "+myTripList.get(position).getEndLocation());
         holder.date.setTypeface(holder.date.getTypeface(), Typeface.BOLD);
         holder.locationFromTo.setTextSize(14f);
-        //holder.locationFromTo.setTextColor(Color.parseColor("#FFFFFF"));
         holder.locationFromTo.setTypeface(holder.title.getTypeface(), Typeface.BOLD);
-      //  holder.title.setTextColor(Color.parseColor( "#FFFFFF"));
         holder.title.setTypeface(holder.title.getTypeface(), Typeface.BOLD);
-        // Picasso.get().load().into(holder.tripImage);
+
+        //add listener to each item
+        holder.bind(holder.itemView,recycleListener);
     }
 
     @Override
@@ -65,5 +66,15 @@ public class AllTripsHomeAdapter extends RecyclerView.Adapter<AllTripsHomeAdapte
             this.date = itemView.findViewById(R.id.date_textview);
             this.locationFromTo = itemView.findViewById(R.id.tripFromToLocationOverview);
         }
+        public void bind(View item, HomeActivity.OnRecycleItemClickListener listener) {
+           // name.setText(item.name);
+            //Picasso.with(itemView.getContext()).load(item.imageUrl).into(image);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    listener.onItemClick(item,getAdapterPosition());
+                }
+            });
+        }
     }
-}
+
+    }
