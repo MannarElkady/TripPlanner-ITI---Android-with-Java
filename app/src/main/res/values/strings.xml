@@ -8,4 +8,7 @@
     <string name="signIn">Sign In</string>
     <string name="register">Register</string>
     <string name="confirmPassword">Confirm Password</string>
+    <string name="homePage">Home</string>
+    <string name="UsernameText">Hello Username</string>
+    <string name="availableText">Upcoming Trips</string>
 </resources>
