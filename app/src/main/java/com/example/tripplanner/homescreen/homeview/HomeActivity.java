@@ -39,7 +39,7 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //todo >> connect the humburger button with the navigation view
-        
+
         //to get the right 3 dots button for settings
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
