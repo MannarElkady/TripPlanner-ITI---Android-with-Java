@@ -4,12 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/usernameTextField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="casual"
+        android:text="@string/UsernameText"
+        android:textColor="#B71C1C"
+        android:textSize="32sp"
+        android:textStyle="bold"></TextView>
+
+    <TextView
+        android:id="@+id/availableTripsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="serif"
+        android:padding="5dp"
+        android:text="@string/availableText"
+        android:textColor="#A5A1A1"
+        android:textSize="16sp"
+        android:textStyle="bold"></TextView>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/trips_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
+</LinearLayout>
     <LinearLayout
         android:id="@+id/no_trips_layout"
         android:layout_width="match_parent"
@@ -38,7 +68,7 @@
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/add_Trip_floating_point"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -46,7 +76,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:onClick="goToAddTripFragment"
         android:tint="@android:color/white"
         app:srcCompat="@android:drawable/ic_input_add"/>
 </FrameLayout>

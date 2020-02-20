@@ -23,18 +23,6 @@
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
         </androidx.appcompat.widget.Toolbar>
 
-        <TextView
-            android:id="@+id/usernameTextField"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:fontFamily="casual"
-            android:text="@string/UsernameText"
-            android:textColor="#B71C1C"
-            android:textSize="18sp"
-            android:textStyle="bold"></TextView>
         <LinearLayout
             android:id="@+id/homeFragmentLayout"
             android:layout_width="match_parent"

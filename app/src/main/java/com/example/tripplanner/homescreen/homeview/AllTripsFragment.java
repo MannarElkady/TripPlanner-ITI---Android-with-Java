@@ -18,8 +18,6 @@ import android.view.ViewGroup;
 import com.example.tripplanner.R;
 import com.example.tripplanner.core.model.Trip;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 import static android.view.View.INVISIBLE;
@@ -38,24 +36,12 @@ public class AllTripsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       /* List<Trip> list = new ArrayList<>();
-        list.add(new Trip("title","date","start","last"));
-        list.add(new Trip("title","date","start","last"));
-        list.add(new Trip("title","date","start","last"));
-        list.add(new Trip("title","date","start","last"));
-        list.add(new Trip("title","date","start","last"));
-        list.add(new Trip("title","date","start","last"));
-        list.add(new Trip("title","date","start","last"));
-        list.add(new Trip("title","date","start","last"));
-        list.add(new Trip("title","date","start","last"));
-        list.add(new Trip("title","date","start","last"));
-        list.add(new Trip("title","date","start","last"));*/
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View v =  inflater.inflate(R.layout.all__trips_fragment, container, false);
+        View v =  inflater.inflate(R.layout.home_trips_fragment, container, false);
         rv = v.findViewById(R.id.trips_recyclerview);
         rv.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());
@@ -80,6 +66,11 @@ public class AllTripsFragment extends Fragment {
                 }
                 else
                     displayNoTrips();
+            }
+        });
+        getActivity().findViewById(R.id.add_Trip_floating_point).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
             }
         });
     }

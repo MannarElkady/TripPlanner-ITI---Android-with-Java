@@ -1,6 +1,7 @@
 package com.example.tripplanner.homescreen.homeview;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,10 +37,15 @@ public class AllTripsHomeAdapter extends RecyclerView.Adapter<AllTripsHomeAdapte
     public void onBindViewHolder(AllTripsHomeAdapter.TripHolder holder, int position) {
         holder.title.setText(myTripList.get(position).getTitle());
         holder.date.setText(myTripList.get(position).getTripDate());
-       // Picasso.get().load().into(holder.tripImage);
         holder.locationFromTo.setText("From:  "+myTripList.get(position).getStartLocation()
                 +"  to: "+myTripList.get(position).getEndLocation());
+        holder.date.setTypeface(holder.date.getTypeface(), Typeface.BOLD);
         holder.locationFromTo.setTextSize(14f);
+        //holder.locationFromTo.setTextColor(Color.parseColor("#FFFFFF"));
+        holder.locationFromTo.setTypeface(holder.title.getTypeface(), Typeface.BOLD);
+      //  holder.title.setTextColor(Color.parseColor( "#FFFFFF"));
+        holder.title.setTypeface(holder.title.getTypeface(), Typeface.BOLD);
+        // Picasso.get().load().into(holder.tripImage);
     }
 
     @Override

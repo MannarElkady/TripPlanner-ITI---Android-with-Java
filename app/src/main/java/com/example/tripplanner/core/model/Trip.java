@@ -7,21 +7,16 @@ public class Trip {
     private String title;
     private String startLocation;
     private String endLocation;
-    private String date;
+    private String tripDate;
     private List<Note> listOfNotes;
 
     //this for trip identification
     //No setter for tripId to prevent external modification
     private String tripId ;
 
-    /*public Trip(String title) {
-        this.title = title;
-    }*/
-
-
     //construct a trip without list of notes
     public Trip(String title, String tripData, String startLocation, String endLocation) {
-        this.date = tripData;
+        this.tripDate = tripData;
         this.title = title;
         this.endLocation = endLocation;
         this.startLocation = startLocation;
@@ -32,7 +27,7 @@ public class Trip {
 
     //construct a trip with Notes
     public Trip(String title, String tripData, String startLocation, String endLocation,List<Note> notes) {
-        this.date = tripData;
+        this.tripDate = tripData;
         this.title = title;
         this.endLocation = endLocation;
         this.startLocation = startLocation;
@@ -60,7 +55,7 @@ public class Trip {
     }
 
     public void setTripDate(String tripDate) {
-        this.date = tripDate;
+        this.tripDate = tripDate;
     }
 
 
@@ -78,7 +73,7 @@ public class Trip {
     }
 
     public String getTripDate() {
-        return date;
+        return tripDate;
     }
 
     public String getTripId (){

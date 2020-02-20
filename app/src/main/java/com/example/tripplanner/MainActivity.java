@@ -51,8 +51,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void goToAddTripFragment(View view) {
-    }
 
     public void toHome(View view) {
         Intent intent = new Intent(this, HomeActivity.class);
