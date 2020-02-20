@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".reminder.TestAlarmManagerWithNotification"></activity>
         <activity android:name=".homescreen.homeview.HomeActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
