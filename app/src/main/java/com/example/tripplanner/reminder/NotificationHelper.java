@@ -13,6 +13,7 @@ import androidx.core.app.NotificationCompat;
 import com.example.tripplanner.R;
 
 public class NotificationHelper extends ContextWrapper {
+    /*Manar*/
     private NotificationManager notificationManager;
 
     public NotificationHelper(Context base) {
@@ -21,12 +22,14 @@ public class NotificationHelper extends ContextWrapper {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void createChannel(String channelName, String channelID) {
-        NotificationChannel notificationChannel = new NotificationChannel(channelID,channelName, NotificationManager.IMPORTANCE_HIGH);
-        notificationChannel.enableLights(true);
-        notificationChannel.enableVibration(true);
-        notificationChannel.setLightColor(R.color.colorPrimary);
-        notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-        getNotificationManager().createNotificationChannel(notificationChannel);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel(channelID,channelName, NotificationManager.IMPORTANCE_HIGH);
+            notificationChannel.enableLights(true);
+            notificationChannel.enableVibration(true);
+            notificationChannel.setLightColor(R.color.colorPrimary);
+            notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+            getNotificationManager().createNotificationChannel(notificationChannel);
+        }
     }
 
     public NotificationManager getNotificationManager(){
@@ -37,8 +40,9 @@ public class NotificationHelper extends ContextWrapper {
     }
 
     public NotificationCompat.Builder buildNotification(String  channelID,String title,String message){
-
         return new NotificationCompat.Builder(getApplicationContext(),channelID)
-                .setContentTitle(title).setContentText(message).setSmallIcon(R.drawable.ic_notification);
+                .setPriority(NotificationCompat.PRIORITY_MAX).setContentTitle(title).setContentText(message)
+                .setDefaults(NotificationCompat.DEFAULT_ALL).setSmallIcon(R.drawable.ic_notification);
     }
+    /*Manar*/
 }

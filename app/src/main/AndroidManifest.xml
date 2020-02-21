@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.tripplanner">
 
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,18 +11,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".reminder.TestAlarmManagerWithNotification"></activity>
+        <activity android:name=".reminder.DialogActivity"></activity>
+
+        <service
+            android:name=".reminder.ForegroundService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".reminder.TestAlarmManagerWithNotification" />
         <activity android:name=".homescreen.homeview.HomeActivity" />
-        <activity android:name=".MainActivity" android:theme="@style/SplashScreenTheme">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <receiver
-            android:name=".reminder.AlarmReciever"
-            android:enabled="true" >
-        </receiver>
+        </activity> <!-- >Manar <! -->
+        <receiver android:name=".reminder.AlarmReciever" />
     </application>
 
 </manifest>
