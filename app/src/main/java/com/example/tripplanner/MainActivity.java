@@ -32,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        desc = findViewById(R.id.description);
+        title = findViewById(R.id.body);
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
         desc = findViewById(R.id.description);
@@ -50,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
     public void toHome(View view) {
         Intent intent = new Intent(this, HomeActivity.class);
