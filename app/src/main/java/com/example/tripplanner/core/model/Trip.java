@@ -17,11 +17,6 @@ public class Trip {
     //No setter for tripId to prevent external modification
     private String tripId;
 
-    /*public Trip(String title) {
-        this.title = title;
-    }*/
-
-
     //construct a trip without list of notes
     public Trip(String title, String tripData, String startLocation, String endLocation) {
         this.tripDate = tripData;
