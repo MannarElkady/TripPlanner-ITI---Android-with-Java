@@ -27,6 +27,7 @@ public interface TripDao {
     @Transaction
     @Query("SELECT * FROM Trip")
     LiveData<List<TripWithNotes>> getTripWithNotes();
-    //TODO:return liveData of list<TripWithNotes>
 
+    @Query("SELECT * FROM Trip WHERE tripStatus == :tripStatus")
+    LiveData<List<TripWithNotes>> allTripsStatus (String tripStatus);
 }

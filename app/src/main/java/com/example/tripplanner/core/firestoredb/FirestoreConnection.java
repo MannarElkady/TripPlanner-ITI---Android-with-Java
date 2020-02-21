@@ -63,7 +63,7 @@ public class FirestoreConnection {
         }
         return INSTANCE;
     }
-    
+
     public void getAllCollectionDocuments(final List<String> documentNames) {
         /*tripsCollectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override

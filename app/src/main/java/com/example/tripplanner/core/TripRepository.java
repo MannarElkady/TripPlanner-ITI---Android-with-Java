@@ -38,4 +38,9 @@ public class TripRepository {
     public LiveData<List<TripWithNotes>> getAllTrips() {
         return db.tripDao().getTripWithNotes();
     }
+
+    public LiveData<List<TripWithNotes>> getAllTripsStatus(String tripStatus) {
+        return db.tripDao().allTripsStatus(tripStatus);
+    }
+
 }

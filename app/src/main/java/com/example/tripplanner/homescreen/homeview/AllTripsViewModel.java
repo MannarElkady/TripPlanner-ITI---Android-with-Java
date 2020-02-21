@@ -31,7 +31,7 @@ public class AllTripsViewModel extends AndroidViewModel {
     }
 
 
-    public LiveData<List<TripWithNotes>> getAllTrips() {
-        return repository.getAllTrips();
+    public LiveData<List<TripWithNotes>> getAllTrips(String status) {
+        return repository.getAllTripsStatus(status);
     }
 }
