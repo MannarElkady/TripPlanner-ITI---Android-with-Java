@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         desc = findViewById(R.id.description);
         title = findViewById(R.id.body);
-        Intent intent = new Intent(this, HomeActivity.class);
-        startActivity(intent);
         desc = findViewById(R.id.description);
         title = findViewById(R.id.title);
         firestoreConnection = FirestoreConnection.getInstance(new User("1","mannar","ashraf@gmail.com","1234567"));
@@ -44,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 firebaseFirestore = FirebaseFirestore.getInstance();
                 firestoreConnection = FirestoreConnection.getInstance(me);
-              //  firestoreConnection.addUserDocument(new Users("1","Manar","123","manar@gmail.com"));
                 firestoreConnection.addTrip(new Trip(MainActivity.this.title.getText().toString(), MainActivity.this.desc.getText().toString(),"giza","haram"));
                 firestoreConnection.getAllCollectionDocuments(allDocumentsName);
             }

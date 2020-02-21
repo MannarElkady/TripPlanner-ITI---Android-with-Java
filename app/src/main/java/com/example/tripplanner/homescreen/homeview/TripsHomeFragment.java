@@ -55,7 +55,7 @@ public class TripsHomeFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(TripsHomeViewModel.class);
+         mViewModel = ViewModelProviders.of(this).get(TripsHomeViewModel.class);
         // TODO: Use the ViewModel
         mViewModel.getAllTrips().observe(getActivity(), new Observer<List<Trip>>() {
             @Override

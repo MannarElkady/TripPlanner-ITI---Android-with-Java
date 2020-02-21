@@ -18,6 +18,9 @@ public class Trip {
     private String tripId;
 
     //construct a trip without list of notes
+    public Trip(){
+
+    }
     public Trip(String title, String tripData, String startLocation, String endLocation) {
         this.tripDate = tripData;
         this.title = title;
