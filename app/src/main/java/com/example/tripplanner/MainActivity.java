@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         desc = findViewById(R.id.description);
         title = findViewById(R.id.title);
         firestoreConnection = FirestoreConnection.getInstance(new User("1","mannar","ashraf@gmail.com","1234567"));
+
         findViewById(R.id.clickme).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
