@@ -9,7 +9,7 @@ import android.widget.EditText;
 
 import com.example.tripplanner.core.firestoredb.FirestoreConnection;
 import com.example.tripplanner.core.model.Trip;
-import com.example.tripplanner.core.model.Users;
+import com.example.tripplanner.core.model.User;
 import com.example.tripplanner.homescreen.homeview.HomeActivity;
 import com.example.tripplanner.reminder.TestAlarmManagerWithNotification;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     EditText title;
     EditText desc;
     final List<String> allDocumentsName = new ArrayList<>();
-    public static Users me = new Users("1","Manar","manara@gmail.com","123");
+    public static User me = new User("1","Manar","manara@gmail.com","123");
     //todo >> array list may have duplicated document names inside it.. to be fix
 
     @Override
@@ -34,8 +34,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         desc = findViewById(R.id.description);
         title = findViewById(R.id.body);
-        firestoreConnection = FirestoreConnection.getInstance(new Users("1","mannar","ashraf@gmail.com","1234567"));
-
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+        desc = findViewById(R.id.description);
+        title = findViewById(R.id.title);
+        firestoreConnection = FirestoreConnection.getInstance(new User("1","mannar","ashraf@gmail.com","1234567"));
         findViewById(R.id.clickme).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
