@@ -1,0 +1,112 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "ef03e9c45d2069034785ee64e9c9ad57",
+    "entities": [
+      {
+        "tableName": "Trip",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tripId` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT, `startLocation` TEXT, `endLocation` TEXT, `tripDate` TEXT, `tripStatus` TEXT, `tripKey` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "tripId",
+            "columnName": "tripId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "startLocation",
+            "columnName": "startLocation",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "endLocation",
+            "columnName": "endLocation",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tripDate",
+            "columnName": "tripDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tripStatus",
+            "columnName": "tripStatus",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tripKey",
+            "columnName": "tripKey",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "tripId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "NoteEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`noteId` INTEGER PRIMARY KEY AUTOINCREMENT, `content` TEXT, `noteOwner` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "noteId",
+            "columnName": "noteId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "content",
+            "columnName": "content",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "noteOwner",
+            "columnName": "noteOwner",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "noteId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_NoteEntity_noteId_content",
+            "unique": true,
+            "columnNames": [
+              "noteId",
+              "content"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_NoteEntity_noteId_content` ON `${TABLE_NAME}` (`noteId`, `content`)"
+          }
+        ],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ef03e9c45d2069034785ee64e9c9ad57')"
+    ]
+  }
+}

@@ -40,19 +40,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         desc = findViewById(R.id.description);
         title = findViewById(R.id.title);
-        firestoreConnection = FirestoreConnection.getInstance(new Users("1","mannar","ashraf@gmail.com","1234567"));
+        firestoreConnection = FirestoreConnection.getInstance(new User("1","mannar","ashraf@gmail.com","1234567"));
 
-        Task<QuerySnapshot> docs = firestoreConnection.getAllTrips();
-        docs.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                List<DocumentSnapshot> result = task.getResult().getDocuments();
-                for(DocumentSnapshot documentSnapshot : result){
-                    Trip t = documentSnapshot.toObject(Trip.class);
-                    Log.i(TAG, t.getTitle());
-                }
-            }
-        });
         /*findViewById(R.id.clickme).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
