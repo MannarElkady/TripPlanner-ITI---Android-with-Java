@@ -1,4 +1,4 @@
-package com.example.tripplanner.repository;
+package com.example.tripplanner.core.repository.remote;
 
 import com.example.tripplanner.core.firestoredb.FirestoreConnection;
 import com.example.tripplanner.core.firestoredb.FirestoreContract;
@@ -8,6 +8,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+//Entities Names ( Trip , Note )
 public class FirestoreRepository implements FirestoreContract {
 
     private FirestoreConnection firestoreConnection;

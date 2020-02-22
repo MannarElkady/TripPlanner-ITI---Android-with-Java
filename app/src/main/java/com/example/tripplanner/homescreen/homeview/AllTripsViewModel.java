@@ -7,7 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.tripplanner.repository.RoomRepository;
+import com.example.tripplanner.core.repository.local.RoomRepository;
 import com.example.tripplanner.core.model.room_model.TripWithNotes;
 
 import java.util.List;

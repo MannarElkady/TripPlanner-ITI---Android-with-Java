@@ -1,4 +1,4 @@
-package com.example.tripplanner.repository;
+package com.example.tripplanner.core.repository.local;
 
 import android.content.Context;
 
@@ -12,8 +12,8 @@ import com.example.tripplanner.core.model.room_model.TripWithNotes;
 
 import java.util.List;
 
+//Entities Names (TripEntity , NoteEntity)
 public class RoomRepository {
-
 
     private TripDao dao;
 
