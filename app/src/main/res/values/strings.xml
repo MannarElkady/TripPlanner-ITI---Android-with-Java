@@ -11,4 +11,5 @@
     <string name="homePage">Home</string>
     <string name="UsernameText">Hello Username</string>
     <string name="availableText">Upcoming Trips</string>
+    <string name="google_maps_key">AIzaSyAqjqpBZH6wQkG0Cha8deMNa9urg-EjkMU</string>
 </resources>
