@@ -22,12 +22,12 @@ public class RoomViewModel extends AndroidViewModel {
         return repository.getTripWithNotes();
     }
 
-    public void insertTrip(TripEntity tripEntity) {
-        repository.insertTrip(tripEntity);
+    public Long insertTrip(TripEntity tripEntity) {
+        return repository.insertTrip(tripEntity);
     }
 
-    public void insertNote(NoteEntity noteEntity) {
-        repository.insertNote(noteEntity);
+    public Long insertNote(NoteEntity noteEntity) {
+        return repository.insertNote(noteEntity);
     }
 
     public Integer getTripId(TripEntity tripEntity) {
@@ -38,8 +38,12 @@ public class RoomViewModel extends AndroidViewModel {
         return repository.getTripWithNotes();
     }
 
-    public LiveData<List<TripWithNotes>> getAllTripsStatus(String tripStatus) {
+    public LiveData<List<TripWithNotes>> getAllTrips(String tripStatus) {
         return repository.getAllTripsStatus(tripStatus);
+    }
+
+    public Integer getRows(){
+        return repository.getRows();
     }
 
 

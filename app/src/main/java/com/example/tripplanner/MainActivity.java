@@ -10,7 +10,6 @@ import android.widget.EditText;
 import com.example.tripplanner.core.firestoredb.FirestoreConnection;
 import com.example.tripplanner.core.model.Trip;
 import com.example.tripplanner.core.model.User;
-import com.example.tripplanner.core.repository.local.RoomRepository;
 import com.example.tripplanner.homescreen.homeview.HomeActivity;
 import com.example.tripplanner.reminder.TestAlarmManagerWithNotification;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         desc = findViewById(R.id.description);
         title = findViewById(R.id.title);
         firestoreConnection = FirestoreConnection.getInstance(new User("1","mannar","ashraf@gmail.com","1234567"));
-        test();
+
         findViewById(R.id.clickme).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,11 +45,6 @@ public class MainActivity extends AppCompatActivity {
                 firestoreConnection.addTrip(new Trip(MainActivity.this.title.getText().toString(), MainActivity.this.desc.getText().toString(),"giza","haram"));
             }
         });
-    }
-
-    private void test() {
-        RoomRepository repository = new RoomRepository(this);
-
     }
 
     public void toHome(View view) {

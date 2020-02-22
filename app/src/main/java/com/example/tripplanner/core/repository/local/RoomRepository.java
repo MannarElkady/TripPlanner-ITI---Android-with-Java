@@ -26,12 +26,12 @@ public class RoomRepository {
         return dao.getTripWithNotes();
     }
 
-    public void insertTrip(TripEntity tripEntity) {
-        dao.insertTrip(tripEntity);
+    public Long insertTrip(TripEntity tripEntity) {
+        return dao.insertTrip(tripEntity);
     }
 
-    public void insertNote(NoteEntity noteEntity) {
-        dao.insertNotes(noteEntity);
+    public Long insertNote(NoteEntity noteEntity) {
+       return dao.insertNotes(noteEntity);
     }
 
     public Integer getTripId(TripEntity tripEntity) {
@@ -44,6 +44,10 @@ public class RoomRepository {
 
     public LiveData<List<TripWithNotes>> getAllTripsStatus(String tripStatus) {
         return dao.allTripsStatus(tripStatus);
+    }
+
+    public Integer getRows(){
+        return dao.getRows();
     }
 
 }

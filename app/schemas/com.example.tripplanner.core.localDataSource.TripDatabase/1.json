@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ef03e9c45d2069034785ee64e9c9ad57",
+    "identityHash": "6d24e5a75844079614d19d01c938ff50",
     "entities": [
       {
         "tableName": "Trip",
@@ -57,7 +57,16 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_Trip_tripKey",
+            "unique": true,
+            "columnNames": [
+              "tripKey"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Trip_tripKey` ON `${TABLE_NAME}` (`tripKey`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
@@ -106,7 +115,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ef03e9c45d2069034785ee64e9c9ad57')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6d24e5a75844079614d19d01c938ff50')"
     ]
   }
 }
