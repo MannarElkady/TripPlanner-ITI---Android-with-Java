@@ -1,4 +1,4 @@
-package com.example.tripplanner.core;
+package com.example.tripplanner.repository;
 
 import android.content.Context;
 
@@ -6,41 +6,44 @@ import androidx.lifecycle.LiveData;
 
 import com.example.tripplanner.core.localDataSource.TripDatabase;
 import com.example.tripplanner.core.model.room_model.NoteEntity;
+import com.example.tripplanner.core.model.room_model.TripDao;
 import com.example.tripplanner.core.model.room_model.TripEntity;
 import com.example.tripplanner.core.model.room_model.TripWithNotes;
 
 import java.util.List;
 
-public class TripRepository {
+public class RoomRepository {
 
 
-    TripDatabase db;
-    public TripRepository (Context context){
-        db = TripDatabase.getInstance(context);
+    private TripDao dao;
+
+
+    public RoomRepository(Context context) {
+        dao = TripDatabase.getInstance(context).tripDao();
     }
 
     LiveData<List<TripWithNotes>> getTripWithNotes() {
-        return db.tripDao().getTripWithNotes();
+        return dao.getTripWithNotes();
     }
 
     public void insertTrip(TripEntity tripEntity) {
-        db.tripDao().insertTrip(tripEntity);
+        dao.insertTrip(tripEntity);
     }
 
     public void insertNote(NoteEntity noteEntity) {
-        db.tripDao().insertNotes(noteEntity);
+        dao.insertNotes(noteEntity);
     }
 
     public Integer getTripId(TripEntity tripEntity) {
-        return db.tripDao().getTripId(tripEntity.getTripKey());
+        return dao.getTripId(tripEntity.getTripKey());
     }
 
     public LiveData<List<TripWithNotes>> getAllTrips() {
-        return db.tripDao().getTripWithNotes();
+        return dao.getTripWithNotes();
     }
 
     public LiveData<List<TripWithNotes>> getAllTripsStatus(String tripStatus) {
-        return db.tripDao().allTripsStatus(tripStatus);
+        return dao.allTripsStatus(tripStatus);
     }
 
 }
