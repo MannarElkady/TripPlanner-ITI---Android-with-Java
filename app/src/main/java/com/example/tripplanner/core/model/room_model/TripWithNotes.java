@@ -14,7 +14,6 @@ public class TripWithNotes {
     @Embedded
     public TripEntity trip;
 
-
     @Relation(
             parentColumn = "tripId",
             entityColumn = "noteOwner",

@@ -51,7 +51,6 @@ public class FirestoreConnection {
     private FirestoreConnection() {
         db = FirebaseFirestore.getInstance();
         tripsCollectionReference = db.collection(TRIP_COLLECTION).document(_user.getUserId());
-        //setupCasheFirestore();
     }
 
     //get instance of FirestoreConnection
@@ -83,7 +82,6 @@ public class FirestoreConnection {
             }
         });*/
     }
-
     /*Ashraf*/
 
     //add trip to user collection of trips

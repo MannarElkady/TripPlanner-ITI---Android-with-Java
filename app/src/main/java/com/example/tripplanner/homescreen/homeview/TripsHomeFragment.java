@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.tripplanner.R;
@@ -30,6 +31,8 @@ public class TripsHomeFragment extends Fragment {
     private TripsHomeAdapter tripsHomeAdapter;
     private LinearLayoutManager layoutManager;
     private RecyclerView rv;
+    LinearLayout noTrips;
+    RecyclerView recyclerView;
 
     public static TripsHomeFragment newInstance() {
         return new TripsHomeFragment();
@@ -56,6 +59,8 @@ public class TripsHomeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
          mViewModel = ViewModelProviders.of(this).get(TripsHomeViewModel.class);
+        noTrips =  getActivity().findViewById(R.id.no_trips_layout);
+        recyclerView = getActivity().findViewById(R.id.trips_recyclerview);
         // TODO: Use the ViewModel
         mViewModel.getAllTrips().observe(getActivity(), new Observer<List<Trip>>() {
             @Override
@@ -77,12 +82,12 @@ public class TripsHomeFragment extends Fragment {
         });
     }
     public void displayNoTrips() {
-        getActivity().findViewById(R.id.no_trips_layout).setVisibility(VISIBLE);
-        getActivity().findViewById(R.id.trips_recyclerview).setVisibility(INVISIBLE);
+        noTrips.setVisibility(VISIBLE);
+        recyclerView.setVisibility(INVISIBLE);
     }
     public void displayTrips(List<Trip> trips){
-        getActivity().findViewById(R.id.no_trips_layout).setVisibility(INVISIBLE);
-        getActivity().findViewById(R.id.trips_recyclerview).setVisibility(VISIBLE);
+        noTrips.setVisibility(INVISIBLE);
+        recyclerView.setVisibility(VISIBLE);
 
         //create adapter with it's listener
         tripsHomeAdapter = new TripsHomeAdapter(getActivity(), trips, new HomeActivity.OnRecycleItemClickListener() {
