@@ -99,6 +99,11 @@ public class FirestoreConnection implements FirestoreContract {
         return task;
     }
 
+    //get data based on status
+    public Task<QuerySnapshot> getTrip(String tripStatus){
+        return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS).whereEqualTo("tripStatus",tripStatus).get();
+    }
+
     /*Ashraf*/
 }
 

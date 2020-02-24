@@ -22,4 +22,8 @@
     <string name="snooze_trip">Snooze</string>
     <string name="cancel_trip">Cancel</string>
     <string name="menu_home">Home</string>
+    <string name="where">Where</string>
+    <string name="when">When</string>
+    <string name="Notes">Notes</string>
+    <string name="to">to</string>
 </resources>

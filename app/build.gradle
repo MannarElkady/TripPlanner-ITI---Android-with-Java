@@ -51,11 +51,11 @@ dependencies {
     /*Ashraf*/
     // Room components
     implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor  "androidx.room:room-compiler:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
 
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
-    annotationProcessor  "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
     testImplementation "androidx.arch.core:core-testing:$lifecycle_version"
 
     //Retrofit
