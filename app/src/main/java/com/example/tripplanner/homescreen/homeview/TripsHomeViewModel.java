@@ -17,9 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TripsHomeViewModel extends ViewModel {
-    // TODO: Implement the ViewModel
     FirestoreConnection firestoreConnection;
     List<Trip> allTrips;
+
     private MutableLiveData<List<Trip>> allTripsLiveList;
     public TripsHomeViewModel(){
         firestoreConnection = FirestoreConnection.getInstance(MainActivity.me);
@@ -43,14 +43,6 @@ public class TripsHomeViewModel extends ViewModel {
                 }
             });
         }
-        /*
-        Task<QuerySnapshot> resultTaskTrips= firestoreConnection.getAllTrips();
-        for (QueryDocumentSnapshot document : resultTaskTrips.getResult()) {
-            if(document.exists()){
-                allTrips.add(document.toObject(Trip.class));
-            }
-        }
-        allTripsLiveList.postValue(allTrips);*/
         return allTripsLiveList;
     }
 }

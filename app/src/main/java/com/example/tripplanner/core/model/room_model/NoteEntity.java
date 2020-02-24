@@ -29,6 +29,7 @@ public class NoteEntity {
     public Long noteOwner;
 
 
+    @Ignore
     public NoteEntity(Long noteOwner,String content) {
         this.content = content;
         this.noteOwner = noteOwner;

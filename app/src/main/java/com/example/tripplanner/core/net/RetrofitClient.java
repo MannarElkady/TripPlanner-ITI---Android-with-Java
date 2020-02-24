@@ -39,7 +39,6 @@ public class RetrofitClient {
         //TODO: pass API_KEY for google places if needed
         return service.searchForPlace(query);
     }
-
     PlaceService getPlaceService() {
         return service;
     }
