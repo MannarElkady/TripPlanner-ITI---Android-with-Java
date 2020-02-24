@@ -26,10 +26,10 @@ public class NoteEntity {
             childColumns = "noteOwner",
             onDelete = CASCADE
     )
-    public Integer noteOwner;
+    public Long noteOwner;
 
 
-    public NoteEntity(Integer noteOwner,String content) {
+    public NoteEntity(Long noteOwner,String content) {
         this.content = content;
         this.noteOwner = noteOwner;
     }

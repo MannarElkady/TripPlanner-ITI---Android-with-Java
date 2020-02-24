@@ -16,13 +16,16 @@ public interface TripDao {
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertTrip(TripEntity trip);
+    Long insertTrip(TripEntity trip);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertNotes(NoteEntity note);
+    Long insertNotes(NoteEntity note);
 
     @Query("SELECT tripId from Trip where  tripKey == :key")
     Integer getTripId (String key);
+
+    @Query("SELECT COUNT(tripId) from Trip ")
+    Integer getRows();
 
     @Transaction
     @Query("SELECT * FROM Trip")

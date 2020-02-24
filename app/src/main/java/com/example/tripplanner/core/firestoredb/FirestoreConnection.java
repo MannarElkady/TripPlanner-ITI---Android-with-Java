@@ -1,16 +1,10 @@
 package com.example.tripplanner.core.firestoredb;
 
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-
 import com.example.tripplanner.core.model.Trip;
 import com.example.tripplanner.core.model.User;
-import com.google.android.gms.tasks.OnCompleteListener;
 
 import com.google.android.gms.tasks.Task;
 
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -18,6 +12,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 /*
 Structure  :
@@ -37,7 +33,7 @@ Structure  :
 */
 
 
-public class FirestoreConnection {
+public class FirestoreConnection implements FirestoreContract {
     private static final String TAG = "FirestoreConnection";
     private static final String TRIP_COLLECTION = "Trips";
     private static final String SUB_COLLECTION_OF_TRIPS = "UserTrips";
@@ -61,26 +57,6 @@ public class FirestoreConnection {
 
         }
         return INSTANCE;
-    }
-
-    public void getAllCollectionDocuments(final List<String> documentNames) {
-        /*tripsCollectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        documentNames.add(document.getId());
-                    }
-                    Log.i(TAG,documentNames.toString());
-                    for(String s:documentNames) {
-                        getDocumentByName(s);
-                    }
-                } else {
-                    // Log.d(TAG, "Error getting documents: ", task.getException());
-                    Log.i(TAG,task.getException().getMessage());
-                }
-            }
-        });*/
     }
     /*Ashraf*/
 

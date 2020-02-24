@@ -3,14 +3,16 @@ package com.example.tripplanner.core.model.room_model;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import com.example.tripplanner.core.constant.TripStatus;
 import com.example.tripplanner.core.model.Note;
 
 import java.util.List;
+import java.util.Random;
 
-@Entity (tableName = "Trip")
+@Entity (tableName = "Trip" , indices = @Index(value = {"tripKey"},unique = true))
 public class TripEntity {
 
     @PrimaryKey(autoGenerate = true)
@@ -32,18 +34,35 @@ public class TripEntity {
     public TripEntity(){}
 
     @Ignore
-    public TripEntity(String title, String tripData, String startLocation, String endLocation) {
+    public TripEntity(String title, String tripData, String startLocation, String endLocation,String tripStatus) {
         this.tripDate = tripData;
         this.title = title;
         this.endLocation = endLocation;
         this.startLocation = startLocation;
 
         // by default the trip not start yet and upcoming
-        tripStatus = TripStatus.UPCOMING;
+        this.tripStatus = tripStatus;
         //concat title with start and end location to identify the Trip.
-        tripKey = title + startLocation + endLocation;
+        tripKey = generateKey(title , startLocation , endLocation);
     }
 
+    private String generateKey(String title, String startLocation, String endLocation) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(startLocation);
+        sb.append(title);
+        sb.append(endLocation);
+        String str;
+        char[] input = sb.toString().toCharArray();
+        int length = input.length;
+        for(int i = 0 ;i<length;i++){
+            Random random = new Random();
+            int temp = random.nextInt(length-1);
+            char ch = input[temp];
+            input[temp] = input[i];
+            input[i] = ch;
+        }
+        return new String(input);
+    }
 
 
     // setters

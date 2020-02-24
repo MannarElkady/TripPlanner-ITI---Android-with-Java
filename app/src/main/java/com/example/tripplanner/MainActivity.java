@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
                 firebaseFirestore = FirebaseFirestore.getInstance();
                 firestoreConnection = FirestoreConnection.getInstance(me);
                 firestoreConnection.addTrip(new Trip(MainActivity.this.title.getText().toString(), MainActivity.this.desc.getText().toString(),"giza","haram"));
-                firestoreConnection.getAllCollectionDocuments(allDocumentsName);
             }
         });*/
         buttomNavigation = findViewById(R.id.buttom_nav);
