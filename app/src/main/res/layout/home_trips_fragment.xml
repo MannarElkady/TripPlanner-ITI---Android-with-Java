@@ -7,38 +7,14 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:backgroundTint="@color/blue">
 
-    <TextView
-        android:id="@+id/usernameTextField"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="10dp"
-        android:fontFamily="casual"
-        android:text="@string/UsernameText"
-        android:textColor="#B71C1C"
-        android:textSize="32sp"
-        android:textStyle="bold"></TextView>
-
-    <TextView
-        android:id="@+id/availableTripsText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="10dp"
-        android:fontFamily="serif"
-        android:padding="5dp"
-        android:text="@string/availableText"
-        android:textColor="#A5A1A1"
-        android:textSize="16sp"
-        android:textStyle="bold"></TextView>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/trips_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        />
 </LinearLayout>
     <LinearLayout
         android:id="@+id/no_trips_layout"
@@ -54,7 +30,7 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_marginBottom="16dp"
-            android:src="@drawable/ic_undraw_cup_of_tea_6nqg"/>
+            android:src="@drawable/ic_navigator_1"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
@@ -62,20 +38,31 @@
             android:layout_gravity="center"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:text="No Upcoming Trips. Tap the button below to get started!"
+            android:text="@string/noTripsMessage"
+            android:fontFamily="@font/open_sans_font"
             android:textAlignment="center" />
 
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/add_Trip_floating_point"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+
+        android:text="@string/newTripBtn"
+        android:textColor="@color/white"
         android:layout_gravity="bottom|right|end"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:tint="@android:color/white"
-        app:srcCompat="@android:drawable/ic_input_add"/>
+        app:iconTint="@color/white"
+        android:backgroundTint="@color/blue"
+        app:icon="@drawable/ic_add_24px"
+        />
+
+
+
+
+
 </FrameLayout>

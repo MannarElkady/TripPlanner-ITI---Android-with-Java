@@ -44,6 +44,7 @@ public class TripsHomeFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.home_trips_fragment, container, false);
         rv = v.findViewById(R.id.trips_recyclerview);
+        v.findViewById(R.id.no_trips_layout).setVisibility(INVISIBLE);
         rv.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());
         rv.setLayoutManager(layoutManager);

@@ -1,21 +1,19 @@
 package com.example.tripplanner.core.firestoredb;
 
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-
 import com.example.tripplanner.core.model.Trip;
-import com.example.tripplanner.core.model.Users;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.example.tripplanner.core.model.User;
+
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
+
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
+
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 /*
 Structure  :
@@ -35,151 +33,61 @@ Structure  :
 */
 
 
-public class FirestoreConnection {
+public class FirestoreConnection implements FirestoreContract {
     private static final String TAG = "FirestoreConnection";
     private static final String TRIP_COLLECTION = "Trips";
     private static final String SUB_COLLECTION_OF_TRIPS = "UserTrips";
     private static FirestoreConnection INSTANCE;
-    private static Users _user;
+    private static User _user;
+
     private FirebaseFirestore db;
-    DocumentReference userDocReference;
-    CollectionReference tripsCollectionReference;
+
+    private DocumentReference tripsCollectionReference;
 
     private FirestoreConnection() {
         db = FirebaseFirestore.getInstance();
-        userDocReference = db.collection(TRIP_COLLECTION).document(_user.getUserId());
-        tripsCollectionReference = userDocReference.collection("UserTrips");
-        //   userDocReference = userDocReference.collection("UserTrips");
+        tripsCollectionReference = db.collection(TRIP_COLLECTION).document(_user.getUserId());
         //setupCasheFirestore();
     }
 
     //get instance of FirestoreConnection
-    public static FirestoreConnection getInstance(Users user) {
+    public static FirestoreConnection getInstance(User user) {
         if (INSTANCE == null) {
             _user = user;
             INSTANCE = new FirestoreConnection();
+
         }
         return INSTANCE;
     }
-
-    /*Mannar*/
-    public void getAllCollectionDocuments(final List<String> documentNames) {
-        /*userDocReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        documentNames.add(document.getId());
-                    }
-                    Log.i(TAG,documentNames.toString());
-                    for(String s:documentNames) {
-                        getDocumentByName(s);
-                    }
-                } else {
-                    // Log.d(TAG, "Error getting documents: ", task.getException());
-                    Log.i(TAG,task.getException().getMessage());
-                }
-            }
-        });*/
-    }
-
-   /* public void addUserDocument(Users user){
-        Map<String,Object> userMap= new HashMap<>();
-        this.user= user;
-        userMap.put("userId",user.getUserId());
-        userMap.put("password",user.getPassword());
-        userMap.put("Email",user.getUserEmail());
-        userMap.put("userName",user.getUserName());
-        userDocReference.set(userMap).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.i(TAG,"Failed to add Users");
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                Log.i(TAG,task.toString());
-            }
-        });
-    }*/
-
-    public void getDocumentByName(String documentName) {
-        tripsCollectionReference.document(documentName).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.i(TAG, document.getData().toString());
-                    } else {
-                        Log.i(TAG, "No such document");
-                    }
-                } else {
-                    Log.i("help", task.getException().getMessage());
-                }
-            }
-        });
-    }
-    public void setupCasheFirestore(){
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setPersistenceEnabled(true)
-                .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
-                .build();
-        db.setFirestoreSettings(settings);
-    }
-    /*Mannar*/
-
-
-
-    /*Reham*/
-
-    /*Reham*/
 
 
     /*Ashraf*/
 
     //add trip to user collection of trips
     public Task<Void> addTrip(Trip trip) {
-        /*Map<String,Object> tripMap= new HashMap<>();
-        tripMap.put("title",trip.getTitle());
-        tripMap.put("date",trip.getTripDate());
-        tripMap.put("startLocation",trip.getStartLocation());
-        tripMap.put("endLocation",trip.getEndLocation());*/
-        //to add document by random generated id
-        /*firebaseFirestore.collection("Trips").add(tripMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentReference> task) {
-                Toast.makeText(MainActivity.this, "Hi", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MainActivity.this, "Hi", Toast.LENGTH_SHORT).show();
-            }
-        });*/
 
         //to add trip document
-        return userDocReference.collection(SUB_COLLECTION_OF_TRIPS)
+        return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS)
                 .document(trip.getTripId()).set(trip);
     }
 
     // get all user trips
     public Task<QuerySnapshot> getAllTrips() {
         //TODO: optimize getAllTrips to get just titles of trips
-        return userDocReference.collection(SUB_COLLECTION_OF_TRIPS).get();
+        return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS).get();
     }
 
 
     // delete trip from user trip collection
     public Task<Void> deleteTrip(Trip trip){
-        return userDocReference.collection(SUB_COLLECTION_OF_TRIPS)
+        return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS)
                                 .document(trip.getTripId()).delete();
     }
 
 
     //update trip in user trip collection
     public Task<Void> updateTrip(Trip oldTrip, Trip newTrip){
-        return userDocReference.collection(SUB_COLLECTION_OF_TRIPS)
+        return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS)
                                 .document(oldTrip.getTripId()).set(newTrip);
         //TODO: optimize update, to update the changed field only, not the whole document of a trip
     }
@@ -187,7 +95,7 @@ public class FirestoreConnection {
 
     //get a specific trip
     public Task<DocumentSnapshot> getTrip(Trip trip){
-        Task<DocumentSnapshot> task = userDocReference.collection(SUB_COLLECTION_OF_TRIPS).document(trip.getTripId()).get();
+        Task<DocumentSnapshot> task = tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS).document(trip.getTripId()).get();
         return task;
     }
 
