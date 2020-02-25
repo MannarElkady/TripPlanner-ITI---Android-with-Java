@@ -22,6 +22,10 @@
     <string name="snooze_trip">Snooze</string>
     <string name="cancel_trip">Cancel</string>
     <string name="menu_home">Home</string>
+    <string name="where">Where</string>
+    <string name="when">When</string>
+    <string name="Notes">Notes</string>
+    <string name="to">to</string>
     <string name="title_activity_main_home_page">MainHomePage</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
