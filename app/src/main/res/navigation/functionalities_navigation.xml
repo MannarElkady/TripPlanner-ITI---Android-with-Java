@@ -9,8 +9,4 @@
         android:name="com.example.tripplanner.homescreen.homeview.TripsHomeFragment"
         android:label="home_trips_fragment"
         tools:layout="@layout/home_trips_fragment" />
-    <fragment
-        android:id="@+id/registerFragment2"
-        android:name="com.example.tripplanner.register.RegisterFragment"
-        android:label="RegisterFragment" />
 </navigation>

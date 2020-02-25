@@ -61,13 +61,13 @@ public class TestAlarmManagerWithNotification extends AppCompatActivity implemen
                 startService();
             }
         });
-
         ch2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 stopService();
             }
         });
+
 
     }
 
