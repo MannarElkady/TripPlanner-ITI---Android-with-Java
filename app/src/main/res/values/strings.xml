@@ -11,7 +11,7 @@
     <string name="homePage">Home</string>
     <string name="UsernameText">Hello Username</string>
     <string name="availableText">Upcoming Trips</string>
-    <string name="google_maps_key">AIzaSyALcG0V7aW1ezNKKc_74PTXTKyAG7hdM5w</string>
+    <string name="google_maps_key">AIzaSyBu8Hki4OvRVL5fgqwjb7dm8SoWtjw9sVU</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -28,4 +28,14 @@
     <string name="appTitle">MyTrip</string>
     <string name="noTripsMessage">No Upcoming Trips!</string>
     <string name="newTripBtn">New Trip</string>
+    <string name="where">Where</string>
+    <string name="when">When</string>
+    <string name="Notes">Notes</string>
+    <string name="to">to</string>
+    <string name="title_activity_main_home_page">MainHomePage</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
 </resources>

@@ -8,10 +8,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-    private static PlaceService service;
+    private static DirectionsInterface directionsInterface;
     //TODO: Add API_KEY for Google Places
-    private static final String API_KEY ="";
-    private static final String PLACE_BASE_URL = "";
+    private static final String API_KEY ="AIzaSyCEDSeyNw8JyoTw1bVM3YgzDxOs8GGx_uk";
+    private static final String API_BASE_URL = "https://maps.googleapis.com/maps/api/";
     //TODO: Add Api endpoint for Weather data
 
 
@@ -20,27 +20,22 @@ public class RetrofitClient {
     private RetrofitClient(){}
 
 
-    public static  RetrofitClient getInstance(Application application){
+    public static  RetrofitClient getInstance(){
         if(INSTANCE == null){
 
              INSTANCE = new RetrofitClient();
-             service = new Retrofit.Builder()
-                    .baseUrl(PLACE_BASE_URL)
+             directionsInterface = new Retrofit.Builder()
+                    .baseUrl(API_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
-                    .create(PlaceService.class);
+                    .create(DirectionsInterface.class);
 
         }
 
         return INSTANCE;
     }
 
-    Call<String> searchForPlace(String query){
-        //TODO: pass API_KEY for google places if needed
-        return service.searchForPlace(query);
-    }
-
-    PlaceService getPlaceService() {
-        return service;
+    public Call<DirectionsResponse> getDirections(String origin, String destination){
+        return directionsInterface.getDirections(origin, destination, API_KEY);
     }
 }

@@ -47,7 +47,6 @@ public class FirestoreConnection implements FirestoreContract {
     private FirestoreConnection() {
         db = FirebaseFirestore.getInstance();
         tripsCollectionReference = db.collection(TRIP_COLLECTION).document(_user.getUserId());
-        //setupCasheFirestore();
     }
 
     //get instance of FirestoreConnection
@@ -59,8 +58,6 @@ public class FirestoreConnection implements FirestoreContract {
         }
         return INSTANCE;
     }
-
-
     /*Ashraf*/
 
     //add trip to user collection of trips
@@ -97,6 +94,11 @@ public class FirestoreConnection implements FirestoreContract {
     public Task<DocumentSnapshot> getTrip(Trip trip){
         Task<DocumentSnapshot> task = tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS).document(trip.getTripId()).get();
         return task;
+    }
+
+    //get data based on status
+    public Task<QuerySnapshot> getTrip(String tripStatus){
+        return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS).whereEqualTo("tripStatus",tripStatus).get();
     }
 
     /*Ashraf*/
