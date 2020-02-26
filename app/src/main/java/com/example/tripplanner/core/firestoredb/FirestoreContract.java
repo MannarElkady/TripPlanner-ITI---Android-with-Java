@@ -2,6 +2,7 @@ package com.example.tripplanner.core.firestoredb;
 
 import com.example.tripplanner.core.model.Trip;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -25,4 +26,7 @@ public interface FirestoreContract {
 
     //get a specific trip
     Task<DocumentSnapshot> getTrip(Trip trip);
+
+    //get document reference
+    DocumentReference getUserDocumentReference();
 }

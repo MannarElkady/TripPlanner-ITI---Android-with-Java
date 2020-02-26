@@ -11,7 +11,6 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -21,7 +20,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.tripplanner.R;
-import com.example.tripplanner.core.model.Trip;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -50,7 +48,7 @@ public class TestAlarmManagerWithNotification extends AppCompatActivity implemen
         /*Mannar */
         title = findViewById(R.id.title);
         desc = findViewById(R.id.body);
-        setDateText = findViewById(R.id.timeTextView);
+        setDateText = findViewById(R.id.dateTextView);
 
         ch1 = findViewById(R.id.startForegroundService);
         ch2 = findViewById(R.id.endForegroundService);
