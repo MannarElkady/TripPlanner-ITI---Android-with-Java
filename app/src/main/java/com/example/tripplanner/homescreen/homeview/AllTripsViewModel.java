@@ -11,9 +11,11 @@ import com.example.tripplanner.core.repository.local.RoomRepository;
 import com.example.tripplanner.core.model.room_model.TripWithNotes;
 
 import java.util.List;
+ /*
 
 public class AllTripsViewModel extends AndroidViewModel {
     // TODO: Implement the ViewModel
+
     RoomRepository repository;
 
 
@@ -28,5 +30,5 @@ public class AllTripsViewModel extends AndroidViewModel {
 
     public LiveData<List<TripWithNotes>> getAllTrips(String status) {
         return repository.getAllTripsStatus(status);
-    }
-}
+    }}
+*/

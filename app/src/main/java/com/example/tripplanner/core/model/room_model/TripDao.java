@@ -29,7 +29,7 @@ public interface TripDao {
 
     @Transaction
     @Query("SELECT * FROM Trip")
-    LiveData<List<TripWithNotes>> lgetTripWithNotes();
+    LiveData<List<TripWithNotes>> getTripWithNotes();
 
     @Transaction
     @Query("SELECT * FROM Trip WHERE tripStatus == :tripStatus")

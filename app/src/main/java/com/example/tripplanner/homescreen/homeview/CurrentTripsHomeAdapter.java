@@ -16,18 +16,18 @@ import com.example.tripplanner.core.model.Trip;
 
 import java.util.List;
 
-public class TripsHomeAdapter extends RecyclerView.Adapter<TripsHomeAdapter.TripHolder> {
+public class CurrentTripsHomeAdapter extends RecyclerView.Adapter<CurrentTripsHomeAdapter.TripHolder> {
     private Context ctx;
     private List<Trip> myTripList;
     private View generatedRow;
-    private HomeActivity.OnRecycleItemClickListener recycleListener;
-    public TripsHomeAdapter(Context context, List<Trip> myTripList, HomeActivity.OnRecycleItemClickListener listener){
+    private CurrentTripsHomeFragment.OnRecycleItemClickListener recycleListener;
+    public CurrentTripsHomeAdapter(Context context, List<Trip> myTripList, CurrentTripsHomeFragment.OnRecycleItemClickListener listener){
         ctx = context;
         this.myTripList = myTripList;
         recycleListener = listener;
     }
     @Override
-    public TripsHomeAdapter.TripHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CurrentTripsHomeAdapter.TripHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater =LayoutInflater.from(ctx);
         generatedRow = layoutInflater.inflate(R.layout.one_row_trip_layout,parent,false);
         TripHolder tripHolder = new TripHolder(generatedRow);
@@ -35,7 +35,7 @@ public class TripsHomeAdapter extends RecyclerView.Adapter<TripsHomeAdapter.Trip
     }
 
     @Override
-    public void onBindViewHolder(TripsHomeAdapter.TripHolder holder, int position) {
+    public void onBindViewHolder(CurrentTripsHomeAdapter.TripHolder holder, int position) {
         holder.title.setText(myTripList.get(position).getTitle());
         holder.date.setText(myTripList.get(position).getTripDate());
         holder.locationFromTo.setText("From:  "+myTripList.get(position).getStartLocation()
@@ -66,7 +66,7 @@ public class TripsHomeAdapter extends RecyclerView.Adapter<TripsHomeAdapter.Trip
             this.date = itemView.findViewById(R.id.date_textview);
             this.locationFromTo = itemView.findViewById(R.id.tripFromToLocationOverview);
         }
-        public void bind(View item, HomeActivity.OnRecycleItemClickListener listener) {
+        public void bind(View item, CurrentTripsHomeFragment.OnRecycleItemClickListener listener) {
            // name.setText(item.name);
             //Picasso.with(itemView.getContext()).load(item.imageUrl).into(image);
             itemView.setOnClickListener(new View.OnClickListener() {
