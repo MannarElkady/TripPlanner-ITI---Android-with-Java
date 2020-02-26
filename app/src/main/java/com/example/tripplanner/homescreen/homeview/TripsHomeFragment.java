@@ -33,7 +33,6 @@ public class TripsHomeFragment extends Fragment {
     private RecyclerView rv;
     LinearLayout noTrips;
     RecyclerView recyclerView;
-
     public static TripsHomeFragment newInstance() {
         return new TripsHomeFragment();
     }

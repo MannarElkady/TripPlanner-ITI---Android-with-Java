@@ -25,4 +25,5 @@
     <style name="PacificoTextAppearance">
         <item name="android:fontFamily">@font/pacifico_font</item>
     </style>
+
 </resources>

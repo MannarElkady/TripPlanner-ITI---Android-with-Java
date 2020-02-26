@@ -9,6 +9,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
@@ -40,12 +41,23 @@ public class FirestoreConnection implements FirestoreContract {
     private static FirestoreConnection INSTANCE;
     private static User _user;
 
-    private FirebaseFirestore db;
+    private static FirebaseFirestore db;
 
     private DocumentReference tripsCollectionReference;
 
     private FirestoreConnection() {
+        //enable caching
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
+                .build();
+
         db = FirebaseFirestore.getInstance();
+
+        //add caching settings
+        db.setFirestoreSettings(settings);
+
+        //get reference to the user document
         tripsCollectionReference = db.collection(TRIP_COLLECTION).document(_user.getUserId());
     }
 
@@ -94,6 +106,11 @@ public class FirestoreConnection implements FirestoreContract {
     public Task<DocumentSnapshot> getTrip(Trip trip){
         Task<DocumentSnapshot> task = tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS).document(trip.getTripId()).get();
         return task;
+    }
+
+    @Override
+    public DocumentReference getUserDocumentReference() {
+        return tripsCollectionReference;
     }
 
     //get data based on status
