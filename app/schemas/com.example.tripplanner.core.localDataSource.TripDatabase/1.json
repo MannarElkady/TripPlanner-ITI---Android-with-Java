@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "6d24e5a75844079614d19d01c938ff50",
+    "identityHash": "5ed4196ed3941f90463f10a9d19e59a0",
     "entities": [
       {
         "tableName": "Trip",
@@ -71,7 +71,7 @@
       },
       {
         "tableName": "NoteEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`noteId` INTEGER PRIMARY KEY AUTOINCREMENT, `content` TEXT, `noteOwner` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`noteId` INTEGER PRIMARY KEY AUTOINCREMENT, `content` TEXT, `noteOwner` INTEGER, FOREIGN KEY(`noteOwner`) REFERENCES `Trip`(`tripId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "noteId",
@@ -100,22 +100,33 @@
         },
         "indices": [
           {
-            "name": "index_NoteEntity_noteId_content",
-            "unique": true,
+            "name": "index_NoteEntity_noteOwner",
+            "unique": false,
             "columnNames": [
-              "noteId",
-              "content"
+              "noteOwner"
             ],
-            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_NoteEntity_noteId_content` ON `${TABLE_NAME}` (`noteId`, `content`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_NoteEntity_noteOwner` ON `${TABLE_NAME}` (`noteOwner`)"
           }
         ],
-        "foreignKeys": []
+        "foreignKeys": [
+          {
+            "table": "Trip",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "noteOwner"
+            ],
+            "referencedColumns": [
+              "tripId"
+            ]
+          }
+        ]
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6d24e5a75844079614d19d01c938ff50')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5ed4196ed3941f90463f10a9d19e59a0')"
     ]
   }
 }

@@ -2,6 +2,7 @@ package com.example.tripplanner.addtrip;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -15,7 +16,16 @@ import androidx.fragment.app.DialogFragment;
 
 import java.util.Calendar;
 
-public class TimePickerFragment extends DialogFragment {
+public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+
+    public TimePickerListener mListener;
+
+    public interface TimePickerListener{
+        void onTimeSet(TimePicker view, int hour, int minute);
+    }
+
+
+
     /*Manar*/
     @NonNull
     @Override
@@ -25,6 +35,12 @@ public class TimePickerFragment extends DialogFragment {
         int minute = c.get(Calendar.MINUTE);
         return new TimePickerDialog(getActivity(),(TimePickerDialog.OnTimeSetListener) getActivity(),hour,minute, DateFormat.is24HourFormat(getActivity()));
     }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        mListener.onTimeSet(view,hourOfDay,minute);
+    }
+
 
     // To use
     //1- In Button Listener
