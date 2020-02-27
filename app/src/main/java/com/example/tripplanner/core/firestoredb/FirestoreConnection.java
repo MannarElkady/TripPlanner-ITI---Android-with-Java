@@ -94,6 +94,9 @@ public class FirestoreConnection implements FirestoreContract {
     }
 
 
+
+
+
     //update trip in user trip collection
     public Task<Void> updateTrip(Trip oldTrip, Trip newTrip){
         return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS)

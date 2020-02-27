@@ -9,11 +9,10 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.tripplanner.R;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tripplanner.R;
 import com.example.tripplanner.core.model.Note;
 
 import java.util.HashSet;

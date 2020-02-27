@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/functionalities_navigation"
+    app:startDestination="@id/currentTripsHomeFragment">
+    <fragment
+        android:id="@+id/currentTripsHomeFragment"
+        android:name="com.example.tripplanner.homescreen.homeview.CurrentTripsHomeFragment"
+        android:label="CurrentTripsHomeFragment">
+        <action
+            android:id="@+id/action_currentTripsHomeFragment_to_tripDetailsFragment"
+            app:destination="@id/tripDetailsFragment"/>
+        <action
+            android:id="@+id/toSelf"
+            app:destination="@id/currentTripsHomeFragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_close_exit" />
+        <action
+            android:id="@+id/action_currentTripsHomeFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tripDetailsFragment"
+        android:name="com.example.tripplanner.tripdetail.TripDetailsFragment"
+        android:label="trip_details_fragment"
+        tools:layout="@layout/trip_details_fragment" >
+        <argument
+            android:name="tripData"
+            app:argType="com.example.tripplanner.core.model.Trip" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.tripplanner.login.LoginFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
+</navigation>

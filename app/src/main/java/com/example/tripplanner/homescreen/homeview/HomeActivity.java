@@ -18,7 +18,7 @@ import com.google.android.material.navigation.NavigationView;
 public class HomeActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
-
+/*
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,14 +65,14 @@ public class HomeActivity extends AppCompatActivity {
                     f = new ...Fragment();
                 if (f != null) {
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.frame, f);
+                    transaction.replace(R.id.frame, f);------
                     transaction.commit();
                     drawerLayout.closeDrawers();
                     return true;
-                }*/
+                }
                 Toast.makeText(HomeActivity.this, "Item Pressed"+ menuItem.getItemId(), Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
-    }
+    }*/
 }

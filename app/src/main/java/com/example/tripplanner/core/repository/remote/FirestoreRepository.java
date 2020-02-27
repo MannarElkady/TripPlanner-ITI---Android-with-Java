@@ -49,4 +49,9 @@ public class FirestoreRepository implements FirestoreContract {
     public DocumentReference getUserDocumentReference() {
         return firestoreConnection.getUserDocumentReference();
     }
+
+    @Override
+    public Task<QuerySnapshot> getTrip(String tripStatus) {
+        return firestoreConnection.getTrip(tripStatus);
+    }
 }

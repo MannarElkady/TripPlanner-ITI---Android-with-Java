@@ -10,10 +10,10 @@ public interface FirestoreContract {
 
 
     //add trip to user collection of trips
-    Task<Void> addTrip(Trip trip) ;
+    Task<Void> addTrip(Trip trip);
 
     // get all user trips
-    Task<QuerySnapshot> getAllTrips() ;
+    Task<QuerySnapshot> getAllTrips();
 
 
     // delete trip from user trip collection
@@ -29,4 +29,9 @@ public interface FirestoreContract {
 
     //get document reference
     DocumentReference getUserDocumentReference();
+
+    //get trips by status
+    Task<QuerySnapshot> getTrip(String tripStatus);
+
+
 }

@@ -1,11 +1,14 @@
 package com.example.tripplanner.core.model;
 
+import android.os.Parcelable;
+
 import com.example.tripplanner.core.constant.TripStatus;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Trip {
+public class Trip implements Serializable {
     private String title;
     private String startLocation;
     private String endLocation;
