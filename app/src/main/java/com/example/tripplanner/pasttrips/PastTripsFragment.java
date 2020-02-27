@@ -15,6 +15,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.example.tripplanner.R;
+import com.example.tripplanner.core.model.Trip;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,6 +56,12 @@ public class PastTripsFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
 
+        pastTripsViewModel.getPastTrips().observe(getViewLifecycleOwner(), (trips) -> {
+            pastTripsAdapter = new PastTripsAdapter(trips);
+            recyclerView.setAdapter(pastTripsAdapter);
+        });
+
+        pastTripsViewModel.setPastTrips();
 
     }
 }

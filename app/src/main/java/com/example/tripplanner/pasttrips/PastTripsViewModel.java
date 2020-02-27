@@ -1,8 +1,10 @@
 package com.example.tripplanner.pasttrips;
 
 import com.example.tripplanner.MainActivity;
+import com.example.tripplanner.core.constant.TripStatus;
 import com.example.tripplanner.core.firestoredb.FirestoreConnection;
 import com.example.tripplanner.core.model.Trip;
+import com.example.tripplanner.core.repository.remote.FirestoreRepository;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,7 +21,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class PastTripsViewModel extends ViewModel {
-    private FirestoreConnection firestoreConnection;
+    //private FirestoreConnection firestoreConnection;
+    private FirestoreRepository firestoreRepository;
     private List<Trip> pastTripsTemp;
     private MutableLiveData<List<Trip>> pastTrips;
 
@@ -28,15 +31,16 @@ public class PastTripsViewModel extends ViewModel {
     FirebaseUser currentUser = firebaseAuth.getCurrentUser();*/
 
     public PastTripsViewModel() {
-        firestoreConnection = FirestoreConnection.getInstance(MainActivity.me);
+        //firestoreConnection = FirestoreConnection.getInstance(MainActivity.me);
+        firestoreRepository = new FirestoreRepository(MainActivity.me);
         pastTripsTemp = new ArrayList<Trip>();
     }
 
-    public LiveData<List<Trip>> getPastTrips(){
+    public void setPastTrips(){
 
         if(pastTrips == null){
             pastTrips = new MutableLiveData<>();
-            firestoreConnection.getAllTrips().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            firestoreRepository.getTrip(TripStatus.FINISHED).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
@@ -44,11 +48,15 @@ public class PastTripsViewModel extends ViewModel {
                             Trip trip = document.toObject(Trip.class);
                             pastTripsTemp.add(trip);
                         }
+                        pastTrips.postValue(pastTripsTemp);
                     }
-                    pastTrips.postValue(pastTripsTemp);
                 }
             });
         }
+
+    }
+
+    public LiveData<List<Trip>> getPastTrips(){
         return pastTrips;
     }
 }
