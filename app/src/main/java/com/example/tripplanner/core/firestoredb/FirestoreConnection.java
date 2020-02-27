@@ -1,5 +1,7 @@
 package com.example.tripplanner.core.firestoredb;
 
+import android.util.Log;
+
 import com.example.tripplanner.core.model.Trip;
 import com.example.tripplanner.core.model.User;
 
@@ -39,13 +41,13 @@ public class FirestoreConnection implements FirestoreContract {
     private static final String TRIP_COLLECTION = "Trips";
     private static final String SUB_COLLECTION_OF_TRIPS = "UserTrips";
     private static FirestoreConnection INSTANCE;
-    private static User _user;
+    private User _user;
 
     private static FirebaseFirestore db;
 
     private DocumentReference tripsCollectionReference;
 
-    private FirestoreConnection() {
+    private FirestoreConnection(User _user) {
         //enable caching
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setPersistenceEnabled(true)
@@ -59,14 +61,13 @@ public class FirestoreConnection implements FirestoreContract {
 
         //get reference to the user document
         tripsCollectionReference = db.collection(TRIP_COLLECTION).document(_user.getUserId());
+        Log.i(TAG, "FirestoreConnection: user id"+_user.getUserId());
     }
 
     //get instance of FirestoreConnection
     public static FirestoreConnection getInstance(User user) {
         if (INSTANCE == null) {
-            _user = user;
-            INSTANCE = new FirestoreConnection();
-
+            INSTANCE = new FirestoreConnection(user);
         }
         return INSTANCE;
     }

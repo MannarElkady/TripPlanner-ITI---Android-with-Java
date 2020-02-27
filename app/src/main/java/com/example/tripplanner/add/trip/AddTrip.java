@@ -3,6 +3,7 @@ package com.example.tripplanner.add.trip;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -18,8 +19,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.tripplanner.R;
 import com.example.tripplanner.core.model.Note;
+import com.example.tripplanner.core.model.Trip;
+import com.example.tripplanner.core.model.User;
+import com.example.tripplanner.core.repository.remote.FirestoreRepository;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
@@ -27,42 +35,52 @@ import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.ResourceBundle;
+
+import io.opencensus.resource.Resource;
 
 
 public class AddTrip extends Fragment implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
-    private static final int AUTOCOMPLETE_TO_PLACE_REQUEST_ID =1;
-    private static final int AUTOCOMPLETE_FROM_PLACE_REQUEST_ID =2;
+    private static final int AUTOCOMPLETE_TO_PLACE_REQUEST_ID = 1;
+    private static final int AUTOCOMPLETE_FROM_PLACE_REQUEST_ID = 2;
     private static final String TAG = "AddTrip";
     private static final String API_KEY = "AIzaSyALcG0V7aW1ezNKKc_74PTXTKyAG7hdM5w";
-    private TextView timeTextView , dateTextView , doneTextView, toTextView,fromTextView;
-    private Button timeBtn,dateBtn,toBtn,fromBtn;
+    private static final String toPlaceHolder = "Where to go ?";
+    private static final String fromPlaceHolder = "Where to start ?";
+    private static final String timePlaceHolder = "The time ?";
+    private static final String datePlaceHolder = "The date ?";
+
+    private TextView timeTextView, dateTextView, doneTextView, toTextView, fromTextView;
+    private Button timeBtn, dateBtn, toBtn, fromBtn;
     private EditText title;
     private ImageView addNote;
-    private List<Note> notes ;
+    private List<Note> notes;
     private RecyclerView noteRecyclerView;
     private NoteAdapter noteAdapter;
-    private List<Place.Field> fields = Arrays.asList(Place.Field.LAT_LNG,Place.Field.ADDRESS, Place.Field.NAME);
-    String pattern = "hh:mm:ss a";
-    DateFormat dateFormat = new SimpleDateFormat(pattern);
+    private List<Place.Field> fields = Arrays.asList(Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.NAME);
+    private double startLat, startLon, endLat, endLon;
+    private boolean isTimeSet;
+    private boolean isDateSet;
+    private FirestoreRepository firestoreRepository;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         notes = new ArrayList<>();
-        noteAdapter = new NoteAdapter(getActivity().getApplicationContext(),notes);
+        noteAdapter = new NoteAdapter(getActivity().getApplicationContext(), notes);
+        firestoreRepository = new FirestoreRepository(new User("123","Ashraf"));
         initPlaces();
     }
 
@@ -93,90 +111,183 @@ public class AddTrip extends Fragment implements TimePickerDialog.OnTimeSetListe
 
         addNote = view.findViewById(R.id.addNote);
 
-        toBtn.setOnClickListener((v)->{
+        toBtn.setOnClickListener((v) -> {
             Log.i(TAG, "Place: to ");
-            Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,fields)
+            Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
                     .build(getActivity().getApplicationContext());
-            startActivityForResult(intent,AUTOCOMPLETE_TO_PLACE_REQUEST_ID);
+            startActivityForResult(intent, AUTOCOMPLETE_TO_PLACE_REQUEST_ID);
         });
 
-        fromBtn.setOnClickListener((v)->{
+        fromBtn.setOnClickListener((v) -> {
             Log.i(TAG, "Place: from ");
-            Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,fields)
+            Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
                     .build(getActivity().getApplicationContext());
-            startActivityForResult(intent,AUTOCOMPLETE_FROM_PLACE_REQUEST_ID);
+            startActivityForResult(intent, AUTOCOMPLETE_FROM_PLACE_REQUEST_ID);
         });
 
 
-        timeBtn.setOnClickListener((v)->{
+        timeBtn.setOnClickListener((v) -> {
             Calendar now = Calendar.getInstance();
-            TimePickerDialog time = TimePickerDialog.newInstance(this,now.get(Calendar.HOUR),now.get(Calendar.MINUTE),false);
-            time.show(getParentFragmentManager(),"TimePicker");
+            TimePickerDialog time = TimePickerDialog.newInstance(this, now.get(Calendar.HOUR), now.get(Calendar.MINUTE), false);
+            time.show(getParentFragmentManager(), "TimePicker");
         });
-        dateBtn.setOnClickListener(v->{
+        dateBtn.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
-            DatePickerDialog date = DatePickerDialog.newInstance(this,calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
-            date.show(getParentFragmentManager(),"DatePicker");
+            DatePickerDialog date = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+            date.show(getParentFragmentManager(), "DatePicker");
         });
 
-        doneTextView.setOnClickListener(v->{
+        doneTextView.setOnClickListener(v -> {
+            if (checkForRequierdData()) {
+                Log.i("check", "checkData : true");
+                String tripTitle = title.getText().toString().trim();
+                String tripStartLocation = toTextView.getText().toString().trim();
+                String tripEndLocation = fromTextView.getText().toString().trim();
+                String tripTime = timeTextView.getText().toString().trim();
+                String tripDate = dateTextView.getText().toString().trim();
+
+                addTripToFirestore(tripTitle,tripStartLocation,tripEndLocation,tripTime,tripDate,startLat,startLon,endLat,endLon);
+                //TODO: 2- get data and initialize an Trip object
+
+                //TODO: 3- add reminder according to time and date selected
+
+                //TODO: 4- add to firestore and room (if requierd)
+            }else{
+                Toast.makeText(getContext(),"Review Trip Data",Toast.LENGTH_SHORT).show();
+            }
+
         });
 
-        addNote.setOnClickListener((v)->{
-
+        addNote.setOnClickListener((v) -> {
+            Note note = new Note("note 1",1);
+            notes.add(note);
         });
-
 
 
         return view;
+    }
+
+    private void addTripToFirestore(String tripTitle, String tripStartLocation, String tripEndLocation, String tripTime
+            , String tripDate, double startLat, double startLon, double endLat, double endLon) {
+        Trip newTrip = new Trip(tripTitle,tripDate,tripStartLocation,tripEndLocation,startLat,startLon,endLat,endLon);
+        if(notes.size()>0){
+            newTrip.setListOfNotes(notes);
+        }
+        firestoreRepository.addTrip(newTrip).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.i(TAG, "onSuccess: trip added");
+            }
+        });
+    }
+
+    private boolean checkForRequierdData() {
+        if (title.getText().toString().isEmpty()) {
+            title.setError("Title is required");
+            return false;
+        }
+        if (toTextView.getText().toString().equals(toPlaceHolder)) {
+            toTextView.setTextColor(Color.RED);
+            toTextView.setText("need destination");
+            return false;
+        }
+        if(startLat==0.0 || startLon == 0.0){
+            toTextView.setTextColor(Color.RED);
+            toTextView.setText("destination not recognized");
+            return false;
+        }
+
+        if (fromTextView.getText().toString().equals(fromPlaceHolder)) {
+            fromTextView.setTextColor(Color.RED);
+            fromTextView.setText("need start Location");
+            return false;
+        }
+        if(endLat==0.0 || endLon == 0.0){
+            fromTextView.setTextColor(Color.RED);
+            fromTextView.setText("start Location not recognized");
+            return false;
+        }
+        if (!isTimeSet) {
+            timeTextView.setTextColor(Color.RED);
+            timeTextView.setText("need start time");
+            return false;
+        }
+        if (!isDateSet) {
+            dateTextView.setTextColor(Color.RED);
+            dateTextView.setText("need date");
+            return false;
+        }
+        return true;
     }
 
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         monthOfYear++;
-        dateTextView.setText(year+"/"+monthOfYear+"/"+dayOfMonth);
+        if(year>0 || monthOfYear>0||dayOfMonth>0){
+            isDateSet = true;
+        }
+        dateTextView.setText("");
+        dateTextView.setTextColor(Color.BLACK);
+        dateTextView.setText(year + "/" + monthOfYear + "/" + dayOfMonth);
         //TODO:add date to trip object
     }
 
     @Override
     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
-        hourOfDay = (hourOfDay==0)?12:hourOfDay;
+        hourOfDay = (hourOfDay == 0) ? 12 : hourOfDay;
+        if(hourOfDay>0) {
+            isTimeSet = true;
+        }
         StringBuilder sb = new StringBuilder();
-        if(minute<10)
+        if (minute < 10)
             sb.append("0").append(minute).toString();
         else
             sb.append(minute);
-
-        timeTextView.setText(hourOfDay+":"+sb.toString());
+        timeTextView.setText("");
+        timeTextView.setTextColor(Color.BLACK);
+        timeTextView.setText(hourOfDay + ":" + sb.toString());
         //TODO: add to trip object
     }
 
     //Recive result from place search fragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == AUTOCOMPLETE_TO_PLACE_REQUEST_ID){
-            if(resultCode == Activity.RESULT_OK) {
+        if (requestCode == AUTOCOMPLETE_TO_PLACE_REQUEST_ID) {
+            if (resultCode == Activity.RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
-                String toName =place.getName();
-                if( toName!=null){
+                startLon = place.getLatLng().longitude;
+                startLat = place.getLatLng().latitude;
+                Log.i(TAG, "onActivityResult: lon :"+startLon+"  lat:"+startLat);
+                String toName = place.getName();
+                if (toName != null) {
+                    toTextView.setText("");
+                    toTextView.setTextColor(Color.BLACK);
                     toTextView.setText(toName);
                 }
                 Log.i(TAG, "Place: Address " + place.getAddress() + ", " + place.getLatLng());
-            }else{
+            } else {
                 Log.i(TAG, "Place: Error ");
+                Log.i(TAG, "onActivityResult: lon :"+startLon+"  lat:"+startLat);
+
 
             }
-        }else if (requestCode == AUTOCOMPLETE_FROM_PLACE_REQUEST_ID){
-            if(resultCode == Activity.RESULT_OK) {
+        } else if (requestCode == AUTOCOMPLETE_FROM_PLACE_REQUEST_ID) {
+            if (resultCode == Activity.RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
-                String fromName =place.getName();
-                if( fromName!=null){
+                endLon = place.getLatLng().longitude;
+                endLat = place.getLatLng().latitude;
+                Log.i(TAG, "onActivityResult: lon :"+endLon+"  lat:"+endLat);
+                String fromName = place.getName();
+                if (fromName != null) {
+                    fromTextView.setText("");
+                    fromTextView.setTextColor(Color.BLACK);
                     fromTextView.setText(fromName);
                 }
                 Log.i(TAG, "Place: Address " + place.getAddress() + ", " + place.getLatLng());
-            }else{
+            } else {
                 Log.i(TAG, "Place: Error ");
+                Log.i(TAG, "onActivityResult: lon :"+endLon+"  lat:"+endLat);
 
             }
         }

@@ -1,17 +1,18 @@
 package com.example.tripplanner.core.model;
 
-import android.os.Parcelable;
-
 import com.example.tripplanner.core.constant.TripStatus;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 public class Trip implements Serializable {
     private String title;
     private String startLocation;
     private String endLocation;
+    private double startLatitude;
+    private double startLongitude;
+    private double endtLatitude;
+    private double endLongitude;
     private String tripDate;
     private List<Note> listOfNotes;
     private String tripStatus;
@@ -24,12 +25,16 @@ public class Trip implements Serializable {
     public Trip(){
 
     }
-    public Trip(String title, String tripData, String startLocation, String endLocation) {
+    public Trip(String title, String tripData, String startLocation, String endLocation,double startLat
+            ,double startLon,double endLat,double endLon) {
         this.tripDate = tripData;
         this.title = title;
         this.endLocation = endLocation;
         this.startLocation = startLocation;
-
+        this.startLatitude = startLat;
+        this.startLongitude = startLon;
+        this.endLongitude = endLon;
+        this.endtLatitude = endLat;
         // by default the trip not start yet and upcoming
         tripStatus = TripStatus.UPCOMING;
         //concat title with start and end location to identify the Trip.
@@ -37,13 +42,17 @@ public class Trip implements Serializable {
     }
 
     //construct a trip with Notes
-    public Trip(String title, String tripData, String startLocation, String endLocation, List<Note> notes) {
+    public Trip(String title, String tripData, String startLocation, String endLocation
+            ,double startLat,double startLon,double endLat,double endLon,List<Note> notes) {
         this.tripDate = tripData;
         this.title = title;
         this.endLocation = endLocation;
         this.startLocation = startLocation;
-        listOfNotes = notes;
-
+        this.listOfNotes = notes;
+        this.startLatitude = startLat;
+        this.startLongitude = startLon;
+        this.endLongitude = endLon;
+        this.endtLatitude = endLat;
         // by default the trip not start yet and upcoming
         tripStatus = TripStatus.UPCOMING;
         // concat title with start and end location to identify the Trip.
@@ -52,22 +61,41 @@ public class Trip implements Serializable {
 
 
     //construct a trip with tripStatus
-    public Trip(String title, String tripData, String startLocation, String endLocation, List<Note> notes,String status) {
+    public Trip(String title, String tripData, String startLocation, String endLocation
+            ,double startLat,double startLon,double endLat,double endLon,List<Note> notes,String status) {
         this.tripDate = tripData;
         this.title = title;
         this.endLocation = endLocation;
         this.startLocation = startLocation;
-        listOfNotes = notes;
-
+        this.listOfNotes = notes;
+        this.startLatitude = startLat;
+        this.startLongitude = startLon;
+        this.endLongitude = endLon;
+        this.endtLatitude = endLat;
         // by default the trip not start yet and upcoming
         tripStatus = status;
         // concat title with start and end location to identify the Trip.
         tripId = title + startLocation + endLocation;
     }
 
-
-
     // setters
+
+    public void setStartLongitude(double startLongitude) {
+        this.startLongitude = startLongitude;
+    }
+
+    public void setEndtLatitude(double endtLatitude) {
+        this.endtLatitude = endtLatitude;
+    }
+
+    public void setStartLatitude(double startLatitude) {
+        this.startLatitude = startLatitude;
+    }
+
+    public void setEndLongitude(double endLongitude) {
+        this.startLongitude = endLongitude;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -109,5 +137,19 @@ public class Trip implements Serializable {
 
     public List<Note> getListOfNotes() { return listOfNotes; }
 
+    public double getStartLatitude() {
+        return startLatitude;
+    }
 
+    public double getEndLongitude() {
+        return startLongitude;
+    }
+
+    public double getStartLongitude() {
+        return startLongitude;
+    }
+
+    public double getEndtLatitude() {
+        return endtLatitude;
+    }
 }
