@@ -2,6 +2,8 @@ package com.example.tripplanner.add.trip;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -44,6 +47,7 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -67,20 +71,22 @@ public class AddTrip extends Fragment implements TimePickerDialog.OnTimeSetListe
     private ImageView addNote;
     private List<Note> notes;
     private RecyclerView noteRecyclerView;
-    private NoteAdapter noteAdapter;
     private List<Place.Field> fields = Arrays.asList(Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.NAME);
     private double startLat, startLon, endLat, endLon;
     private boolean isTimeSet;
     private boolean isDateSet;
     private FirestoreRepository firestoreRepository;
+    private ChipGroup chipGroup;
+    private Chip noteChip ;
+    private LayoutInflater inflater;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         notes = new ArrayList<>();
-        noteAdapter = new NoteAdapter(getActivity().getApplicationContext(), notes);
         firestoreRepository = new FirestoreRepository(new User("123","Ashraf"));
+        inflater = LayoutInflater.from(getContext());
         initPlaces();
     }
 
@@ -108,6 +114,8 @@ public class AddTrip extends Fragment implements TimePickerDialog.OnTimeSetListe
         fromTextView = view.findViewById(R.id.fromTextView);
         title = view.findViewById(R.id.titleEidtText);
         doneTextView = view.findViewById(R.id.doneTextView);
+        chipGroup = view.findViewById(R.id.chipGroupId);
+        noteChip = view.findViewById(R.id.noteChipId);
 
         addNote = view.findViewById(R.id.addNote);
 
@@ -159,10 +167,33 @@ public class AddTrip extends Fragment implements TimePickerDialog.OnTimeSetListe
         });
 
         addNote.setOnClickListener((v) -> {
-            Note note = new Note("note 1",1);
-            notes.add(note);
-        });
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Title");
 
+            final EditText input = new EditText(getContext());
+            input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            builder.setView(input);
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String noteDesc = input.getText().toString().trim();
+                    if(!noteDesc.isEmpty()){
+                        Chip chip = (Chip)inflater.inflate(R.layout.note_item, null, false);
+                        chip.setText(noteDesc);
+                        chipGroup.addView(chip);
+                    }
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            builder.show();
+        });
 
         return view;
     }
@@ -170,13 +201,20 @@ public class AddTrip extends Fragment implements TimePickerDialog.OnTimeSetListe
     private void addTripToFirestore(String tripTitle, String tripStartLocation, String tripEndLocation, String tripTime
             , String tripDate, double startLat, double startLon, double endLat, double endLon) {
         Trip newTrip = new Trip(tripTitle,tripDate,tripStartLocation,tripEndLocation,startLat,startLon,endLat,endLon);
-        if(notes.size()>0){
+        if(chipGroup.getChildCount()>0){
+            notes.clear();
+            for(int i = 0 ;i< chipGroup.getChildCount();i++){
+                Chip chip = (Chip)chipGroup.getChildAt(i);
+                Note note = new Note(chip.getText().toString().trim());
+                notes.add(note);
+            }
+            Log.i(TAG, "array size: "+notes.size());
             newTrip.setListOfNotes(notes);
         }
         firestoreRepository.addTrip(newTrip).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Log.i(TAG, "onSuccess: trip added");
+                Toast.makeText(getContext(),"Trip Added Successfully",Toast.LENGTH_LONG).show();
             }
         });
     }

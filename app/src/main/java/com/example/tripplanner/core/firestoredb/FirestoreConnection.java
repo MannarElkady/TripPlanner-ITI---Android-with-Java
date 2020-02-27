@@ -2,6 +2,7 @@ package com.example.tripplanner.core.firestoredb;
 
 import android.util.Log;
 
+import com.example.tripplanner.core.model.Note;
 import com.example.tripplanner.core.model.Trip;
 import com.example.tripplanner.core.model.User;
 
@@ -14,6 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -40,6 +42,7 @@ public class FirestoreConnection implements FirestoreContract {
     private static final String TAG = "FirestoreConnection";
     private static final String TRIP_COLLECTION = "Trips";
     private static final String SUB_COLLECTION_OF_TRIPS = "UserTrips";
+    private static final String NOTE_DOCUMENT = "NoteDocument";
     private static FirestoreConnection INSTANCE;
     private User _user;
 
@@ -81,6 +84,10 @@ public class FirestoreConnection implements FirestoreContract {
                 .document(trip.getTripId()).set(trip);
     }
 
+    //add Notes to a trip
+    /*public Task<DocumentReference> addNotes(HashMap<String,Note> notes, Trip trip){
+        return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS).document(trip.getTripId()).collection(NOTE_DOCUMENT).document("Notes").add(notes);
+    }*/
     // get all user trips
     public Task<QuerySnapshot> getAllTrips() {
         //TODO: optimize getAllTrips to get just titles of trips
