@@ -145,6 +145,8 @@ public class AddTrip extends Fragment implements TimePickerDialog.OnTimeSetListe
             date.show(getParentFragmentManager(), "DatePicker");
         });
 
+
+
         doneTextView.setOnClickListener(v -> {
             if (checkForRequierdData()) {
                 Log.i("check", "checkData : true");
@@ -180,6 +182,9 @@ public class AddTrip extends Fragment implements TimePickerDialog.OnTimeSetListe
                     String noteDesc = input.getText().toString().trim();
                     if(!noteDesc.isEmpty()){
                         Chip chip = (Chip)inflater.inflate(R.layout.note_item, null, false);
+                        chip.setOnCloseIconClickListener(v->{
+                            chipGroup.removeView(v);
+                        });
                         chip.setText(noteDesc);
                         chipGroup.addView(chip);
                     }

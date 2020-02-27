@@ -17,6 +17,8 @@ public class Note {
         this.description = description;
     }
 
+    //constructor with no argus for deserilization
+    public Note(){}
 
 
     public String getDescription() {
