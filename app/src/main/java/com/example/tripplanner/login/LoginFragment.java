@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 
 import android.view.LayoutInflater;
@@ -17,11 +18,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.tripplanner.MainActivity;
 import com.example.tripplanner.R;
+import com.example.tripplanner.core.firestoredb.FirestoreConnection;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 /**
@@ -38,6 +42,7 @@ public class LoginFragment extends Fragment {
     private GoogleSignInClient googleSignInClient;
     private GoogleSignInOptions googleSignInOptions;
 
+    private FirestoreConnection firestoreConnection;
     private final int GOOGLE_SIGN_IN_REQ_CODE = 123;
 
     public LoginFragment() {
@@ -64,6 +69,7 @@ public class LoginFragment extends Fragment {
             public void onClick(View view) {
                 Intent signInIntent = googleSignInClient.getSignInIntent();
                 startActivityForResult(signInIntent, GOOGLE_SIGN_IN_REQ_CODE);
+
             }
         });
 
@@ -78,6 +84,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // go to RegisterFragment
+                Navigation.findNavController(getActivity(),R.id.fragments_functionality_layout).navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment());
             }
         });
 

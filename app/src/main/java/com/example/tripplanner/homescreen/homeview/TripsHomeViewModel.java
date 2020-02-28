@@ -10,6 +10,7 @@ import com.example.tripplanner.core.firestoredb.FirestoreConnection;
 import com.example.tripplanner.core.model.Trip;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -23,27 +24,26 @@ public class TripsHomeViewModel extends ViewModel {
 
     private MutableLiveData<List<Trip>> allTripsLiveList;
     public TripsHomeViewModel(){
-        firestoreConnection = FirestoreConnection.getInstance(MainActivity.me);
+        firestoreConnection = FirestoreConnection.getInstance(FirebaseAuth.getInstance().getCurrentUser().getUid());
         allTrips=new ArrayList<>();
     }
 
     public LiveData<List<Trip>> getAllTrips(){
-
         if(allTripsLiveList == null){
             allTripsLiveList = new MutableLiveData<>();
-            firestoreConnection.getAllTrips().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        if(document.exists()){
-                            Trip temp= document.toObject(Trip.class);
-                            allTrips.add(temp);
-                        }
-                        allTripsLiveList.postValue(allTrips);
-                    }
-                }
-            });
         }
+        firestoreConnection.getAllTrips().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    if(document.exists()){
+                        Trip temp= document.toObject(Trip.class);
+                        allTrips.add(temp);
+                    }
+                    allTripsLiveList.postValue(allTrips);
+                }
+            }
+        });
         return allTripsLiveList;
     }
 }

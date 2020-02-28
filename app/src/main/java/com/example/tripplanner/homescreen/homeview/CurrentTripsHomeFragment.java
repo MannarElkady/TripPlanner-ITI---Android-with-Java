@@ -60,7 +60,7 @@ public class CurrentTripsHomeFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-         mViewModel = ViewModelProviders.of(this).get(TripsHomeViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(TripsHomeViewModel.class);
         noTrips =  getActivity().findViewById(R.id.no_trips_layout);
         recyclerView = getActivity().findViewById(R.id.trips_recyclerview);
         // TODO: Use the ViewModel

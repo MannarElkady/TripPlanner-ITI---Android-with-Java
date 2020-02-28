@@ -15,8 +15,8 @@ public class FirestoreRepository implements FirestoreContract {
     private FirestoreConnection firestoreConnection;
 
 
-    public FirestoreRepository (User user ){
-        firestoreConnection = FirestoreConnection.getInstance(user);
+    public FirestoreRepository (String userId ){
+        firestoreConnection = FirestoreConnection.getInstance(userId);
     }
 
 

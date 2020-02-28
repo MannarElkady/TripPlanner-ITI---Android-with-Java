@@ -12,10 +12,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.List;
-
-import javax.inject.Inject;
-
 /*
 Structure  :
     Collection Trips for all users trips
@@ -39,7 +35,7 @@ public class FirestoreConnection implements FirestoreContract {
     private static final String TRIP_COLLECTION = "Trips";
     private static final String SUB_COLLECTION_OF_TRIPS = "UserTrips";
     private static FirestoreConnection INSTANCE;
-    private static User _user;
+    private static String user_id;
 
     private static FirebaseFirestore db;
 
@@ -58,15 +54,14 @@ public class FirestoreConnection implements FirestoreContract {
         db.setFirestoreSettings(settings);
 
         //get reference to the user document
-        tripsCollectionReference = db.collection(TRIP_COLLECTION).document(_user.getUserId());
+        tripsCollectionReference = db.collection(TRIP_COLLECTION).document(user_id);
     }
 
     //get instance of FirestoreConnection
-    public static FirestoreConnection getInstance(User user) {
+    public static FirestoreConnection getInstance(String id) {
         if (INSTANCE == null) {
-            _user = user;
+            user_id = id;
             INSTANCE = new FirestoreConnection();
-
         }
         return INSTANCE;
     }

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 
+import com.example.tripplanner.R;
+import com.example.tripplanner.core.firestoredb.FirestoreConnection;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.api.ApiException;
@@ -17,11 +19,12 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
+import androidx.navigation.Navigation;
 
 public class LoginViewModel extends ViewModel {
 
     private final String TAG = "LoginViewModel";
-
+    private FirestoreConnection firestoreConnection;
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     public void loginWithGoogle(Intent data, Activity activity){
@@ -38,6 +41,9 @@ public class LoginViewModel extends ViewModel {
                             if (task.isSuccessful()) {
 
                                 FirebaseUser user = firebaseAuth.getCurrentUser();
+                                //navigate to main fragment
+                                firestoreConnection = FirestoreConnection.getInstance(user.getUid());
+                                Navigation.findNavController(activity, R.id.fragments_functionality_layout).navigate(LoginFragmentDirections.actionLoginFragmentToCurrentTripsHomeFragment());
 
                                 Log.i(TAG, "From onactres: " + user.getEmail());
 
@@ -66,6 +72,10 @@ public class LoginViewModel extends ViewModel {
 
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = firebaseAuth.getCurrentUser();
+                            //navigate to main fragment
+                            firestoreConnection = FirestoreConnection.getInstance(user.getUid());
+                            Navigation.findNavController(activity, R.id.fragments_functionality_layout).navigate(LoginFragmentDirections.actionLoginFragmentToCurrentTripsHomeFragment());
+
                             Log.i(TAG, user.getEmail());
 
                         } else {
