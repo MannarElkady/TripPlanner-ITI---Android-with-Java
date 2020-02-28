@@ -279,6 +279,7 @@ public class AddTrip extends Fragment implements TimePickerDialog.OnTimeSetListe
 
     @Override
     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
+        Log.i("hour", "onTimeSet: "+hourOfDay);
         hourOfDay = (hourOfDay == 0) ? 12 : hourOfDay;
         if(hourOfDay>0) {
             isTimeSet = true;
@@ -300,8 +301,8 @@ public class AddTrip extends Fragment implements TimePickerDialog.OnTimeSetListe
         if (requestCode == AUTOCOMPLETE_TO_PLACE_REQUEST_ID) {
             if (resultCode == Activity.RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
-                startLon = place.getLatLng().longitude;
-                startLat = place.getLatLng().latitude;
+                endLon = place.getLatLng().longitude;
+                endLat = place.getLatLng().latitude;
                 Log.i(TAG, "onActivityResult: lon :"+startLon+"  lat:"+startLat);
                 String toName = place.getName();
                 if (toName != null) {
@@ -319,8 +320,8 @@ public class AddTrip extends Fragment implements TimePickerDialog.OnTimeSetListe
         } else if (requestCode == AUTOCOMPLETE_FROM_PLACE_REQUEST_ID) {
             if (resultCode == Activity.RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
-                endLon = place.getLatLng().longitude;
-                endLat = place.getLatLng().latitude;
+                startLon = place.getLatLng().longitude;
+                startLat = place.getLatLng().latitude;
                 Log.i(TAG, "onActivityResult: lon :"+endLon+"  lat:"+endLat);
                 String fromName = place.getName();
                 if (fromName != null) {
