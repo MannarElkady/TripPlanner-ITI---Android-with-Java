@@ -5,8 +5,6 @@ public class Note {
     private String description;
     private int priority ;
 
-    public Note() {
-    }
 
     //construct Note with desc and priority if exist
     public Note(String description, int priority) {
@@ -19,6 +17,8 @@ public class Note {
         this.description = description;
     }
 
+    //constructor with no argus for deserilization
+    public Note(){}
 
 
     public String getDescription() {

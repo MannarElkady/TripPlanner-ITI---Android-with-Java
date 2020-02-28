@@ -89,11 +89,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             //tripsMap.put("Disneyland park", "Universal+Studios+Hollywood");
             //tripsMap.put("Bakersfield, CA, USA", "San Jose, CA, USA");
 
-
             for(Trip trip : trips) {
-                Log.i(TAG, "**********" + trip.getStartLocation());
-                Log.i(TAG, "**********" + trip.getEndLocation());
-                tripsMap.put(trip.getStartLocation(), trip.getEndLocation());
+                tripsMap.put(String.valueOf(trip.getStartLatitude())+','+String.valueOf(trip.getStartLongitude()), String.valueOf(trip.getEndtLatitude())+','+String.valueOf(trip.getEndLongitude()));
             }
 
             mapViewModel.setRoutes(tripsMap);

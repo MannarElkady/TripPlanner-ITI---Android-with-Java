@@ -1,5 +1,7 @@
 package com.example.tripplanner.core.firestoredb;
 
+import android.util.Log;
+
 import com.example.tripplanner.core.model.Trip;
 import com.example.tripplanner.core.model.User;
 
@@ -12,9 +14,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.List;
-
-import javax.inject.Inject;
 
 /*
 Structure  :
@@ -38,14 +37,14 @@ public class FirestoreConnection implements FirestoreContract {
     private static final String TAG = "FirestoreConnection";
     private static final String TRIP_COLLECTION = "Trips";
     private static final String SUB_COLLECTION_OF_TRIPS = "UserTrips";
+    private static final String NOTE_DOCUMENT = "NoteDocument";
     private static FirestoreConnection INSTANCE;
-    private static User _user;
-
+    private User _user;
     private static FirebaseFirestore db;
 
     private DocumentReference tripsCollectionReference;
 
-    private FirestoreConnection() {
+    private FirestoreConnection(User _user) {
         //enable caching
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setPersistenceEnabled(true)
@@ -59,14 +58,13 @@ public class FirestoreConnection implements FirestoreContract {
 
         //get reference to the user document
         tripsCollectionReference = db.collection(TRIP_COLLECTION).document(_user.getUserId());
+        Log.i(TAG, "FirestoreConnection: user id"+_user.getUserId());
     }
 
     //get instance of FirestoreConnection
     public static FirestoreConnection getInstance(User user) {
         if (INSTANCE == null) {
-            _user = user;
-            INSTANCE = new FirestoreConnection();
-
+            INSTANCE = new FirestoreConnection(user);
         }
         return INSTANCE;
     }
@@ -80,6 +78,10 @@ public class FirestoreConnection implements FirestoreContract {
                 .document(trip.getTripId()).set(trip);
     }
 
+    //add Notes to a trip
+    /*public Task<DocumentReference> addNotes(HashMap<String,Note> notes, Trip trip){
+        return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS).document(trip.getTripId()).collection(NOTE_DOCUMENT).document("Notes").add(notes);
+    }*/
     // get all user trips
     public Task<QuerySnapshot> getAllTrips() {
         //TODO: optimize getAllTrips to get just titles of trips

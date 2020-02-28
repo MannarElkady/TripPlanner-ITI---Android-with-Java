@@ -1,5 +1,4 @@
-package com.example.tripplanner.add.trip;
-
+package com.example.tripplanner.addtrip;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -10,12 +9,12 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -30,7 +29,6 @@ import com.example.tripplanner.core.model.Trip;
 import com.example.tripplanner.core.model.User;
 import com.example.tripplanner.core.repository.remote.FirestoreRepository;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
@@ -38,9 +36,6 @@ import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -48,14 +43,12 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.ResourceBundle;
 
-import io.opencensus.resource.Resource;
-
-
-public class AddTrip extends Fragment implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener{
 
     private static final int AUTOCOMPLETE_TO_PLACE_REQUEST_ID = 1;
     private static final int AUTOCOMPLETE_FROM_PLACE_REQUEST_ID = 2;
@@ -163,6 +156,9 @@ public class AddTrip extends Fragment implements TimePickerDialog.OnTimeSetListe
                 //TODO: 3- add reminder according to time and date selected
 
                 //TODO: 4- add to firestore and room (if requierd)
+
+                //Navigate to Home Screen
+                Navigation.findNavController(getActivity(),R.id.fragments_functionality_layout).navigate(TripAdditionDirections.actionTripAdditionToCurrentTripsHomeFragment());
             }else{
                 Toast.makeText(getContext(),"Review Trip Data",Toast.LENGTH_SHORT).show();
             }
@@ -279,7 +275,6 @@ public class AddTrip extends Fragment implements TimePickerDialog.OnTimeSetListe
 
     @Override
     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
-        Log.i("hour", "onTimeSet: "+hourOfDay);
         hourOfDay = (hourOfDay == 0) ? 12 : hourOfDay;
         if(hourOfDay>0) {
             isTimeSet = true;
@@ -301,8 +296,8 @@ public class AddTrip extends Fragment implements TimePickerDialog.OnTimeSetListe
         if (requestCode == AUTOCOMPLETE_TO_PLACE_REQUEST_ID) {
             if (resultCode == Activity.RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
-                endLon = place.getLatLng().longitude;
-                endLat = place.getLatLng().latitude;
+                startLon = place.getLatLng().longitude;
+                startLat = place.getLatLng().latitude;
                 Log.i(TAG, "onActivityResult: lon :"+startLon+"  lat:"+startLat);
                 String toName = place.getName();
                 if (toName != null) {
@@ -320,8 +315,8 @@ public class AddTrip extends Fragment implements TimePickerDialog.OnTimeSetListe
         } else if (requestCode == AUTOCOMPLETE_FROM_PLACE_REQUEST_ID) {
             if (resultCode == Activity.RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
-                startLon = place.getLatLng().longitude;
-                startLat = place.getLatLng().latitude;
+                endLon = place.getLatLng().longitude;
+                endLat = place.getLatLng().latitude;
                 Log.i(TAG, "onActivityResult: lon :"+endLon+"  lat:"+endLat);
                 String fromName = place.getName();
                 if (fromName != null) {

@@ -13,7 +13,7 @@ import com.example.tripplanner.MainActivity;
 
 public class ForegroundService extends Service {
     /*Manar*/
-    public static final String CHANNEL = "ForegroundServiceChannel";
+    public static final String CHANNEL = "My Trips Application";
     public static final int REQUEST_CODE = 1;
     private static int NOTIFICATION_ID = 2;
     public static final String NOTIFICATION_HEADER = "Foreground Service";

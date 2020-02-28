@@ -8,8 +8,10 @@ import androidx.lifecycle.ViewModel;
 import com.example.tripplanner.MainActivity;
 import com.example.tripplanner.core.firestoredb.FirestoreConnection;
 import com.example.tripplanner.core.model.Trip;
+import com.example.tripplanner.core.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -23,12 +25,11 @@ public class TripsHomeViewModel extends ViewModel {
 
     private MutableLiveData<List<Trip>> allTripsLiveList;
     public TripsHomeViewModel(){
-        firestoreConnection = FirestoreConnection.getInstance(MainActivity.me);
+        firestoreConnection = FirestoreConnection.getInstance(new User(FirebaseAuth.getInstance().getCurrentUser().getUid()));
         allTrips=new ArrayList<>();
     }
 
     public LiveData<List<Trip>> getAllTrips(){
-
         if(allTripsLiveList == null){
             allTripsLiveList = new MutableLiveData<>();
             firestoreConnection.getAllTrips().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

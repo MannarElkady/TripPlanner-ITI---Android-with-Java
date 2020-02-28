@@ -21,6 +21,10 @@ public class TripEntity {
     private String title;
     private String startLocation;
     private String endLocation;
+    private double startLatitude;
+    private double startLongitude;
+    private double endtLatitude;
+    private double endLongitude;
     private String tripDate;
     private String tripStatus;
 
@@ -34,12 +38,17 @@ public class TripEntity {
     public TripEntity(){}
 
     @Ignore
-    public TripEntity(String title, String tripData, String startLocation, String endLocation,String tripStatus) {
+    public TripEntity(String title, String tripData, String startLocation, String endLocation,String tripStatus
+            ,double startLatitude , double startLongitude ,double endtLatitude,double endLongitude) {
         this.tripDate = tripData;
         this.title = title;
         this.endLocation = endLocation;
         this.startLocation = startLocation;
 
+        this.startLatitude=startLatitude;
+        this.startLongitude=startLongitude;
+        this.endtLatitude=endtLatitude;
+        this.endLongitude=endLongitude;
         // by default the trip not start yet and upcoming
         this.tripStatus = tripStatus;
         //concat title with start and end location to identify the Trip.
@@ -66,6 +75,23 @@ public class TripEntity {
 
 
     // setters
+
+    public void setStartLatitude(double startLatitude) {
+        this.startLatitude = startLatitude;
+    }
+
+    public void setStartLongitude(double startLongitude) {
+        this.startLongitude = startLongitude;
+    }
+
+    public void setEndtLatitude(double endtLatitude) {
+        this.endtLatitude = endtLatitude;
+    }
+
+    public void setEndLongitude(double endLongitude) {
+        this.endLongitude = endLongitude;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -88,6 +114,22 @@ public class TripEntity {
 
 
     // getters
+    public double getStartLatitude() {
+        return startLatitude;
+    }
+
+    public double getStartLongitude() {
+        return startLongitude;
+    }
+
+    public double getEndtLatitude() {
+        return endtLatitude;
+    }
+
+    public double getEndLongitude() {
+        return endLongitude;
+    }
+
     public String getTitle() {
         return title;
     }

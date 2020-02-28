@@ -7,6 +7,8 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +43,9 @@ public class RegisterFragment extends Fragment {
         email = view.findViewById(R.id.register_emailTextInput);
         password = view.findViewById(R.id.register_passwordTextInput);
         confirmPassword = view.findViewById(R.id.register_confirmPasswordTextInput);
+
+        registerViewModel = new ViewModelProvider(requireActivity()).get(RegisterViewModel.class);
+
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override

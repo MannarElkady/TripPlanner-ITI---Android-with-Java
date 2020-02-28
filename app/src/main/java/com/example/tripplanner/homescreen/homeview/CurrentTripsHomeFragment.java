@@ -60,9 +60,9 @@ public class CurrentTripsHomeFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-         mViewModel = ViewModelProviders.of(this).get(TripsHomeViewModel.class);
         noTrips =  getActivity().findViewById(R.id.no_trips_layout);
         recyclerView = getActivity().findViewById(R.id.trips_recyclerview);
+        mViewModel = ViewModelProviders.of(this).get(TripsHomeViewModel.class);
         // TODO: Use the ViewModel
         mViewModel.getAllTrips().observe(getActivity(), new Observer<List<Trip>>() {
             @Override
@@ -80,6 +80,7 @@ public class CurrentTripsHomeFragment extends Fragment {
         getActivity().findViewById(R.id.add_Trip_floating_point).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Navigation.findNavController(v).navigate(CurrentTripsHomeFragmentDirections.actionCurrentTripsHomeFragmentToTripAddition());
             }
         });
     }

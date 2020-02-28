@@ -1,14 +1,7 @@
 package com.example.tripplanner.reminder;
 
-import android.app.Application;
+import androidx.lifecycle.ViewModel;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-
-public class ReminderViewModel extends AndroidViewModel {
-    public ReminderViewModel(@NonNull Application application) {
-        super(application);
-    }
-
-
+public class ReminderViewModel extends ViewModel {
+    // TODO: Implement the ViewModel
 }

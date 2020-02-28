@@ -20,6 +20,12 @@
             android:id="@+id/action_currentTripsHomeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
+            android:id="@+id/action_currentTripsHomeFragment_to_reminderFragmnt"
+            app:destination="@id/reminderFragmnt" />
+        <action
+            android:id="@+id/action_currentTripsHomeFragment_to_tripAddition"
+            app:destination="@id/tripAddition" />
+        <action
             android:id="@+id/action_currentTripsHomeFragment_to_pastTripsFragment"
             app:destination="@id/pastTripsFragment" />
     </fragment>
@@ -36,7 +42,30 @@
         android:id="@+id/loginFragment"
         android:name="com.example.tripplanner.login.LoginFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_loginFragment_to_currentTripsHomeFragment"
+            app:destination="@id/currentTripsHomeFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/reminderFragmnt"
+        android:name="com.example.tripplanner.reminder.ReminderFragmnt"
+        android:label="ReminderFragmnt" />
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.tripplanner.register.RegisterFragment"
+        android:label="RegisterFragment" />
+    <fragment
+        android:id="@+id/tripAddition"
+        android:name="com.example.tripplanner.addtrip.TripAddition"
+        android:label="TripAddition" >
+        <action
+            android:id="@+id/action_tripAddition_to_currentTripsHomeFragment"
+            app:destination="@id/currentTripsHomeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/pastTripsFragment"
         android:name="com.example.tripplanner.pasttrips.PastTripsFragment"
@@ -44,10 +73,10 @@
         tools:layout="@layout/fragment_past_trips" >
         <action
             android:id="@+id/action_pastTripsFragment_to_mapFragment2"
-            app:destination="@id/mapFragment2" />
+            app:destination="@id/pastTripsMapFragment" />
     </fragment>
     <fragment
-        android:id="@+id/mapFragment2"
+        android:id="@+id/pastTripsMapFragment"
         android:name="com.example.tripplanner.pasttrips.MapFragment"
         android:label="fragment_map"
         tools:layout="@layout/fragment_map" />
