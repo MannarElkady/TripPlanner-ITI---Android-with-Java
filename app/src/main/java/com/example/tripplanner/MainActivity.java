@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //temp
 
-   /*     GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        /*GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
@@ -80,13 +80,36 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         FirebaseAuth.getInstance().signOut();*/
+        //check user
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(currentUser == null){
+            Navigation.findNavController(this,R.id.fragments_functionality_layout).navigate(CurrentTripsHomeFragmentDirections.actionCurrentTripsHomeFragmentToLoginFragment());
+        }
+        else{
+            User user = new User(currentUser.getUid());
+            initBar();
+            buttomNavigation.setVisibility(View.VISIBLE);
+            firestoreConnection = FirestoreConnection.getInstance(user);
+        }
+
+
+        /*findViewById(R.id.clickme).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                firebaseFirestore = FirebaseFirestore.getInstance();
+                firestoreConnection = FirestoreConnection.getInstance(me);
+                firestoreConnection.addTrip(new Trip(MainActivity.this.title.getText().toString(), MainActivity.this.desc.getText().toString(),"giza","haram"));
+            }
+        });*/
+    }
+    private void initBar(){
         //temp
         //setting nav buttom
         buttomNavigation = findViewById(R.id.buttom_nav);
         buttomNavigation.add(new MeowBottomNavigation.Model(ID_HISTORY,R.drawable.ic_history_black_24dp));
         buttomNavigation.add(new MeowBottomNavigation.Model(ID_HOME,R.drawable.ic_home_black_24dp));
         buttomNavigation.add(new MeowBottomNavigation.Model(ID_PROFILE,R.drawable.ic_account_circle_black_24dp));
-       // buttomNavigation.setCount(ID_HOME, "");
+        // buttomNavigation.setCount(ID_HOME, "");
         buttomNavigation.setVisibility(View.INVISIBLE);
         buttomNavigation.setOnShowListener(new Function1<MeowBottomNavigation.Model, Unit>() {
             @Override
@@ -105,26 +128,6 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
         });
-        //check user
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(currentUser == null){
-            Navigation.findNavController(this,R.id.fragments_functionality_layout).navigate(CurrentTripsHomeFragmentDirections.actionCurrentTripsHomeFragmentToLoginFragment());
-        }
-        else{
-            User user = new User(currentUser.getUid());
-            buttomNavigation.setVisibility(View.VISIBLE);
-            firestoreConnection = FirestoreConnection.getInstance(user);
-        }
-
-
-        /*findViewById(R.id.clickme).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                firebaseFirestore = FirebaseFirestore.getInstance();
-                firestoreConnection = FirestoreConnection.getInstance(me);
-                firestoreConnection.addTrip(new Trip(MainActivity.this.title.getText().toString(), MainActivity.this.desc.getText().toString(),"giza","haram"));
-            }
-        });*/
     }
     private void stopService() {
         Intent serviceIntent = new Intent(this, ForegroundService.class);

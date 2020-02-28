@@ -13,10 +13,10 @@ import com.example.tripplanner.MainActivity;
 
 public class ForegroundService extends Service {
     /*Manar*/
-    public static final String CHANNEL = "My Trips Application";
+    public static final String CHANNEL = "MyChannel";
     public static final int REQUEST_CODE = 1;
-    private static int NOTIFICATION_ID = 2;
-    public static final String NOTIFICATION_HEADER = "Foreground Service";
+    private static int NOTIFICATION_ID = 3;
+    public static final String NOTIFICATION_HEADER = "My Trips Need's Your Attention..";
 
     NotificationHelper notificationHelper;
     String input;
@@ -32,9 +32,10 @@ public class ForegroundService extends Service {
         notificationHelper.createChannel(CHANNEL,CHANNEL);
         Intent notificationIntent = new Intent(this, DialogActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
-                REQUEST_CODE, notificationIntent, 0);
+                REQUEST_CODE, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         Notification notification = notificationHelper.buildNotification(CHANNEL,NOTIFICATION_HEADER,input).setContentIntent(pendingIntent).build();
         startForeground(NOTIFICATION_ID,notification);
+
 
         //do heavy work on a background thread
         //stopSelf();

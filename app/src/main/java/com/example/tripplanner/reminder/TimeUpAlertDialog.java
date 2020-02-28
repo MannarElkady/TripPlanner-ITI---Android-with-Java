@@ -12,13 +12,16 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
 import com.example.tripplanner.R;
+import com.example.tripplanner.core.model.MyDirectionData;
+
+import java.util.Locale;
 
 public class TimeUpAlertDialog {
     private Context context;
     private AlertDialog mAlertDialog = null;
     MediaPlayer mediaPlayer;
 
-    public void showAlertDialog(Context context, String title, String message) {
+    public void showAlertDialog(Context context, String title, String message, MyDirectionData myDirectionData) {
         if (mAlertDialog != null && mAlertDialog.isShowing()) {
             return;
         //already showing
@@ -55,12 +58,16 @@ public class TimeUpAlertDialog {
         mAlertDialog.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(R.string.start_trip),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+                        // Uri.parse("http://maps.google.com/maps?saddr=20.344,34.34&daddr=20.5666,45.345"));
                         //start google map intent
                         dialog.dismiss();
+                        String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f",myDirectionData.getStartLatitude(),
+                                myDirectionData.getStartLongitude(),myDirectionData.getEndLatitude(),myDirectionData.getEndLongitude());
                         mAlertDialog = null;
                         stopSnoozeService();
-                        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                                Uri.parse("http://maps.google.com/maps?saddr=20.344,34.34&daddr=20.5666,45.345"));
+                        //Navigate in direction Mood to the needed destination
+                        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+
                         dialog.dismiss();
                         mAlertDialog = null;
                         mediaPlayer.release();

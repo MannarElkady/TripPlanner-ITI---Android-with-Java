@@ -34,6 +34,7 @@ public class AlarmReciever  extends BroadcastReceiver {
         sendOnChannel("Alarm","Alarm has Initiated Broadcast Receiver...");
         //to do open pop up with start, cancel and snooze buttons
         Intent intentDialog = new Intent(context,DialogActivity.class);
+        intentDialog.putExtra("MyLocationData",);
         intentDialog.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intentDialog);
     }
