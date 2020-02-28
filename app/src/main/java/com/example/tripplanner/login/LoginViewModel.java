@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.example.tripplanner.R;
 import com.example.tripplanner.core.firestoredb.FirestoreConnection;
+import com.example.tripplanner.core.model.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.api.ApiException;
@@ -40,12 +41,13 @@ public class LoginViewModel extends ViewModel {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
 
-                                FirebaseUser user = firebaseAuth.getCurrentUser();
+                                FirebaseUser userFirebase = firebaseAuth.getCurrentUser();
+                                User user = new User(userFirebase.getUid());
                                 //navigate to main fragment
-                                firestoreConnection = FirestoreConnection.getInstance(user.getUid());
+                                firestoreConnection = FirestoreConnection.getInstance(user);
                                 Navigation.findNavController(activity, R.id.fragments_functionality_layout).navigate(LoginFragmentDirections.actionLoginFragmentToCurrentTripsHomeFragment());
 
-                                Log.i(TAG, "From onactres: " + user.getEmail());
+                                Log.i(TAG, "From onactres: " + userFirebase.getEmail());
 
                             } else {
                                 Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -71,12 +73,13 @@ public class LoginViewModel extends ViewModel {
                         if (task.isSuccessful()) {
 
                             Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
+                            FirebaseUser userFirebase = firebaseAuth.getCurrentUser();
+                            User user = new User(userFirebase.getUid());
                             //navigate to main fragment
-                            firestoreConnection = FirestoreConnection.getInstance(user.getUid());
+                            firestoreConnection = FirestoreConnection.getInstance(user);
                             Navigation.findNavController(activity, R.id.fragments_functionality_layout).navigate(LoginFragmentDirections.actionLoginFragmentToCurrentTripsHomeFragment());
 
-                            Log.i(TAG, user.getEmail());
+                            Log.i(TAG, userFirebase.getEmail());
 
                         } else {
 

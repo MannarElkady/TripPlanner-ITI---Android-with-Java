@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "5ed4196ed3941f90463f10a9d19e59a0",
+    "identityHash": "4ee1468693cea47977e82c69c13c9ec6",
     "entities": [
       {
         "tableName": "Trip",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tripId` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT, `startLocation` TEXT, `endLocation` TEXT, `tripDate` TEXT, `tripStatus` TEXT, `tripKey` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tripId` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT, `startLocation` TEXT, `endLocation` TEXT, `startLatitude` REAL NOT NULL, `startLongitude` REAL NOT NULL, `endtLatitude` REAL NOT NULL, `endLongitude` REAL NOT NULL, `tripDate` TEXT, `tripStatus` TEXT, `tripKey` TEXT)",
         "fields": [
           {
             "fieldPath": "tripId",
@@ -31,6 +31,30 @@
             "columnName": "endLocation",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "startLatitude",
+            "columnName": "startLatitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startLongitude",
+            "columnName": "startLongitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endtLatitude",
+            "columnName": "endtLatitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endLongitude",
+            "columnName": "endLongitude",
+            "affinity": "REAL",
+            "notNull": true
           },
           {
             "fieldPath": "tripDate",
@@ -126,7 +150,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5ed4196ed3941f90463f10a9d19e59a0')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4ee1468693cea47977e82c69c13c9ec6')"
     ]
   }
 }

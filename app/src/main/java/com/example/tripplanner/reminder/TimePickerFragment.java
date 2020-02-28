@@ -8,6 +8,9 @@ import android.text.format.DateFormat;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+
+import com.example.tripplanner.R;
 
 import java.util.Calendar;
 
@@ -20,7 +23,9 @@ public class TimePickerFragment extends DialogFragment {
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
         //check
-        return new TimePickerDialog(getActivity(),(TimePickerDialog.OnTimeSetListener) getActivity(),hour,minute, DateFormat.is24HourFormat(getActivity()));
+        Fragment fr=getActivity().getSupportFragmentManager().findFragmentById(R.id.fragments_functionality_layout).getChildFragmentManager().getFragments().get(0);
+        return new TimePickerDialog(getActivity(),
+                (TimePickerDialog.OnTimeSetListener) fr,hour,minute, DateFormat.is24HourFormat(getActivity()));
     }
     /*Manar*/
 }

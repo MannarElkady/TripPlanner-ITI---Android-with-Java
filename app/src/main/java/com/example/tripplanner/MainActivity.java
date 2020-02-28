@@ -111,8 +111,9 @@ public class MainActivity extends AppCompatActivity {
             Navigation.findNavController(this,R.id.fragments_functionality_layout).navigate(CurrentTripsHomeFragmentDirections.actionCurrentTripsHomeFragmentToLoginFragment());
         }
         else{
+            User user = new User(currentUser.getUid());
             buttomNavigation.setVisibility(View.VISIBLE);
-            firestoreConnection = FirestoreConnection.getInstance(currentUser.getUid());
+            firestoreConnection = FirestoreConnection.getInstance(user);
         }
 
 

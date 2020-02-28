@@ -9,11 +9,11 @@ public class User {
     private String password;
     private String userEmail;
 
-    public User(String userId, String userName){
+    public User(String userId){
         this.userName = userName;
         this.userId = userId;
     }
-    public User(String userId, String userName, String userEmail, String password){
+    public User(String userId, String userEmail, String password){
         this.password = password;
         this.userEmail = userEmail;
         this.userName = userName;

@@ -1,29 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<com.google.android.material.chip.Chip xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/noteChipId"
+
+    style="@style/Widget.MaterialComponents.Chip.Entry"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_margin="4dp"
     android:orientation="horizontal"
-    android:weightSum="1">
-
-
-    <TextView
-        android:id="@+id/noteTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.8"
-        android:layout_margin="10dp"
-        android:padding="8dp"
-        android:textSize="20sp"
-        android:hint="write a note"
-         />
-
-    <CheckBox
-        android:id="@+id/noteCheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:checked="false"
-        android:buttonTint="@color/blue"/>
-
-</LinearLayout>
+    android:text="@string/date"
+    android:textColor="@color/blue"
+    android:textStyle="bold" />
