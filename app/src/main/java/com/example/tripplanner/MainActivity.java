@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     MeowBottomNavigation buttomNavigation;
 
 
- //   public static User me = new User("1","Manar","manara@gmail.com","123");
+    //   public static User me = new User("1","Manar","manara@gmail.com","123");
     //todo >> array list may have duplicated document names inside it.. to be fix
 
     @Override
@@ -71,12 +71,10 @@ public class MainActivity extends AppCompatActivity {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-
         GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
         googleSignInClient.signOut().addOnCompleteListener(this,new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-
             }
         });
         FirebaseAuth.getInstance().signOut();*/
@@ -86,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         buttomNavigation.add(new MeowBottomNavigation.Model(ID_HISTORY,R.drawable.ic_history_black_24dp));
         buttomNavigation.add(new MeowBottomNavigation.Model(ID_HOME,R.drawable.ic_home_black_24dp));
         buttomNavigation.add(new MeowBottomNavigation.Model(ID_PROFILE,R.drawable.ic_account_circle_black_24dp));
-       // buttomNavigation.setCount(ID_HOME, "");
+        // buttomNavigation.setCount(ID_HOME, "");
         buttomNavigation.setVisibility(View.INVISIBLE);
         buttomNavigation.setOnShowListener(new Function1<MeowBottomNavigation.Model, Unit>() {
             @Override
@@ -99,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                         Navigation.findNavController(MainActivity.this,R.id.fragments_functionality_layout).navigate(CurrentTripsHomeFragmentDirections.actionCurrentTripsHomeFragmentToReminderFragmnt());
                         break;
                     case ID_HISTORY:
-                        Navigation.findNavController(MainActivity.this,R.id.fragments_functionality_layout).navigate(CurrentTripsHomeFragmentDirections.actionCurrentTripsHomeFragmentToLoginFragment());
+                        Navigation.findNavController(MainActivity.this,R.id.fragments_functionality_layout).navigate(CurrentTripsHomeFragmentDirections.actionCurrentTripsHomeFragmentToPastTripsFragment());
                         break;
                 }
                 return null;
@@ -157,7 +155,6 @@ public class MainActivity extends AppCompatActivity {
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND,0);
-
         updateTime(calendar);
         startAlarm(calendar);
     }*/

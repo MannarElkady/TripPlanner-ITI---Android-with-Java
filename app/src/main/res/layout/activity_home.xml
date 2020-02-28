@@ -20,9 +20,10 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#45499B"
-            app:title="@string/homePage"
-            app:titleTextColor="#FFFF"
+            android:background="@color/blue"
+            app:title="@string/appTitle"
+            app:titleTextAppearance="@style/PacificoTextAppearance"
+            app:titleTextColor="@color/white"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
         <LinearLayout
