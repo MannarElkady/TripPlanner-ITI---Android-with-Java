@@ -5,6 +5,8 @@ public class Note {
     private String description;
     private int priority ;
 
+    public Note() {
+    }
 
     //construct Note with desc and priority if exist
     public Note(String description, int priority) {

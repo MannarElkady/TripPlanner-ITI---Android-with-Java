@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tripplanner.R;
+import com.example.tripplanner.core.model.Trip;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -38,7 +39,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private SupportMapFragment supportMapFragment;
     private MapViewModel mapViewModel;
-    private List<List<LatLng>> pastTripsRoutes;
+    private PastTripsViewModel pastTripsViewModel;
+    private List<LatLng> pastTripRoute;
 
     //private static final float START_COLOR = 0xff34a853;
     //private static final float END_COLOR = 0xff34a853;
@@ -58,12 +60,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapFragment);
         mapViewModel = new ViewModelProvider(requireActivity()).get(MapViewModel.class);
-
-        mapViewModel.getRoutes().observe(getViewLifecycleOwner(), (routes) ->{
-            pastTripsRoutes = routes;
-            Log.i(TAG, routes.toString());
-            supportMapFragment.getMapAsync(MapFragment.this);
-        });
+        pastTripsViewModel = new ViewModelProvider(requireActivity()).get(PastTripsViewModel.class);
 
         return view;
     }
@@ -72,23 +69,53 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Map<String, String> trips = new HashMap<String, String>();
-        trips.put("Disneyland park", "Universal+Studios+Hollywood");
-        trips.put("Bakersfield, CA, USA", "San Jose, CA, USA");
+        //pastTripsViewModel.setPastTrips();
+        /*Map<String, String> tripsMap = new HashMap<String, String>();
 
-        mapViewModel.setRoutes(trips);
+        tripsMap.put("Disneyland park", "Universal+Studios+Hollywood");
+        tripsMap.put("Bakersfield, CA, USA", "San Jose, CA, USA");
+        //mapViewModel.setRoutes(tripsMap);*/
+        //pastTripsViewModel.setPastTrips();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        pastTripsViewModel.getPastTrips().observe(getViewLifecycleOwner(), (trips) -> {
+            Map<String, String> tripsMap = new HashMap<String, String>();
+            Log.i(TAG, "**********pastTripsViewModel.getPastTrips");
+
+            //tripsMap.put("Disneyland park", "Universal+Studios+Hollywood");
+            //tripsMap.put("Bakersfield, CA, USA", "San Jose, CA, USA");
+
+
+            for(Trip trip : trips) {
+                Log.i(TAG, "**********" + trip.getStartLocation());
+                Log.i(TAG, "**********" + trip.getEndLocation());
+                tripsMap.put(trip.getStartLocation(), trip.getEndLocation());
+            }
+
+            mapViewModel.setRoutes(tripsMap);
+        });
+
+        mapViewModel.getRoutes().observe(getViewLifecycleOwner(), (route) ->{
+            pastTripRoute = route;
+            Log.i(TAG, "**************mapViewModel.getRoutes()");
+            supportMapFragment.getMapAsync(MapFragment.this);
+        });
+
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        for(List<LatLng> points : pastTripsRoutes) {
+        //for(List<LatLng> points : pastTripRoute) {
 
             Polyline polyline = googleMap.addPolyline(new PolylineOptions().clickable(true)
-                    .addAll(points));
-            googleMap.addMarker(new MarkerOptions().position(points.get(0)).alpha(0.7f).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-            googleMap.addMarker(new MarkerOptions().position(points.get(points.size() - 1)).alpha(0.7f).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                    .addAll(pastTripRoute));
+            googleMap.addMarker(new MarkerOptions().position(pastTripRoute.get(0)).alpha(0.7f).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+            googleMap.addMarker(new MarkerOptions().position(pastTripRoute.get(pastTripRoute.size() - 1)).alpha(0.7f).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
 
             polyline.setEndCap(new RoundCap());
 
@@ -97,8 +124,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             polyline.setColor(0xffF57F17);
             polyline.setJointType(JointType.ROUND);
 
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(points.get(0), 6));
-        }
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pastTripRoute.get(0), 6));
+        //}
 
         // zoom camera on Egypt.
         //googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(26.28, 30.8), 15));

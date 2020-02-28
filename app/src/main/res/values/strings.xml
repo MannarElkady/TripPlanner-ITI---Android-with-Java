@@ -38,7 +38,14 @@
     <string name="StartTrip">Start Trip</string>
     <string name="DONE">DONE</string>
     <string name="tripHint">Trip Title</string>
-    <string name="date">Date</string>
-    <string name="time">Time</string>
     <string name="viewPastTripsBtn">View On Map</string>
+    <string name="date">The date ?</string>
+    <string name="time">The time ?</string>
+    <string name="to">Where to go ?</string>
+    <string name="from">Where to start ?</string>
+    <string name="toBtn">To</string>
+    <string name="fromBtn">From</string>
+    <string name="timeBtn">Time</string>
+    <string name="dateBtn">Date</string>
+    <string name="noPastTripsMessage">No Past Trips!</string>
 </resources>

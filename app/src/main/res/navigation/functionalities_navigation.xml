@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_currentTripsHomeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_currentTripsHomeFragment_to_pastTripsFragment"
+            app:destination="@id/pastTripsFragment" />
     </fragment>
     <fragment
         android:id="@+id/tripDetailsFragment"
@@ -34,4 +37,18 @@
         android:name="com.example.tripplanner.login.LoginFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" />
+    <fragment
+        android:id="@+id/pastTripsFragment"
+        android:name="com.example.tripplanner.pasttrips.PastTripsFragment"
+        android:label="fragment_past_trips"
+        tools:layout="@layout/fragment_past_trips" >
+        <action
+            android:id="@+id/action_pastTripsFragment_to_mapFragment2"
+            app:destination="@id/mapFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment2"
+        android:name="com.example.tripplanner.pasttrips.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" />
 </navigation>

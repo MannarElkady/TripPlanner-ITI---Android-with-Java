@@ -34,25 +34,24 @@ public class PastTripsViewModel extends ViewModel {
         //firestoreConnection = FirestoreConnection.getInstance(MainActivity.me);
         firestoreRepository = new FirestoreRepository(MainActivity.me);
         pastTripsTemp = new ArrayList<Trip>();
+        pastTrips = new MutableLiveData<>();
     }
 
     public void setPastTrips(){
 
-        if(pastTrips == null){
-            pastTrips = new MutableLiveData<>();
-            firestoreRepository.getTrip(TripStatus.FINISHED).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        if(document.exists()){
-                            Trip trip = document.toObject(Trip.class);
-                            pastTripsTemp.add(trip);
-                        }
-                        pastTrips.postValue(pastTripsTemp);
+
+        firestoreRepository.getTrip(TripStatus.UPCOMING).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    if(document.exists()){
+                        Trip trip = document.toObject(Trip.class);
+                        pastTripsTemp.add(trip);
                     }
+                    pastTrips.postValue(pastTripsTemp);
                 }
-            });
-        }
+            }
+        });
 
     }
 

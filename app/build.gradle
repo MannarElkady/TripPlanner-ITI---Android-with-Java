@@ -71,6 +71,8 @@ dependencies {
     //TimePicker and DatePicker
     implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
 
+    //Places
+    implementation 'com.google.android.libraries.places:places:2.0.0'
     /*Ashraf*/
 
     /*Reham*/

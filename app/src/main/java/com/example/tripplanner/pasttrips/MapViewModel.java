@@ -20,15 +20,15 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class MapViewModel extends ViewModel {
 
-    private MutableLiveData<List<List<LatLng>>> routes;
-    private List<List<LatLng>> allRoutesPoints;
+    private MutableLiveData<List<LatLng>> route;
+    //private List<List<LatLng>> allRoutesPoints;
     private RetrofitClient retrofitClient;
     private String TAG = "MapViewModel";
 
     public MapViewModel(){
         retrofitClient = RetrofitClient.getInstance();
-        allRoutesPoints = new ArrayList<List<LatLng>>();
-        routes = new MutableLiveData<List<List<LatLng>>>();
+        //allRoutesPoints = new ArrayList<List<LatLng>>();
+        route = new MutableLiveData<List<LatLng>>();
     }
 
     public void setRoutes(Map<String, String> trips){
@@ -42,8 +42,8 @@ public class MapViewModel extends ViewModel {
                     Log.i(TAG, "***********");
 
                     List<LatLng> oneRoutePoints = PolyUtil.decode(directionsResponse.getRoutes().get(0).getOverview_polyline().getPoints());
-                    allRoutesPoints.add(oneRoutePoints);
-                    routes.postValue(allRoutesPoints);
+                    //allRoutesPoints.add(oneRoutePoints);
+                    route.postValue(oneRoutePoints);
                 }
 
                 @Override
@@ -54,8 +54,8 @@ public class MapViewModel extends ViewModel {
         }
 
     }
-    public LiveData<List<List<LatLng>>> getRoutes(){
-        return routes;
+    public LiveData<List<LatLng>> getRoutes(){
+        return route;
     }
 
 }
