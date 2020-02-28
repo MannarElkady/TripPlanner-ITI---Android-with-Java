@@ -12,7 +12,6 @@ public interface PlaceService {
     @GET
     Call<String> searchForPlace(@Query("parameter")String query);
 
-
     /*
     *
     @GET

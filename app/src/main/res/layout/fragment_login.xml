@@ -62,8 +62,8 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="347dp"
-            android:layout_height="374dp"
+            android:layout_width="317dp"
+            android:layout_height="317dp"
             android:src="@drawable/ic_navigator_1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
