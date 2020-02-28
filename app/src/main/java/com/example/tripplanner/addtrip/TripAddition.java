@@ -1,10 +1,14 @@
 package com.example.tripplanner.addtrip;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -24,10 +28,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tripplanner.R;
+import com.example.tripplanner.core.model.MyDate;
+import com.example.tripplanner.core.model.MyDirectionData;
 import com.example.tripplanner.core.model.Note;
 import com.example.tripplanner.core.model.Trip;
 import com.example.tripplanner.core.model.User;
 import com.example.tripplanner.core.repository.remote.FirestoreRepository;
+import com.example.tripplanner.reminder.AlarmReciever;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -40,6 +47,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -49,7 +57,7 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener{
-
+    /*Ashraf*/
     private static final int AUTOCOMPLETE_TO_PLACE_REQUEST_ID = 1;
     private static final int AUTOCOMPLETE_FROM_PLACE_REQUEST_ID = 2;
     private static final String TAG = "AddTrip";
@@ -73,8 +81,18 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
     private ChipGroup chipGroup;
     private Chip noteChip ;
     private LayoutInflater inflater;
+    /*Ashraf*/
 
+    /*Manar*/
+    private MyDate myDate;
+    private AlarmManager alarmMgr;
+    private PendingIntent alarmIntent;
+    public static final int ALARM_REQUEST_CODE=101;
+    MyDirectionData myDirectionData = new MyDirectionData();
+    Trip newTrip;
+    /*Manar*/
 
+    /*Ashraf*/
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +120,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         timeTextView = view.findViewById(R.id.timeTextView);
         dateTextView = view.findViewById(R.id.dateTextView);
 
+        myDate = new MyDate();
         toBtn = view.findViewById(R.id.toButton);
         fromBtn = view.findViewById(R.id.fromButton);
         toTextView = view.findViewById(R.id.toTextView);
@@ -130,7 +149,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
 
         timeBtn.setOnClickListener((v) -> {
             Calendar now = Calendar.getInstance();
-            TimePickerDialog time = TimePickerDialog.newInstance(this, now.get(Calendar.HOUR), now.get(Calendar.MINUTE), false);
+            TimePickerDialog time = TimePickerDialog.newInstance(this, now.get(Calendar.HOUR), now.get(Calendar.MINUTE), true);
             time.show(getParentFragmentManager(), "TimePicker");
         });
         dateBtn.setOnClickListener(v -> {
@@ -154,7 +173,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
                 //TODO: 2- get data and initialize an Trip object
 
                 //TODO: 3- add reminder according to time and date selected
-
+                startAlarm(getEquivlentCalender(myDate));
                 //TODO: 4- add to firestore and room (if requierd)
 
                 //Navigate to Home Screen
@@ -162,7 +181,6 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
             }else{
                 Toast.makeText(getContext(),"Review Trip Data",Toast.LENGTH_SHORT).show();
             }
-
         });
 
         addNote.setOnClickListener((v) -> {
@@ -202,7 +220,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
 
     private void addTripToFirestore(String tripTitle, String tripStartLocation, String tripEndLocation, String tripTime
             , String tripDate, double startLat, double startLon, double endLat, double endLon) {
-        Trip newTrip = new Trip(tripTitle,tripDate,tripStartLocation,tripEndLocation,startLat,startLon,endLat,endLon);
+        newTrip = new Trip(tripTitle,tripDate,tripStartLocation,tripEndLocation,startLat,startLon,endLat,endLon);
         if(chipGroup.getChildCount()>0){
             notes.clear();
             for(int i = 0 ;i< chipGroup.getChildCount();i++){
@@ -260,7 +278,6 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         return true;
     }
 
-
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         monthOfYear++;
@@ -271,6 +288,11 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         dateTextView.setTextColor(Color.BLACK);
         dateTextView.setText(year + "/" + monthOfYear + "/" + dayOfMonth);
         //TODO:add date to trip object
+
+        //set Date
+        myDate.setYear(year);
+        myDate.setMonth(monthOfYear);
+        myDate.setDay(dayOfMonth);
     }
 
     @Override
@@ -288,6 +310,11 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         timeTextView.setTextColor(Color.BLACK);
         timeTextView.setText(hourOfDay + ":" + sb.toString());
         //TODO: add to trip object
+
+        //save time
+        myDate.setHour(hourOfDay);
+        myDate.setMinute(minute);
+        myDate.setSecond(second);
     }
 
     //Recive result from place search fragment
@@ -296,8 +323,12 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         if (requestCode == AUTOCOMPLETE_TO_PLACE_REQUEST_ID) {
             if (resultCode == Activity.RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
-                startLon = place.getLatLng().longitude;
-                startLat = place.getLatLng().latitude;
+                endLon = place.getLatLng().longitude;
+                endLat = place.getLatLng().latitude;
+                /*Mannar*/
+                myDirectionData.setEndLatitude(endLat);
+                myDirectionData.setEndLongitude(endLon);
+                /*Mannar*/
                 Log.i(TAG, "onActivityResult: lon :"+startLon+"  lat:"+startLat);
                 String toName = place.getName();
                 if (toName != null) {
@@ -315,8 +346,12 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         } else if (requestCode == AUTOCOMPLETE_FROM_PLACE_REQUEST_ID) {
             if (resultCode == Activity.RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
-                endLon = place.getLatLng().longitude;
-                endLat = place.getLatLng().latitude;
+                startLon = place.getLatLng().longitude;
+                startLat = place.getLatLng().latitude;
+                /*Mannar*/
+                myDirectionData.setStartLatitude(startLat);
+                myDirectionData.setStartLongitude(startLon);
+                /*Mannar*/
                 Log.i(TAG, "onActivityResult: lon :"+endLon+"  lat:"+endLat);
                 String fromName = place.getName();
                 if (fromName != null) {
@@ -330,6 +365,32 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
                 Log.i(TAG, "onActivityResult: lon :"+endLon+"  lat:"+endLat);
 
             }
+    }
+    }
+    /*Ashraf*/
+    /*Manar*/
+    private void startAlarm(Calendar calendar) {
+        alarmMgr = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getActivity(), AlarmReciever.class);
+        Bundle args = new Bundle();
+        args.putSerializable("myDirectionData",(Serializable)myDirectionData);
+        args.putSerializable("MyNewTrip",newTrip);
+        intent.putExtra("Data",args);
+        alarmIntent = PendingIntent.getBroadcast(getActivity(), ALARM_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            alarmMgr.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),alarmIntent);
         }
     }
+
+    private Calendar getEquivlentCalender(MyDate myDate){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, myDate.getHour());
+        calendar.set(Calendar.MINUTE, myDate.getMinute());
+        calendar.set(Calendar.SECOND,myDate.getSecond());
+        calendar.set(Calendar.DAY_OF_MONTH,myDate.getDay());
+        calendar.set(Calendar.YEAR,myDate.getYear());
+        calendar.set(Calendar.MONTH,myDate.getMonth()-1);
+        return calendar;
+    }
+    /*Manar*/
 }

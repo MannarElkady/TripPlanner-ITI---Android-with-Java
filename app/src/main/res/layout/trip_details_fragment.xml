@@ -153,5 +153,17 @@
         app:elevation="6dp"
         android:layout_margin="8dp"
         app:backgroundTint="@color/yellow" />
+        <Button
+            android:id="@+id/showDirectionButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:contentDescription="Show Direction"
+            android:text="@string/StartTrip"
+            android:textSize="24dp"
+            android:background="@drawable/rect_shape"
+            app:elevation="6dp"
+            android:layout_margin="8dp"
+            app:backgroundTint="@color/yellow" />
     </LinearLayout>
 </ScrollView>

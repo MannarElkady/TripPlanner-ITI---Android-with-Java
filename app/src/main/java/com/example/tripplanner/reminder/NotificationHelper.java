@@ -26,9 +26,9 @@ public class NotificationHelper extends ContextWrapper {
             NotificationChannel notificationChannel = new NotificationChannel(channelID,channelName, NotificationManager.IMPORTANCE_HIGH);
             notificationChannel.enableLights(true);
             notificationChannel.enableVibration(true);
-            notificationChannel.setLightColor(R.color.colorPrimary);
+            notificationChannel.setLightColor(R.color.yellow);
             notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-            getNotificationManager().createNotificationChannel(notificationChannel);
+            this.getNotificationManager().createNotificationChannel(notificationChannel);
         }
     }
 
@@ -42,8 +42,7 @@ public class NotificationHelper extends ContextWrapper {
     public NotificationCompat.Builder buildNotification(String  channelID,String title,String message){
         return new NotificationCompat.Builder(getApplicationContext(),channelID)
                 .setPriority(NotificationCompat.PRIORITY_MAX).setContentTitle(title).setContentText(message)
-                //.setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setSmallIcon(R.drawable.ic_notification);
+                .setDefaults(NotificationCompat.DEFAULT_ALL).setSmallIcon(R.drawable.ic_notification);
     }
     /*Manar*/
 }

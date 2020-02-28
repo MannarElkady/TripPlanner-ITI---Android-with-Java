@@ -33,15 +33,11 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
-
+        registerViewModel = new ViewModelProvider(requireActivity()).get(RegisterViewModel.class);
         registerButton = view.findViewById(R.id.register_registerButton);
         email = view.findViewById(R.id.register_emailTextInput);
         password = view.findViewById(R.id.register_passwordTextInput);
         confirmPassword = view.findViewById(R.id.register_confirmPasswordTextInput);
-
-        registerViewModel = new ViewModelProvider(requireActivity()).get(RegisterViewModel.class);
-
-
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -4,11 +4,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Window;
 
 import com.example.tripplanner.R;
+import com.example.tripplanner.core.model.MyDirectionData;
+import com.example.tripplanner.core.model.Trip;
 
 public class DialogActivity extends AppCompatActivity {
     Context context;
@@ -24,16 +27,14 @@ public class DialogActivity extends AppCompatActivity {
         getWindow ().setBackgroundDrawableResource (android.R.color.transparent);
 
     }
-
     @Override
     protected void onStart() {
         super.onStart();
-        // to play local audio
-       // mediaPlayer = MediaPlayer.create(this, R.raw.reminder_alarm);
-      //  mediaPlayer.start();
-        //show alert dialog;
-        timeUpAlertDialog.showAlertDialog(context, "Time is Up, Would you like to start your trip?",
-                "click START to navigate to your trip");
+        Intent intent = getIntent();
+        Bundle bundle = intent.getBundleExtra("Data");
+        timeUpAlertDialog.showAlertDialog(context,(((Trip)bundle.getSerializable("MyNewTrip")).getTitle()),
+                "click START to navigate to your trip",
+                (MyDirectionData) bundle.getSerializable("myDirectionData"));
     }
 
     @Override
