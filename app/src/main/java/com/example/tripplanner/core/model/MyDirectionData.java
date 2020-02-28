@@ -1,40 +1,42 @@
 package com.example.tripplanner.core.model;
 
-public class MyDirectionData {
-    private float startLongitude;
-    private float endLongitude;
-    private float startLatitude;
-    private float endLatitude;
+import java.io.Serializable;
 
-    public float getStartLongitude() {
+public class MyDirectionData implements Serializable {
+    private double startLongitude;
+    private double endLongitude;
+    private double startLatitude;
+    private double endLatitude;
+
+    public double getStartLongitude() {
         return startLongitude;
     }
 
-    public float getEndLongitude() {
+    public double getEndLongitude() {
         return endLongitude;
     }
 
-    public float getStartLatitude() {
+    public double getStartLatitude() {
         return startLatitude;
     }
 
-    public float getEndLatitude() {
+    public double getEndLatitude() {
         return endLatitude;
     }
 
-    public void setStartLongitude(float startLongitude) {
+    public void setStartLongitude(double startLongitude) {
         this.startLongitude = startLongitude;
     }
 
-    public void setEndLongitude(float endLongitude) {
+    public void setEndLongitude(double endLongitude) {
         this.endLongitude = endLongitude;
     }
 
-    public void setStartLatitude(float startLatitude) {
+    public void setStartLatitude(double startLatitude) {
         this.startLatitude = startLatitude;
     }
 
-    public void setEndLatitude(float endLatitude) {
+    public void setEndLatitude(double endLatitude) {
         this.endLatitude = endLatitude;
     }
 }

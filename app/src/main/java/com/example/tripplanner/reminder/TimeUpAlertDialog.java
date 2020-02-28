@@ -31,7 +31,6 @@ public class TimeUpAlertDialog {
         }
         this.context = context;
         mAlertDialog = new AlertDialog.Builder(context).create();
-
         // to play local audio
         mediaPlayer = MediaPlayer.create(context, R.raw.reminder_alarm);
         mediaPlayer.start();
@@ -58,21 +57,21 @@ public class TimeUpAlertDialog {
         mAlertDialog.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(R.string.start_trip),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        // Uri.parse("http://maps.google.com/maps?saddr=20.344,34.34&daddr=20.5666,45.345"));
                         //start google map intent
                         dialog.dismiss();
-                        String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f",myDirectionData.getStartLatitude(),
-                                myDirectionData.getStartLongitude(),myDirectionData.getEndLatitude(),myDirectionData.getEndLongitude());
+                        /*String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f",myDirectionData.getStartLatitude(),
+                                myDirectionData.getStartLongitude(),myDirectionData.getEndLatitude(),myDirectionData.getEndLongitude());*/
+                        String uri = String.format(Locale.ENGLISH,"google.navigation:q=%f,%f",myDirectionData.getEndLatitude(),myDirectionData.getEndLongitude());
                         mAlertDialog = null;
                         stopSnoozeService();
-                        //Navigate in direction Mood to the needed destination
                         Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
-
+                        intent.setPackage("com.google.android.apps.maps");
                         dialog.dismiss();
                         mAlertDialog = null;
                         mediaPlayer.release();
                         mediaPlayer = null;
                         context.startActivity(intent);
+                        ((Activity)context).finish();
                     }
                 });
         mAlertDialog.setButton(DialogInterface.BUTTON_NEUTRAL,context.getString(R.string.cancel_trip),
@@ -86,7 +85,6 @@ public class TimeUpAlertDialog {
                 mediaPlayer = null;
                 stopSnoozeService();
                 ((Activity)context).finish();
-
             }
         });
         // Showing Alert Message

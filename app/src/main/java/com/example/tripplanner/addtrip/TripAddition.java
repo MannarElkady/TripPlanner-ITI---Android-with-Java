@@ -47,6 +47,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -88,8 +89,10 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
     private PendingIntent alarmIntent;
     public static final int ALARM_REQUEST_CODE=101;
     MyDirectionData myDirectionData = new MyDirectionData();
+    Trip newTrip;
     /*Manar*/
 
+    /*Ashraf*/
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -217,7 +220,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
 
     private void addTripToFirestore(String tripTitle, String tripStartLocation, String tripEndLocation, String tripTime
             , String tripDate, double startLat, double startLon, double endLat, double endLon) {
-        Trip newTrip = new Trip(tripTitle,tripDate,tripStartLocation,tripEndLocation,startLat,startLon,endLat,endLon);
+        newTrip = new Trip(tripTitle,tripDate,tripStartLocation,tripEndLocation,startLat,startLon,endLat,endLon);
         if(chipGroup.getChildCount()>0){
             notes.clear();
             for(int i = 0 ;i< chipGroup.getChildCount();i++){
@@ -275,7 +278,6 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         return true;
     }
 
-
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         monthOfYear++;
@@ -321,9 +323,12 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         if (requestCode == AUTOCOMPLETE_TO_PLACE_REQUEST_ID) {
             if (resultCode == Activity.RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
-                startLon = place.getLatLng().longitude;
-                startLat = place.getLatLng().latitude;
-                myDirectionData.setEndLatitude(startLat);
+                endLon = place.getLatLng().longitude;
+                endLat = place.getLatLng().latitude;
+                /*Mannar*/
+                myDirectionData.setEndLatitude(endLat);
+                myDirectionData.setEndLongitude(endLon);
+                /*Mannar*/
                 Log.i(TAG, "onActivityResult: lon :"+startLon+"  lat:"+startLat);
                 String toName = place.getName();
                 if (toName != null) {
@@ -336,12 +341,17 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
                 Log.i(TAG, "Place: Error ");
                 Log.i(TAG, "onActivityResult: lon :"+startLon+"  lat:"+startLat);
 
+
             }
         } else if (requestCode == AUTOCOMPLETE_FROM_PLACE_REQUEST_ID) {
             if (resultCode == Activity.RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
-                endLon = place.getLatLng().longitude;
-                endLat = place.getLatLng().latitude;
+                startLon = place.getLatLng().longitude;
+                startLat = place.getLatLng().latitude;
+                /*Mannar*/
+                myDirectionData.setStartLatitude(startLat);
+                myDirectionData.setStartLongitude(startLon);
+                /*Mannar*/
                 Log.i(TAG, "onActivityResult: lon :"+endLon+"  lat:"+endLat);
                 String fromName = place.getName();
                 if (fromName != null) {
@@ -355,13 +365,17 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
                 Log.i(TAG, "onActivityResult: lon :"+endLon+"  lat:"+endLat);
 
             }
-        }
     }
-
+    }
+    /*Ashraf*/
     /*Manar*/
     private void startAlarm(Calendar calendar) {
         alarmMgr = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getActivity(), AlarmReciever.class);
+        Bundle args = new Bundle();
+        args.putSerializable("myDirectionData",(Serializable)myDirectionData);
+        args.putSerializable("MyNewTrip",newTrip);
+        intent.putExtra("Data",args);
         alarmIntent = PendingIntent.getBroadcast(getActivity(), ALARM_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             alarmMgr.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),alarmIntent);
