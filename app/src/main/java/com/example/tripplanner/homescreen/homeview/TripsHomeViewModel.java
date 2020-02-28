@@ -32,19 +32,19 @@ public class TripsHomeViewModel extends ViewModel {
     public LiveData<List<Trip>> getAllTrips(){
         if(allTripsLiveList == null){
             allTripsLiveList = new MutableLiveData<>();
-        }
-        firestoreConnection.getAllTrips().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    if(document.exists()){
-                        Trip temp= document.toObject(Trip.class);
-                        allTrips.add(temp);
+            firestoreConnection.getAllTrips().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        if(document.exists()){
+                            Trip temp= document.toObject(Trip.class);
+                            allTrips.add(temp);
+                        }
+                        allTripsLiveList.postValue(allTrips);
                     }
-                    allTripsLiveList.postValue(allTrips);
                 }
-            }
-        });
+            });
+        }
         return allTripsLiveList;
     }
 }

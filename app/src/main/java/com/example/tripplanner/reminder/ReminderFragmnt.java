@@ -97,9 +97,9 @@ Button button;
     }
 
     private void startService() {
-        Intent serviceIntent = new Intent(getActivity(), ForegroundService.class);
+        Intent serviceIntent = new Intent(getContext(), ForegroundService.class);
         serviceIntent.putExtra("inputExtra", "Foreground Service Example in Android");
-        ContextCompat.startForegroundService(getActivity(), serviceIntent);
+        ContextCompat.startForegroundService(getContext(), serviceIntent);
     }
 
     private void sendOnChannel(String title, String message) {

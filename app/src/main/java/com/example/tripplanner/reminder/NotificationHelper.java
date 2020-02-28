@@ -42,7 +42,8 @@ public class NotificationHelper extends ContextWrapper {
     public NotificationCompat.Builder buildNotification(String  channelID,String title,String message){
         return new NotificationCompat.Builder(getApplicationContext(),channelID)
                 .setPriority(NotificationCompat.PRIORITY_MAX).setContentTitle(title).setContentText(message)
-                .setDefaults(NotificationCompat.DEFAULT_ALL).setSmallIcon(R.drawable.ic_notification);
+                //.setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setSmallIcon(R.drawable.ic_notification);
     }
     /*Manar*/
 }

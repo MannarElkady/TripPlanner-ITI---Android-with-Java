@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_currentTripsHomeFragment_to_reminderFragmnt"
             app:destination="@id/reminderFragmnt" />
+        <action
+            android:id="@+id/action_currentTripsHomeFragment_to_tripAddition"
+            app:destination="@id/tripAddition" />
     </fragment>
     <fragment
         android:id="@+id/tripDetailsFragment"
@@ -52,4 +55,12 @@
         android:id="@+id/registerFragment"
         android:name="com.example.tripplanner.register.RegisterFragment"
         android:label="RegisterFragment" />
+    <fragment
+        android:id="@+id/tripAddition"
+        android:name="com.example.tripplanner.addtrip.TripAddition"
+        android:label="TripAddition" >
+        <action
+            android:id="@+id/action_tripAddition_to_currentTripsHomeFragment"
+            app:destination="@id/currentTripsHomeFragment" />
+    </fragment>
 </navigation>
