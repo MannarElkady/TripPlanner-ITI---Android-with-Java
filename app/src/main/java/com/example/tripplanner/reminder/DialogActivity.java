@@ -25,8 +25,8 @@ public class DialogActivity extends AppCompatActivity {
         this.context = this;
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow ().setBackgroundDrawableResource (android.R.color.transparent);
-
     }
+
     @Override
     protected void onStart() {
         super.onStart();

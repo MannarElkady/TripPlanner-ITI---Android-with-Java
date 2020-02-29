@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
         buttomNavigation.add(new MeowBottomNavigation.Model(ID_PROFILE,R.drawable.ic_account_circle_black_24dp));
         // buttomNavigation.setCount(ID_HOME, "");
         buttomNavigation.setVisibility(View.INVISIBLE);
+        buttomNavigation.show(ID_HOME,true);
         buttomNavigation.setOnShowListener(new Function1<MeowBottomNavigation.Model, Unit>() {
             @Override
             public Unit invoke(MeowBottomNavigation.Model model) {

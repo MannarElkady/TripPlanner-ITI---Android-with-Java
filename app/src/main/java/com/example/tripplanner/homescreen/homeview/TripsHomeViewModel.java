@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.tripplanner.MainActivity;
+import com.example.tripplanner.core.constant.TripStatus;
 import com.example.tripplanner.core.firestoredb.FirestoreConnection;
 import com.example.tripplanner.core.model.Trip;
 import com.example.tripplanner.core.model.User;
@@ -22,17 +23,17 @@ import java.util.List;
 public class TripsHomeViewModel extends ViewModel {
     FirestoreConnection firestoreConnection;
     List<Trip> allTrips;
-
     private MutableLiveData<List<Trip>> allTripsLiveList;
+
     public TripsHomeViewModel(){
         firestoreConnection = FirestoreConnection.getInstance(new User(FirebaseAuth.getInstance().getCurrentUser().getUid()));
         allTrips=new ArrayList<>();
     }
 
-    public LiveData<List<Trip>> getAllTrips(){
-        if(allTripsLiveList == null){
+    public LiveData<List<Trip>> getCurrentTrips(){
+        if(allTripsLiveList==null){
             allTripsLiveList = new MutableLiveData<>();
-            firestoreConnection.getAllTrips().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            firestoreConnection.getTrip(TripStatus.UPCOMING).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
