@@ -9,19 +9,27 @@ import android.net.Uri;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.tripplanner.R;
+import com.example.tripplanner.core.constant.TripStatus;
 import com.example.tripplanner.core.model.MyDirectionData;
+import com.example.tripplanner.core.model.Trip;
 
 import java.util.Locale;
 
 public class TimeUpAlertDialog {
     private Context context;
     private AlertDialog mAlertDialog = null;
-    MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer;
+    private ReminderViewModel mViewModel;
+    private Trip tripToUpdate;
+    private int INTENTREQUESTCODE = 5;
 
-    public void showAlertDialog(Context context, String title, String message, MyDirectionData myDirectionData) {
+    public void showAlertDialog(Context context, Trip trip, String message, MyDirectionData myDirectionData) {
+         mViewModel = new ViewModelProvider((AppCompatActivity)context).get(ReminderViewModel.class);
         if (mAlertDialog != null && mAlertDialog.isShowing()) {
             return;
         //already showing
@@ -35,7 +43,7 @@ public class TimeUpAlertDialog {
         mediaPlayer = MediaPlayer.create(context, R.raw.reminder_alarm);
         mediaPlayer.start();
         // Setting Dialog Title
-        mAlertDialog.setTitle(title);
+        mAlertDialog.setTitle(trip.getTitle());
 
         // Setting Dialog Message
         mAlertDialog.setMessage(message);
@@ -49,7 +57,7 @@ public class TimeUpAlertDialog {
                         mediaPlayer.release();
                         mediaPlayer = null;
                         snoozeService();
-                    //    ((Activity)context).finish();
+                        ((Activity)context).finish();
                     }
                 });
 
@@ -69,9 +77,11 @@ public class TimeUpAlertDialog {
                         dialog.dismiss();
                         mAlertDialog = null;
                         mediaPlayer.release();
-                        mediaPlayer = null;
-                        context.startActivity(intent);
-                      ((Activity)context).finish();
+                        tripToUpdate = new Trip(trip.getTitle(),trip.getTripDate(),trip.getStartLocation(),trip.getEndLocation()
+                                ,trip.getStartLatitude(),trip.getStartLongitude(),trip.getEndtLatitude(),trip.getEndLongitude(),trip.getListOfNotes(),TripStatus.FINISHED);
+                        mViewModel.updateTrip(trip,tripToUpdate);
+                        ((AppCompatActivity) context).startActivityForResult(intent,INTENTREQUESTCODE);
+                        ((Activity)context).finish();
                     }
                 });
         mAlertDialog.setButton(DialogInterface.BUTTON_NEUTRAL,context.getString(R.string.cancel_trip),
@@ -83,6 +93,9 @@ public class TimeUpAlertDialog {
                 mAlertDialog = null;
                 mediaPlayer.release();
                 mediaPlayer = null;
+                tripToUpdate = new Trip(trip.getTitle(),trip.getTripDate(),trip.getStartLocation(),trip.getEndLocation()
+                        ,trip.getStartLatitude(),trip.getStartLongitude(),trip.getEndtLatitude(),trip.getEndLongitude(),trip.getListOfNotes(),TripStatus.CANCELED);
+                mViewModel.updateTrip(trip,tripToUpdate);
                 stopSnoozeService();
                 ((Activity)context).finish();
             }

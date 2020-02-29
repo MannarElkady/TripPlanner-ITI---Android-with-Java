@@ -106,9 +106,8 @@ public class FirestoreConnection implements FirestoreContract {
         //TODO: optimize update, to update the changed field only, not the whole document of a trip
     }
 
-
     //get a specific trip
-    public Task<DocumentSnapshot> getTrip(Trip trip){
+    public Task<DocumentSnapshot> getTrips(Trip trip){
         Task<DocumentSnapshot> task = tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS).document(trip.getTripId()).get();
         return task;
     }
@@ -119,7 +118,7 @@ public class FirestoreConnection implements FirestoreContract {
     }
 
     //get data based on status
-    public Task<QuerySnapshot> getTrip(String tripStatus){
+    public Task<QuerySnapshot> getTrips(String tripStatus){
         return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS).whereEqualTo("tripStatus",tripStatus).get();
     }
 

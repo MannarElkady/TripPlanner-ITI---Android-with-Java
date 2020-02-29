@@ -61,9 +61,9 @@ public class Trip implements Serializable {
 
 
     //construct a trip with tripStatus
-    public Trip(String title, String tripData, String startLocation, String endLocation
+    public Trip(String title, String tripDate, String startLocation, String endLocation
             ,double startLat,double startLon,double endLat,double endLon,List<Note> notes,String status) {
-        this.tripDate = tripData;
+        this.tripDate = tripDate;
         this.title = title;
         this.endLocation = endLocation;
         this.startLocation = startLocation;
