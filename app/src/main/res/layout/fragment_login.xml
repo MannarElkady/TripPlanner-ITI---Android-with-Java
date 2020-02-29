@@ -8,9 +8,20 @@
     tools:context=".login.LoginFragment">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="7">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="347dp"
+            android:layout_height="374dp"
+            android:layout_gravity="center"
+
+            android:layout_weight="2"
+            android:src="@drawable/ic_navigator_1" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailTextInputLayout"
@@ -18,16 +29,13 @@
             android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:hint="@string/email"
+            android:weightSum="1"
             app:boxCornerRadiusBottomEnd="20dp"
             app:boxCornerRadiusBottomStart="20dp"
             app:boxCornerRadiusTopEnd="20dp"
             app:boxCornerRadiusTopStart="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.505"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
-            app:layout_constraintVertical_bias="0.0">
+            android:layout_gravity="center"
+            android:layout_marginBottom="15dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/emailTextInput"
@@ -42,15 +50,13 @@
             android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:hint="@string/password"
+            android:weightSum="1"
             app:boxCornerRadiusBottomEnd="20dp"
             app:boxCornerRadiusBottomStart="20dp"
             app:boxCornerRadiusTopEnd="20dp"
             app:boxCornerRadiusTopStart="20dp"
             app:endIconMode="password_toggle"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/emailTextInputLayout"
-            app:layout_constraintTop_toBottomOf="@+id/emailTextInputLayout"
-            app:layout_constraintVertical_bias="0.128">
+            android:layout_gravity="center">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordTextInput"
@@ -60,52 +66,50 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="317dp"
-            android:layout_height="317dp"
-            android:src="@drawable/ic_navigator_1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/googleSignInButton"
-            android:layout_width="220dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
-
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/signInButton"
-            app:layout_constraintTop_toBottomOf="@+id/signInButton"
-            app:layout_constraintVertical_bias="1.0" />
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/signInButton"
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="320dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="110dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="2"
             android:backgroundTint="@color/blue"
             android:text="@string/signIn"
             android:textAppearance="@style/Widget.MaterialComponents.Button.TextButton"
             android:textSize="15dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/passwordTextInputLayout"
-            app:layout_constraintTop_toBottomOf="@+id/passwordTextInputLayout"
-            app:layout_constraintVertical_bias="1.0"
             app:strokeColor="@color/blue" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/registerButton"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/register"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-            android:textColor="@color/blue"
-            app:layout_constraintBottom_toBottomOf="@+id/googleSignInButton"
-            app:layout_constraintEnd_toEndOf="@+id/signInButton" />
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_weight="1"
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+            >
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/googleSignInButton"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+
+
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/registerButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/register"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+                android:textColor="@color/blue" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 </FrameLayout>
