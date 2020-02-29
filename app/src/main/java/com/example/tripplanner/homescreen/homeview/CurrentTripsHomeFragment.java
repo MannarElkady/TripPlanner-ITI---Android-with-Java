@@ -1,7 +1,7 @@
 package com.example.tripplanner.homescreen.homeview;
 
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 
@@ -32,9 +32,8 @@ public class CurrentTripsHomeFragment extends Fragment {
     private TripsHomeViewModel mViewModel;
     private CurrentTripsHomeAdapter currentTripsHomeAdapter;
     private LinearLayoutManager layoutManager;
-    private RecyclerView rv;
+    private RecyclerView recyclerView;
     LinearLayout noTrips;
-    RecyclerView recyclerView;
 
     public static CurrentTripsHomeFragment newInstance() {
         return new CurrentTripsHomeFragment();
@@ -45,42 +44,40 @@ public class CurrentTripsHomeFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View v =  inflater.inflate(R.layout.home_trips_fragment, container, false);
-        rv = v.findViewById(R.id.trips_recyclerview);
-        v.findViewById(R.id.no_trips_layout).setVisibility(INVISIBLE);
-        rv.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getActivity());
-        rv.setLayoutManager(layoutManager);
-
-        return v;
+        View view =  inflater.inflate(R.layout.home_trips_fragment, container, false);
+        getActivity().findViewById(R.id.buttom_nav).setVisibility(VISIBLE);
+        recyclerView = view.findViewById(R.id.trips_recyclerview);
+        noTrips =  view.findViewById(R.id.no_trips_layout);
+        view.findViewById(R.id.add_Trip_floating_point).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(CurrentTripsHomeFragmentDirections.actionCurrentTripsHomeFragmentToTripAddition());
+            }
+        });
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        noTrips =  getActivity().findViewById(R.id.no_trips_layout);
-        recyclerView = getActivity().findViewById(R.id.trips_recyclerview);
-        mViewModel = ViewModelProviders.of(this).get(TripsHomeViewModel.class);
-        // TODO: Use the ViewModel
-        mViewModel.getAllTrips().observe(getActivity(), new Observer<List<Trip>>() {
+        mViewModel = new ViewModelProvider(requireActivity()).get(TripsHomeViewModel.class);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        mViewModel.getCurrentTrips().observe(getViewLifecycleOwner(), new Observer<List<Trip>>() {
             @Override
             public void onChanged(List<Trip> trips) {
-                if(trips != null){
-                    if(trips.size()!=0)
-                        displayTrips(trips);
-                    else
-                        displayNoTrips();
-                }
+                if(trips.size()!=0)
+                    displayTrips(trips);
                 else
                     displayNoTrips();
-            }
-        });
-        getActivity().findViewById(R.id.add_Trip_floating_point).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(v).navigate(CurrentTripsHomeFragmentDirections.actionCurrentTripsHomeFragmentToTripAddition());
             }
         });
     }
@@ -104,6 +101,6 @@ public class CurrentTripsHomeFragment extends Fragment {
                 Navigation.findNavController(item).navigate(CurrentTripsHomeFragmentDirections.actionCurrentTripsHomeFragmentToTripDetailsFragment(trips.get(position)));
             }
         });
-        rv.setAdapter(currentTripsHomeAdapter);
+        recyclerView.setAdapter(currentTripsHomeAdapter);
     }
 }

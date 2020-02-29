@@ -22,6 +22,8 @@ import com.example.tripplanner.core.model.Trip;
 
 import java.util.List;
 
+import static android.view.View.VISIBLE;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -46,7 +48,7 @@ public class PastTripsFragment extends Fragment {
         Log.i(TAG, "onCreateView");
 
         View view = inflater.inflate(R.layout.fragment_past_trips, container, false);
-
+        getActivity().findViewById(R.id.buttom_nav).setVisibility(VISIBLE);
         noPastTripsLayout = view.findViewById(R.id.no_past_trips_layout);
         recyclerView = view.findViewById(R.id.past_trips_recyclerview);
         viewMapBtn = view.findViewById(R.id.view_map_floating_btn);
@@ -57,7 +59,6 @@ public class PastTripsFragment extends Fragment {
                 Navigation.findNavController(getActivity(), R.id.fragments_functionality_layout).navigate(PastTripsFragmentDirections.actionPastTripsFragmentToMapFragment2());
             }
         });
-
         return view;
     }
 

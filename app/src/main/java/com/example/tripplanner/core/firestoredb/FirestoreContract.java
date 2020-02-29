@@ -25,13 +25,13 @@ public interface FirestoreContract {
 
 
     //get a specific trip
-    Task<DocumentSnapshot> getTrip(Trip trip);
+    Task<DocumentSnapshot> getTrips(Trip trip);
 
     //get document reference
     DocumentReference getUserDocumentReference();
 
     //get trips by status
-    Task<QuerySnapshot> getTrip(String tripStatus);
+    Task<QuerySnapshot> getTrips(String tripStatus);
 
 
 }

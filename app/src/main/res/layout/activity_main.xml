@@ -15,7 +15,6 @@
         app:mbn_countBackgroundColor="@color/red"
         app:mbn_defaultIconColor="#FFFFFF"
         app:mbn_selectedIconColor="#FBC02D">
-
     </com.etebarian.meowbottomnavigation.MeowBottomNavigation>
 
 

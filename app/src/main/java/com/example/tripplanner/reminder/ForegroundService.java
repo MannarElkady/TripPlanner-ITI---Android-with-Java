@@ -36,13 +36,13 @@ public class ForegroundService extends Service {
         Notification notification = notificationHelper.buildNotification(CHANNEL,NOTIFICATION_HEADER,input).setContentIntent(pendingIntent).build();
         startForeground(NOTIFICATION_ID,notification);
 
-
         //do heavy work on a background thread
         //stopSelf();
 
         return START_NOT_STICKY;
         //return super.onStartCommand(intent, flags, startId);
     }
+
 
     @Override
     public IBinder onBind(Intent intent) {

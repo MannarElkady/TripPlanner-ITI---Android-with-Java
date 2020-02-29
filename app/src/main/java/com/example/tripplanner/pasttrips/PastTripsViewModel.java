@@ -1,15 +1,12 @@
 package com.example.tripplanner.pasttrips;
 
-import com.example.tripplanner.MainActivity;
 import com.example.tripplanner.core.constant.TripStatus;
-import com.example.tripplanner.core.firestoredb.FirestoreConnection;
 import com.example.tripplanner.core.model.Trip;
 import com.example.tripplanner.core.model.User;
 import com.example.tripplanner.core.repository.remote.FirestoreRepository;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -41,7 +38,7 @@ public class PastTripsViewModel extends ViewModel {
     public void setPastTrips(){
 
 
-        firestoreRepository.getTrip(TripStatus.FINISHED).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        firestoreRepository.getTrips(TripStatus.FINISHED).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
@@ -55,7 +52,6 @@ public class PastTripsViewModel extends ViewModel {
         });
 
     }
-
     public LiveData<List<Trip>> getPastTrips(){
         return pastTrips;
     }

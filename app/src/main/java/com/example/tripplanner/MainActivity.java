@@ -107,15 +107,15 @@ public class MainActivity extends AppCompatActivity {
         buttomNavigation.add(new MeowBottomNavigation.Model(ID_HISTORY,R.drawable.ic_history_black_24dp));
         buttomNavigation.add(new MeowBottomNavigation.Model(ID_HOME,R.drawable.ic_home_black_24dp));
         buttomNavigation.add(new MeowBottomNavigation.Model(ID_PROFILE,R.drawable.ic_account_circle_black_24dp));
-        // buttomNavigation.setCount(ID_HOME, "");
         buttomNavigation.setVisibility(View.INVISIBLE);
+        buttomNavigation.show(ID_HOME,true);
         buttomNavigation.setOnShowListener(new Function1<MeowBottomNavigation.Model, Unit>() {
             @Override
             public Unit invoke(MeowBottomNavigation.Model model) {
                 switch (model.getId()){
-                    case ID_HOME:
+                    /*case ID_HOME:
                         Navigation.findNavController(MainActivity.this,R.id.fragments_functionality_layout).navigate(CurrentTripsHomeFragmentDirections.toSelf());
-                        break;
+                        break;*/
                     case ID_PROFILE:
                         Navigation.findNavController(MainActivity.this,R.id.fragments_functionality_layout).navigate(CurrentTripsHomeFragmentDirections.actionCurrentTripsHomeFragmentToReminderFragmnt());
                         break;
