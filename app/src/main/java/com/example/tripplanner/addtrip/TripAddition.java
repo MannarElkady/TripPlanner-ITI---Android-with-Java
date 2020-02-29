@@ -54,6 +54,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
+import static android.view.View.VISIBLE;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -120,7 +122,9 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         dateBtn = view.findViewById(R.id.dateButton);
         timeTextView = view.findViewById(R.id.timeTextView);
         dateTextView = view.findViewById(R.id.dateTextView);
-
+        /*Manar*/
+        getActivity().findViewById(R.id.buttom_nav).setVisibility(View.INVISIBLE);
+        /*Manar*/
         myDate = new MyDate();
         toBtn = view.findViewById(R.id.toButton);
         fromBtn = view.findViewById(R.id.fromButton);
@@ -171,7 +175,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
 
                 addTripToFirestore(tripTitle, tripStartLocation, tripEndLocation, tripTime, tripDate, startLat, startLon, endLat, endLon);
                 //TODO: 2- get data and initialize an Trip object
-
+                /*Manar*/
                 //TODO: 3- add reminder according to time and date selected
                 startAlarm(getEquivlentCalender(myDate));
                 //TODO: 4- add to firestore and room (if requierd)
@@ -180,6 +184,8 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
                 Navigation.findNavController(getActivity(), R.id.fragments_functionality_layout).navigate(TripAdditionDirections.actionTripAdditionToCurrentTripsHomeFragment());
             } else {
                 Toast.makeText(getContext(), "Review Trip Data", Toast.LENGTH_SHORT).show();
+                Navigation.findNavController(getActivity(),R.id.fragments_functionality_layout).navigate(TripAdditionDirections.actionTripAdditionToCurrentTripsHomeFragment());
+                /*Manar*/
             }
         });
 

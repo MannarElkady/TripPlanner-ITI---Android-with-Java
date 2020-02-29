@@ -49,7 +49,7 @@ public class TimeUpAlertDialog {
                         mediaPlayer.release();
                         mediaPlayer = null;
                         snoozeService();
-                        ((Activity)context).finish();
+                    //    ((Activity)context).finish();
                     }
                 });
 
@@ -71,7 +71,7 @@ public class TimeUpAlertDialog {
                         mediaPlayer.release();
                         mediaPlayer = null;
                         context.startActivity(intent);
-                        ((Activity)context).finish();
+                      ((Activity)context).finish();
                     }
                 });
         mAlertDialog.setButton(DialogInterface.BUTTON_NEUTRAL,context.getString(R.string.cancel_trip),

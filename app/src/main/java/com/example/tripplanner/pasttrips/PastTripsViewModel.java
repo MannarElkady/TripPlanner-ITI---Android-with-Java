@@ -55,7 +55,6 @@ public class PastTripsViewModel extends ViewModel {
         });
 
     }
-
     public LiveData<List<Trip>> getPastTrips(){
         return pastTrips;
     }

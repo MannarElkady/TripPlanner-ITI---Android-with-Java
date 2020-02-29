@@ -43,6 +43,7 @@ public class TripDetailsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.trip_details_fragment, container, false);
         tripNameText = view.findViewById(R.id.tripNameDetailsTextField);
+        getActivity().findViewById(R.id.buttom_nav).setVisibility(View.INVISIBLE);
         tripDateText = view.findViewById(R.id.dateTimeTripDetailsTextView);
         tripStartLocationText = view.findViewById(R.id.startLocationDetailsTextField);
         tripEndLocationText = view.findViewById(R.id.endLocationDetailsTextField);
