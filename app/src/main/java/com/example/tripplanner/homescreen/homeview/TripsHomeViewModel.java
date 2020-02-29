@@ -23,18 +23,18 @@ public class TripsHomeViewModel extends ViewModel {
     List<Trip> allTrips;
     private MutableLiveData<List<Trip>> allTripsLiveList = new MutableLiveData<>();;
 
-    public TripsHomeViewModel(){
+    public TripsHomeViewModel() {
         firestoreConnection = FirestoreConnection.getInstance(new User(FirebaseAuth.getInstance().getCurrentUser().getUid()));
-        allTrips=new ArrayList<>();
+        allTrips = new ArrayList<>();
     }
 
-    public LiveData<List<Trip>> getCurrentTrips(){
+    public LiveData<List<Trip>> getCurrentTrips() {
         firestoreConnection.getTrips(TripStatus.UPCOMING).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    if(document.exists()){
-                        Trip temp= document.toObject(Trip.class);
+                    if (document.exists()) {
+                        Trip temp = document.toObject(Trip.class);
                         allTrips.add(temp);
                     }
                     allTripsLiveList.postValue(allTrips);
