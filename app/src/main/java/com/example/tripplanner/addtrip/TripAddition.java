@@ -43,6 +43,7 @@ import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -56,7 +57,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener{
+public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
     /*Ashraf*/
     private static final int AUTOCOMPLETE_TO_PLACE_REQUEST_ID = 1;
     private static final int AUTOCOMPLETE_FROM_PLACE_REQUEST_ID = 2;
@@ -79,7 +80,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
     private boolean isDateSet;
     private FirestoreRepository firestoreRepository;
     private ChipGroup chipGroup;
-    private Chip noteChip ;
+    private Chip noteChip;
     private LayoutInflater inflater;
     /*Ashraf*/
 
@@ -87,7 +88,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
     private MyDate myDate;
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
-    public static final int ALARM_REQUEST_CODE=101;
+    public static final int ALARM_REQUEST_CODE = 101;
     MyDirectionData myDirectionData = new MyDirectionData();
     Trip newTrip;
     /*Manar*/
@@ -159,7 +160,6 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         });
 
 
-
         doneTextView.setOnClickListener(v -> {
             if (checkForRequierdData()) {
                 Log.i("check", "checkData : true");
@@ -169,7 +169,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
                 String tripTime = timeTextView.getText().toString().trim();
                 String tripDate = dateTextView.getText().toString().trim();
 
-                addTripToFirestore(tripTitle,tripStartLocation,tripEndLocation,tripTime,tripDate,startLat,startLon,endLat,endLon);
+                addTripToFirestore(tripTitle, tripStartLocation, tripEndLocation, tripTime, tripDate, startLat, startLon, endLat, endLon);
                 //TODO: 2- get data and initialize an Trip object
 
                 //TODO: 3- add reminder according to time and date selected
@@ -177,9 +177,9 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
                 //TODO: 4- add to firestore and room (if requierd)
 
                 //Navigate to Home Screen
-                Navigation.findNavController(getActivity(),R.id.fragments_functionality_layout).navigate(TripAdditionDirections.actionTripAdditionToCurrentTripsHomeFragment());
-            }else{
-                Toast.makeText(getContext(),"Review Trip Data",Toast.LENGTH_SHORT).show();
+                Navigation.findNavController(getActivity(), R.id.fragments_functionality_layout).navigate(TripAdditionDirections.actionTripAdditionToCurrentTripsHomeFragment());
+            } else {
+                Toast.makeText(getContext(), "Review Trip Data", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -189,52 +189,42 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
 
             final EditText input = new EditText(getContext());
             input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            builder.setView(input);
-
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    String noteDesc = input.getText().toString().trim();
-                    if(!noteDesc.isEmpty()){
-                        Chip chip = (Chip)inflater.inflate(R.layout.note_item, null, false);
-                        chip.setOnCloseIconClickListener(v->{
-                            chipGroup.removeView(v);
-                        });
-                        chip.setText(noteDesc);
-                        chipGroup.addView(chip);
-                    }
+                    
                 }
-            });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
+
                 }
             });
-
+            builder.setView(input);
             builder.show();
         });
+
 
         return view;
     }
 
     private void addTripToFirestore(String tripTitle, String tripStartLocation, String tripEndLocation, String tripTime
             , String tripDate, double startLat, double startLon, double endLat, double endLon) {
-        newTrip = new Trip(tripTitle,tripDate,tripStartLocation,tripEndLocation,startLat,startLon,endLat,endLon);
-        if(chipGroup.getChildCount()>0){
+        newTrip = new Trip(tripTitle, tripDate, tripStartLocation, tripEndLocation, startLat, startLon, endLat, endLon);
+        if (chipGroup.getChildCount() > 0) {
             notes.clear();
-            for(int i = 0 ;i< chipGroup.getChildCount();i++){
-                Chip chip = (Chip)chipGroup.getChildAt(i);
+            for (int i = 0; i < chipGroup.getChildCount(); i++) {
+                Chip chip = (Chip) chipGroup.getChildAt(i);
                 Note note = new Note(chip.getText().toString().trim());
                 notes.add(note);
             }
-            Log.i(TAG, "array size: "+notes.size());
+            Log.i(TAG, "array size: " + notes.size());
             newTrip.setListOfNotes(notes);
         }
         firestoreRepository.addTrip(newTrip).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(getContext(),"Trip Added Successfully",Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Trip Added Successfully", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -249,7 +239,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
             toTextView.setText("need destination");
             return false;
         }
-        if(startLat==0.0 || startLon == 0.0){
+        if (startLat == 0.0 || startLon == 0.0) {
             toTextView.setTextColor(Color.RED);
             toTextView.setText("destination not recognized");
             return false;
@@ -260,7 +250,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
             fromTextView.setText("need start Location");
             return false;
         }
-        if(endLat==0.0 || endLon == 0.0){
+        if (endLat == 0.0 || endLon == 0.0) {
             fromTextView.setTextColor(Color.RED);
             fromTextView.setText("start Location not recognized");
             return false;
@@ -281,7 +271,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         monthOfYear++;
-        if(year>0 || monthOfYear>0||dayOfMonth>0){
+        if (year > 0 || monthOfYear > 0 || dayOfMonth > 0) {
             isDateSet = true;
         }
         dateTextView.setText("");
@@ -298,7 +288,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
     @Override
     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
         hourOfDay = (hourOfDay == 0) ? 12 : hourOfDay;
-        if(hourOfDay>0) {
+        if (hourOfDay > 0) {
             isTimeSet = true;
         }
         StringBuilder sb = new StringBuilder();
@@ -329,7 +319,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
                 myDirectionData.setEndLatitude(endLat);
                 myDirectionData.setEndLongitude(endLon);
                 /*Mannar*/
-                Log.i(TAG, "onActivityResult: lon :"+startLon+"  lat:"+startLat);
+                Log.i(TAG, "onActivityResult: lon :" + startLon + "  lat:" + startLat);
                 String toName = place.getName();
                 if (toName != null) {
                     toTextView.setText("");
@@ -339,7 +329,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
                 Log.i(TAG, "Place: Address " + place.getAddress() + ", " + place.getLatLng());
             } else {
                 Log.i(TAG, "Place: Error ");
-                Log.i(TAG, "onActivityResult: lon :"+startLon+"  lat:"+startLat);
+                Log.i(TAG, "onActivityResult: lon :" + startLon + "  lat:" + startLat);
 
 
             }
@@ -352,7 +342,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
                 myDirectionData.setStartLatitude(startLat);
                 myDirectionData.setStartLongitude(startLon);
                 /*Mannar*/
-                Log.i(TAG, "onActivityResult: lon :"+endLon+"  lat:"+endLat);
+                Log.i(TAG, "onActivityResult: lon :" + endLon + "  lat:" + endLat);
                 String fromName = place.getName();
                 if (fromName != null) {
                     fromTextView.setText("");
@@ -362,34 +352,35 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
                 Log.i(TAG, "Place: Address " + place.getAddress() + ", " + place.getLatLng());
             } else {
                 Log.i(TAG, "Place: Error ");
-                Log.i(TAG, "onActivityResult: lon :"+endLon+"  lat:"+endLat);
+                Log.i(TAG, "onActivityResult: lon :" + endLon + "  lat:" + endLat);
 
             }
+        }
     }
-    }
+
     /*Ashraf*/
     /*Manar*/
     private void startAlarm(Calendar calendar) {
         alarmMgr = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getActivity(), AlarmReciever.class);
         Bundle args = new Bundle();
-        args.putSerializable("myDirectionData",(Serializable)myDirectionData);
-        args.putSerializable("MyNewTrip",newTrip);
-        intent.putExtra("Data",args);
+        args.putSerializable("myDirectionData", (Serializable) myDirectionData);
+        args.putSerializable("MyNewTrip", newTrip);
+        intent.putExtra("Data", args);
         alarmIntent = PendingIntent.getBroadcast(getActivity(), ALARM_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            alarmMgr.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),alarmIntent);
+            alarmMgr.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
         }
     }
 
-    private Calendar getEquivlentCalender(MyDate myDate){
+    private Calendar getEquivlentCalender(MyDate myDate) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, myDate.getHour());
         calendar.set(Calendar.MINUTE, myDate.getMinute());
-        calendar.set(Calendar.SECOND,myDate.getSecond());
-        calendar.set(Calendar.DAY_OF_MONTH,myDate.getDay());
-        calendar.set(Calendar.YEAR,myDate.getYear());
-        calendar.set(Calendar.MONTH,myDate.getMonth()-1);
+        calendar.set(Calendar.SECOND, myDate.getSecond());
+        calendar.set(Calendar.DAY_OF_MONTH, myDate.getDay());
+        calendar.set(Calendar.YEAR, myDate.getYear());
+        calendar.set(Calendar.MONTH, myDate.getMonth() - 1);
         return calendar;
     }
     /*Manar*/
