@@ -55,6 +55,11 @@ public class FirestoreRepository implements FirestoreContract {
     }
 
     @Override
+    public Task<QuerySnapshot> getTrips(String tripStatus) {
+        return firestoreConnection.getTrips(tripStatus);
+    }
+
+    @Override
     public Task<QuerySnapshot> getTrip(String tripStatus) {
         return firestoreConnection.getTrip(tripStatus);
     }

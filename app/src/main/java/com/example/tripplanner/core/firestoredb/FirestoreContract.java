@@ -30,8 +30,7 @@ public interface FirestoreContract {
     //get document reference
     DocumentReference getUserDocumentReference();
 
-    //get trips by status
+    Task<QuerySnapshot> getTrips(String tripStatus);
+
     Task<QuerySnapshot> getTrip(String tripStatus);
-
-
 }

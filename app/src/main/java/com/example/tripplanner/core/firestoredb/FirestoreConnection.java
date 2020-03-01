@@ -126,6 +126,12 @@ public class FirestoreConnection implements FirestoreContract {
         return tripsCollectionReference;
     }
 
+    @Override
+    public Task<QuerySnapshot> getTrips(String tripStatus) {
+        return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS)
+                .whereEqualTo("tripStatus",tripStatus).get();
+    }
+
     //get data based on status
     public Task<QuerySnapshot> getTrip(String tripStatus){
         return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS)
