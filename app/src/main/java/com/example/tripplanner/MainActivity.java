@@ -2,15 +2,8 @@ package com.example.tripplanner;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
 import androidx.navigation.Navigation;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -20,9 +13,6 @@ import com.example.tripplanner.core.firestoredb.FirestoreConnection;
 import com.example.tripplanner.core.model.User;
 import com.example.tripplanner.homescreen.homeview.CurrentTripsHomeFragmentDirections;
 import com.example.tripplanner.pasttrips.PastTripsFragmentDirections;
-import com.example.tripplanner.reminder.AlarmReciever;
-import com.example.tripplanner.reminder.ForegroundService;
-import com.example.tripplanner.reminder.NotificationHelper;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -55,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         /*Reham*/
-        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+      /*  GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
@@ -65,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
             }
         });
-        FirebaseAuth.getInstance().signOut();
+        FirebaseAuth.getInstance().signOut();*/
         /*Reham*/
 
         /*Manar*/
