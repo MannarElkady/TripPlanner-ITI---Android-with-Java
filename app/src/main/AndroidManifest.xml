@@ -38,7 +38,6 @@
             android:exported="true" />
 
         <activity android:name=".reminder.TestAlarmManagerWithNotification" />
-        <activity android:name=".homescreen.homeview.HomeActivity" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/SplashScreenTheme">

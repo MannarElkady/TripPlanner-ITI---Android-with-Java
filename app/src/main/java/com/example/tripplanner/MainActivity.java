@@ -1,5 +1,6 @@
 package com.example.tripplanner;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
@@ -22,6 +23,11 @@ import com.example.tripplanner.pasttrips.PastTripsFragmentDirections;
 import com.example.tripplanner.reminder.AlarmReciever;
 import com.example.tripplanner.reminder.ForegroundService;
 import com.example.tripplanner.reminder.NotificationHelper;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -48,19 +54,13 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     FirestoreConnection firestoreConnection;
     MeowBottomNavigation buttomNavigation;
-
-
-    //   public static User me = new User("1","Manar","manara@gmail.com","123");
-    //todo >> array list may have duplicated document names inside it.. to be fix
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //temp
-
-        /*GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        /*Reham*/
+        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
@@ -70,7 +70,10 @@ public class MainActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
             }
         });
-        FirebaseAuth.getInstance().signOut();*/
+        FirebaseAuth.getInstance().signOut();
+        /*Reham*/
+
+        /*Manar*/
         //check user
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if(currentUser == null){
@@ -79,20 +82,13 @@ public class MainActivity extends AppCompatActivity {
         else{
             User user = new User(currentUser.getUid());
             initBar();
-            buttomNavigation.setVisibility(View.VISIBLE);
+            buttomNavigation.setVisibility(View.GONE);
             firestoreConnection = FirestoreConnection.getInstance(user);
         }
+        /*Manar*/
 
-
-        /*findViewById(R.id.clickme).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                firebaseFirestore = FirebaseFirestore.getInstance();
-                firestoreConnection = FirestoreConnection.getInstance(me);
-                firestoreConnection.addTrip(new Trip(MainActivity.this.title.getText().toString(), MainActivity.this.desc.getText().toString(),"giza","haram"));
-            }
-        });*/
     }
+    /*Manar*/
     private void initBar(){
         //temp
         //setting nav buttom
@@ -141,49 +137,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    private void stopService() {
-        Intent serviceIntent = new Intent(this, ForegroundService.class);
-        stopService(serviceIntent);
-    }
-
-    private void startService() {
-        Intent serviceIntent = new Intent(this, ForegroundService.class);
-        serviceIntent.putExtra("inputExtra", "Foreground Service Example in Android");
-        ContextCompat.startForegroundService(this, serviceIntent);
-    }
-
-    private void sendOnChannel(String title, String message) {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            notificationHelper.createChannel(channel1Name,channel1ID);
-        }
-        NotificationCompat.Builder noticitaion2 = notificationHelper.buildNotification(channel1ID,title,message);
-        notificationHelper.getNotificationManager().notify(1,noticitaion2.build());
-    }
-
-    public void normalNotificationToChannel(View view) {
-        //sendOnChannel(title.getText().toString(),desc.getText().toString());
-    }
-
-
-   /* @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-        calendar.set(Calendar.MINUTE, minute);
-        calendar.set(Calendar.SECOND,0);
-        updateTime(calendar);
-        startAlarm(calendar);
-    }*/
-
-
-    // alarm manager >> Background service >> alarm Intent
-    private void startAlarm(Calendar calendar) {
-        alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlarmReciever.class);
-        alarmIntent = PendingIntent.getBroadcast(this, ALARM_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            alarmMgr.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),alarmIntent);
-        }
-    }
+    /*Manar*/
 }

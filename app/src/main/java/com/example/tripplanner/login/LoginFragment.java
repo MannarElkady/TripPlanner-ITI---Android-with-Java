@@ -113,4 +113,12 @@ public class LoginFragment extends Fragment {
             loginViewModel.loginWithGoogle(data, this.getActivity());
         }
     }
+
+    /*Manar*/
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().findViewById(R.id.buttom_nav).setVisibility(View.VISIBLE);
+    }
+    /*Manar*/
 }
