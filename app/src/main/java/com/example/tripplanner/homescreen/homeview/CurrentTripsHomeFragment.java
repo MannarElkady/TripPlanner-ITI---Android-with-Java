@@ -21,8 +21,6 @@ import android.widget.Toast;
 
 import com.example.tripplanner.R;
 import com.example.tripplanner.core.model.Trip;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import static android.view.View.INVISIBLE;
@@ -47,6 +45,13 @@ public class CurrentTripsHomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        mViewModel.getTripLiveData().observe(this,trips->{
+            if(trips!=null&&trips.size() > 0){
+                displayTrips(trips);
+            }else{
+                displayNoTrips();
+            }
+        });
     }
 
     @Override
@@ -72,15 +77,6 @@ public class CurrentTripsHomeFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        mViewModel.getCurrentTrips().observe(getViewLifecycleOwner(), new Observer<List<Trip>>() {
-            @Override
-            public void onChanged(List<Trip> trips) {
-                if(trips.size()!=0)
-                    displayTrips(trips);
-                else
-                    displayNoTrips();
-            }
-        });
     }
 
     public interface OnRecycleItemClickListener {

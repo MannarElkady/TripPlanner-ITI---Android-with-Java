@@ -12,6 +12,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 
@@ -89,6 +90,10 @@ public class FirestoreConnection implements FirestoreContract {
     }
 
 
+    //get document to listen on it
+    public Query getTripsCollectionReference (String tripStatus){
+        return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS).whereEqualTo("tripStatus",tripStatus);
+    }
     // delete trip from user trip collection
     public Task<Void> deleteTrip(Trip trip){
         return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS)
@@ -106,9 +111,13 @@ public class FirestoreConnection implements FirestoreContract {
         //TODO: optimize update, to update the changed field only, not the whole document of a trip
     }
 
+
     //get a specific trip
-    public Task<DocumentSnapshot> getTrips(Trip trip){
-        Task<DocumentSnapshot> task = tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS).document(trip.getTripId()).get();
+    public Task<DocumentSnapshot> getTrip(Trip trip){
+        Task<DocumentSnapshot> task = tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS)
+                .document(trip.getTripId())
+                .get();
+        
         return task;
     }
 
@@ -117,9 +126,16 @@ public class FirestoreConnection implements FirestoreContract {
         return tripsCollectionReference;
     }
 
+    @Override
+    public Task<QuerySnapshot> getTrips(String tripStatus) {
+        return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS)
+                .whereEqualTo("tripStatus",tripStatus).get();
+    }
+
     //get data based on status
-    public Task<QuerySnapshot> getTrips(String tripStatus){
-        return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS).whereEqualTo("tripStatus",tripStatus).get();
+    public Task<QuerySnapshot> getTrip(String tripStatus){
+        return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS)
+                .whereEqualTo("tripStatus",tripStatus).get();
     }
 
     /*Ashraf*/
