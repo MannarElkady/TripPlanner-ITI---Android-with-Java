@@ -2,16 +2,12 @@ package com.example.tripplanner.core.repository.remote;
 
 import com.example.tripplanner.core.firestoredb.FirestoreConnection;
 import com.example.tripplanner.core.firestoredb.FirestoreContract;
-import com.example.tripplanner.core.model.Note;
 import com.example.tripplanner.core.model.Trip;
 import com.example.tripplanner.core.model.User;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.HashMap;
-import java.util.List;
 
 //Entities Names ( Trip , Note )
 public class FirestoreRepository implements FirestoreContract {

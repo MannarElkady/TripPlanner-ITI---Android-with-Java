@@ -12,6 +12,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 
@@ -89,6 +90,10 @@ public class FirestoreConnection implements FirestoreContract {
     }
 
 
+    //get document to listen on it
+    public Query getTripsCollectionReference (String tripStatus){
+        return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS).whereEqualTo("tripStatus",tripStatus);
+    }
     // delete trip from user trip collection
     public Task<Void> deleteTrip(Trip trip){
         return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS)
@@ -109,7 +114,10 @@ public class FirestoreConnection implements FirestoreContract {
 
     //get a specific trip
     public Task<DocumentSnapshot> getTrip(Trip trip){
-        Task<DocumentSnapshot> task = tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS).document(trip.getTripId()).get();
+        Task<DocumentSnapshot> task = tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS)
+                .document(trip.getTripId())
+                .get();
+        
         return task;
     }
 
@@ -120,7 +128,8 @@ public class FirestoreConnection implements FirestoreContract {
 
     //get data based on status
     public Task<QuerySnapshot> getTrip(String tripStatus){
-        return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS).whereEqualTo("tripStatus",tripStatus).get();
+        return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS)
+                .whereEqualTo("tripStatus",tripStatus).get();
     }
 
     /*Ashraf*/

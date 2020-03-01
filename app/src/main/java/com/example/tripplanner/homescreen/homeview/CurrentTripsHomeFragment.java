@@ -20,8 +20,14 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.tripplanner.R;
+import com.example.tripplanner.core.constant.TripStatus;
 import com.example.tripplanner.core.model.Trip;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.MetadataChanges;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.HashSet;
 import java.util.List;
 
 import static android.view.View.INVISIBLE;
@@ -46,17 +52,11 @@ public class CurrentTripsHomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        mViewModel.getCurrentTrips().observe(getViewLifecycleOwner(), new Observer<List<Trip>>() {
-            @Override
-            public void onChanged(List<Trip> trips) {
-                if(trips.size()!=0) {
-                    Log.i("trip", "onChanged: trips ="+trips.size());
-                    displayTrips(trips);
-                }
-                else {
-                    displayNoTrips();
-                    Log.i("trip", "onChanged: trips ="+trips.size());
-                }
+        mViewModel.getTripLiveData().observe(this,trips->{
+            if(trips!=null&&trips.size() > 0){
+                displayTrips(trips);
+            }else{
+                displayNoTrips();
             }
         });
     }

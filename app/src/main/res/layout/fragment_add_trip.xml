@@ -1,295 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".add.trip.AddTrip">
+    android:orientation="vertical">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="1">
+        <!--title-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/titleId"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <EditText
-                android:id="@+id/titleEidtText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_weight="0.7"
-                android:ems="10"
-
-                android:hint="@string/tripHint"
-                android:inputType="textPersonName" />
-
-            <TextView
-                android:id="@+id/doneTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="8dp"
-                android:layout_weight="0.3"
-                android:text="@string/DONE"
-                android:textAlignment="center"
-                android:textColor="@color/blue"
-                android:textSize="20sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <!--Where Info-->
-            <!--Where Info-->
-
-
-            <!--When Info-->
-            <androidx.cardview.widget.CardView
+            android:layout_margin="10dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:hint="@string/title"
+            android:layout_weight="0.8">
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_margin="16dp"
-                app:cardCornerRadius="24dp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/linearLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <LinearLayout
-                        android:id="@+id/linearLayout2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="2"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
-
-                        <Button
-                            android:id="@+id/toButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:layout_weight="1"
-                            android:padding="14dp"
-                            android:backgroundTint="@color/blue"
-                            android:text="@string/toBtn" />
-
-                        <Button
-                            android:id="@+id/fromButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:layout_weight="1"
-                            android:backgroundTint="@color/blue"
-                            android:padding="14dp"
-                            android:text="@string/fromBtn" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/linearLayout3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:weightSum="2"
-                        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="1.0">
-
-                        <TextView
-                            android:id="@+id/toTextView"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/robotomedium"
-                            android:gravity="center"
-                            android:padding="8dp"
-                            android:text="@string/to"
-                            android:textAlignment="center"
-                            android:textSize="20sp" />
-
-                        <TextView
-                            android:id="@+id/fromTextView"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/robotomedium"
-                            android:gravity="center"
-                            android:padding="8dp"
-                            android:text="@string/from"
-                            android:textAlignment="center"
-                            android:textSize="20sp" />
-                    </LinearLayout>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_margin="16dp"
-                app:cardCornerRadius="24dp">
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/dateTimeConstraint"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <LinearLayout
-                        android:id="@+id/dateTimeButtons"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="2"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/dateTimeLinearLayout">
-
-                        <Button
-                            android:id="@+id/timeButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:layout_weight="1"
-                            android:backgroundTint="@color/blue"
-                            android:padding="14dp"
-                            android:text="@string/timeBtn" />
-
-                        <Button
-                            android:id="@+id/dateButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:layout_weight="1"
-                            android:backgroundTint="@color/blue"
-                            android:padding="14dp"
-                            android:text="@string/dateBtn" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/dateTimeLinearLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:weightSum="2"
-                        app:layout_constraintBottom_toTopOf="@+id/dateTimeButtons"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="1.0">
-
-                        <TextView
-                            android:id="@+id/timeTextView"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/robotomedium"
-                            android:gravity="center"
-                            android:padding="8dp"
-                            android:textAlignment="center"
-                            android:text="@string/time"
-                            android:textSize="20sp" />
-
-                        <TextView
-                            android:id="@+id/dateTextView"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/robotomedium"
-                            android:gravity="center"
-                            android:padding="8dp"
-                            android:text="@string/date"
-                            android:textAlignment="center"
-                            android:textSize="20sp" />
-                    </LinearLayout>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
-            <!--When Info-->
-
-
-            <!--Note Info-->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_margin="16dp"
-                app:cardCornerRadius="24dp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:id="@+id/addNote"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginRight="16dp"
-                        android:background="@drawable/add"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/textView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginLeft="24dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="283dp"
-                        android:layout_marginRight="283dp"
-                        android:text="@string/Notes"
-                        android:textSize="20sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-
-                    <!---->
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/chipGroupId"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.181"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView"
-                        app:layout_constraintVertical_bias="0.11">
-
-                    </com.google.android.material.chip.ChipGroup>
-                    <!---->
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-            <!--Where Info-->
-
-
-        </LinearLayout>
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <Button
+            android:id="@+id/doneId"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/DONE"
+            android:layout_weight="0.2"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/blue"
+            style="@style/Widget.MaterialComponents.Button.TextButton" />
     </LinearLayout>
-    </ScrollView>
-</FrameLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/where"
+        android:textSize="24sp"
+        android:textColor="@color/blue"
+        android:fontFamily="@font/pacifico_font"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"/>
+    <!--to-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/toId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/location_icon"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="@string/to">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!--from-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/fromId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/location_icon_2"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="@string/from">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!--when-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/when"
+        android:textSize="24sp"
+        android:textColor="@color/blue"
+        android:fontFamily="@font/pacifico_font"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"/>
+
+    <!--time-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/timeId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/time_icon"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:hint="@string/time">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!--date-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/dateId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/date_icon"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="@string/date">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+    <!--note-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/Notes"
+            android:textSize="24sp"
+            android:textColor="@color/blue"
+            android:fontFamily="@font/pacifico_font"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"/>
+        <ImageView
+            android:id="@+id/addNoteId"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/add" />
+    </LinearLayout>
+    <!---->
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroupId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
+
+    </com.google.android.material.chip.ChipGroup>
+
+</LinearLayout>
