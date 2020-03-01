@@ -41,19 +41,14 @@ public class MainActivity extends AppCompatActivity {
     private final static int ID_HOME=2;
     private final static int ID_HISTORY=1;
     private final static int ID_PROFILE=3;
-    NotificationHelper notificationHelper;
-    public static final String channel1ID = "Channel1ID";
-    public static final String channel1Name = "Channel1Name";
-    private AlarmManager alarmMgr;
-    private PendingIntent alarmIntent;
-    public static final int ALARM_REQUEST_CODE=101;
-    private int currentTab = ID_HOME;
+    public static int currentTab = ID_HOME;
 
 
     FirebaseUser currentUser;
     private static final String TAG = "MainActivity";
     FirestoreConnection firestoreConnection;
     MeowBottomNavigation buttomNavigation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
@@ -75,14 +70,16 @@ public class MainActivity extends AppCompatActivity {
 
         /*Manar*/
         //check user
+        buttomNavigation = findViewById(R.id.buttom_nav);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if(currentUser == null){
+            buttomNavigation.setVisibility(View.GONE);
             Navigation.findNavController(this,R.id.fragments_functionality_layout).navigate(CurrentTripsHomeFragmentDirections.actionCurrentTripsHomeFragmentToLoginFragment());
         }
         else{
             User user = new User(currentUser.getUid());
             initBar();
-            buttomNavigation.setVisibility(View.GONE);
+            buttomNavigation.setVisibility(View.VISIBLE);
             firestoreConnection = FirestoreConnection.getInstance(user);
         }
         /*Manar*/
@@ -92,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
     private void initBar(){
         //temp
         //setting nav buttom
-        buttomNavigation = findViewById(R.id.buttom_nav);
         buttomNavigation.add(new MeowBottomNavigation.Model(ID_HISTORY,R.drawable.ic_history_black_24dp));
         buttomNavigation.add(new MeowBottomNavigation.Model(ID_HOME,R.drawable.ic_home_black_24dp));
         buttomNavigation.add(new MeowBottomNavigation.Model(ID_PROFILE,R.drawable.ic_account_circle_black_24dp));

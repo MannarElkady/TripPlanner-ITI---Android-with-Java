@@ -1,6 +1,8 @@
 package com.example.tripplanner.login;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -18,14 +20,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.example.tripplanner.MainActivity;
 import com.example.tripplanner.R;
 import com.example.tripplanner.core.firestoredb.FirestoreConnection;
+import com.example.tripplanner.homescreen.homeview.CurrentTripsHomeFragmentDirections;
+import com.example.tripplanner.pasttrips.PastTripsFragmentDirections;
+import com.example.tripplanner.reminder.NotificationHelper;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.firebase.auth.FirebaseAuth;
+
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 
 /**
@@ -38,10 +47,14 @@ public class LoginFragment extends Fragment {
     private SignInButton googleSignInButton;
     private Button signInButton, registerButton;
 
+    private final static int ID_HOME=2;
+    private final static int ID_HISTORY=1;
+    private final static int ID_PROFILE=3;
     private LoginViewModel loginViewModel;
     private GoogleSignInClient googleSignInClient;
     private GoogleSignInOptions googleSignInOptions;
 
+    MeowBottomNavigation buttomNavigation;
     private FirestoreConnection firestoreConnection;
     private final int GOOGLE_SIGN_IN_REQ_CODE = 123;
 
@@ -116,9 +129,10 @@ public class LoginFragment extends Fragment {
 
     /*Manar*/
     @Override
-    public void onStop() {
-        super.onStop();
-        getActivity().findViewById(R.id.buttom_nav).setVisibility(View.VISIBLE);
+    public void onDestroyView() {
+        super.onDestroyView();
+        buttomNavigation = getActivity().findViewById(R.id.buttom_nav);
+        buttomNavigation.setVisibility(View.VISIBLE);
     }
     /*Manar*/
 }
