@@ -1,10 +1,8 @@
 package com.example.tripplanner;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.app.AlarmManager;
@@ -13,7 +11,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 
@@ -21,15 +18,10 @@ import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.example.tripplanner.core.firestoredb.FirestoreConnection;
 import com.example.tripplanner.core.model.User;
 import com.example.tripplanner.homescreen.homeview.CurrentTripsHomeFragmentDirections;
+import com.example.tripplanner.pasttrips.PastTripsFragmentDirections;
 import com.example.tripplanner.reminder.AlarmReciever;
 import com.example.tripplanner.reminder.ForegroundService;
 import com.example.tripplanner.reminder.NotificationHelper;
-import com.example.tripplanner.tripdetail.TripDetailsFragment;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -49,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
     public static final int ALARM_REQUEST_CODE=101;
+    private int currentTab = ID_HOME;
 
 
     FirebaseUser currentUser;
@@ -113,14 +106,35 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public Unit invoke(MeowBottomNavigation.Model model) {
                 switch (model.getId()){
-                    /*case ID_HOME:
-                        Navigation.findNavController(MainActivity.this,R.id.fragments_functionality_layout).navigate(CurrentTripsHomeFragmentDirections.toSelf());
-                        break;*/
+                    case ID_HOME:
+                        if(currentTab==ID_HOME+1){
+                            //go from profile
+                        }
+                        else if(currentTab==ID_HOME-1){
+                            //go from history
+                            Navigation.findNavController(MainActivity.this,R.id.fragments_functionality_layout).navigate(PastTripsFragmentDirections.actionPastTripsFragmentToCurrentTripsHomeFragment());
+                        }
+                        currentTab = ID_HOME;
+                        break;
                     case ID_PROFILE:
-                        Navigation.findNavController(MainActivity.this,R.id.fragments_functionality_layout).navigate(CurrentTripsHomeFragmentDirections.actionCurrentTripsHomeFragmentToReminderFragmnt());
+                        if(currentTab==ID_PROFILE-1){
+                            //go from home
+                            Navigation.findNavController(MainActivity.this,R.id.fragments_functionality_layout).navigate(CurrentTripsHomeFragmentDirections.actionCurrentTripsHomeFragmentToReminderFragmnt());
+                        }
+                        else if(currentTab == ID_PROFILE-2){
+                            //go from history
+                        }
+                        currentTab = ID_PROFILE;
                         break;
                     case ID_HISTORY:
-                        Navigation.findNavController(MainActivity.this,R.id.fragments_functionality_layout).navigate(CurrentTripsHomeFragmentDirections.actionCurrentTripsHomeFragmentToPastTripsFragment());
+                        if(currentTab==ID_HISTORY+1){
+                            //go from home
+                            Navigation.findNavController(MainActivity.this,R.id.fragments_functionality_layout).navigate(CurrentTripsHomeFragmentDirections.actionCurrentTripsHomeFragmentToPastTripsFragment());
+                        }
+                        else if(currentTab==ID_HISTORY+2){
+                            //go from profile
+                        }
+                        currentTab = ID_HISTORY;
                         break;
                 }
                 return null;

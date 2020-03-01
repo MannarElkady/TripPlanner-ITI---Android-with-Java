@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.example.tripplanner.R;
 import com.example.tripplanner.core.model.Trip;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.view.View.INVISIBLE;
@@ -102,5 +103,10 @@ public class CurrentTripsHomeFragment extends Fragment {
             }
         });
         recyclerView.setAdapter(currentTripsHomeAdapter);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 }
