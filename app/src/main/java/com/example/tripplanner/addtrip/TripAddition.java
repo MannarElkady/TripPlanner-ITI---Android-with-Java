@@ -86,6 +86,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
     private ChipGroup chipGroup;
     private Chip noteChip;
     private LayoutInflater inflater;
+    private Trip updateTrip;
     /*Ashraf*/
 
     /*Manar*/
@@ -118,11 +119,12 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         super.onActivityCreated(savedInstanceState);
         firestoreRepository = new FirestoreRepository(new User(FirebaseAuth.getInstance().getCurrentUser().getUid()));
         TripAdditionArgs args = TripAdditionArgs.fromBundle(getArguments());
-        Trip trip = args.getTripData();
-        Log.i("args", "tripId: in activityCreated "+trip.getTripId());
+        updateTrip = args.getTripData();
 
-        if(trip.getTitle()!=null){
-            updateUIwithPassedTrip(trip);
+        Log.i("args", "tripId: in activityCreated " + updateTrip.getTripId());
+
+        if (updateTrip.getTitle() != null) {
+            updateUIwithPassedTrip(updateTrip);
         }
     }
 
@@ -157,15 +159,20 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
                 String tripTime = time.getEditText().getText().toString().trim();
                 String tripDate = date.getEditText().getText().toString().trim();
 
-                addTripToFirestore(tripTitle, tripStartLocation, tripEndLocation, tripTime, tripDate, startLat, startLon, endLat, endLon);
-                //TODO: 2- get data and initialize an Trip object
-                /*Manar*/
-                //TODO: 3- add reminder according to time and date selected
-                startAlarm(getEquivlentCalender(myDate));
-                //TODO: 4- add to firestore and room (if requierd)
+                if (updateTrip.getTripId() == null) {
+                    addTripToFirestore(tripTitle, tripStartLocation, tripEndLocation, tripTime, tripDate, startLat, startLon, endLat, endLon);
+                    //TODO: 2- get data and initialize an Trip object
+                    /*Manar*/
+                    //TODO: 3- add reminder according to time and date selected
+                    startAlarm(getEquivlentCalender(myDate));
+                    //TODO: 4- add to firestore and room (if requierd)
 
-                //Navigate to Home Screen
-                Navigation.findNavController(getActivity(), R.id.fragments_functionality_layout).navigate(TripAdditionDirections.actionTripAdditionToCurrentTripsHomeFragment());
+                    //Navigate to Home Screen
+                    Navigation.findNavController(getActivity(), R.id.fragments_functionality_layout).navigate(TripAdditionDirections.actionTripAdditionToCurrentTripsHomeFragment());
+                }else{
+                    updateToFirestore(tripTitle, tripStartLocation, tripEndLocation, tripTime, tripDate, startLat, startLon, endLat, endLon);
+
+                }
             } else {
                 Toast.makeText(getContext(), "Review Trip Data", Toast.LENGTH_SHORT).show();
                 //Navigation.findNavController(getActivity(),R.id.fragments_functionality_layout).navigate(TripAdditionDirections.actionTripAdditionToCurrentTripsHomeFragment());
@@ -205,31 +212,15 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
             }
         });
 
-        time.setOnClickListener(timeView -> {
-            time.getEditText().setOnClickListener(v -> {
-                time.setError(null);
-            });
-            Calendar now = Calendar.getInstance();
-            TimePickerDialog time = TimePickerDialog.newInstance(this, now.get(Calendar.HOUR), now.get(Calendar.MINUTE), true);
-            time.show(getParentFragmentManager(), "TimePicker");
-        });
         time.setEndIconOnClickListener(timeView -> {
             time.getEditText().setOnClickListener(v -> {
                 time.setError(null);
             });
             Calendar now = Calendar.getInstance();
-            TimePickerDialog time = TimePickerDialog.newInstance(this, now.get(Calendar.HOUR), now.get(Calendar.MINUTE), true);
+            TimePickerDialog time = TimePickerDialog.newInstance(this, now.get(Calendar.HOUR), now.get(Calendar.MINUTE), false);
             time.show(getParentFragmentManager(), "TimePicker");
         });
 
-        date.setOnClickListener(dateView -> {
-            date.getEditText().setOnClickListener(v -> {
-                date.setError(null);
-            });
-            Calendar calendar = Calendar.getInstance();
-            DatePickerDialog date = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-            date.show(getParentFragmentManager(), "DatePicker");
-        });
         date.setEndIconOnClickListener(dateView -> {
             date.getEditText().setOnClickListener(v -> {
                 date.setError(null);
@@ -273,9 +264,29 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         return view;
     }
 
+    private void updateToFirestore(String tripTitle, String tripStartLocation, String tripEndLocation, String tripTime, String tripDate, double startLat, double startLon, double endLat, double endLon) {
+        newTrip = new Trip(tripTitle, tripDate, tripTime, tripStartLocation, tripEndLocation, startLat, startLon, endLat, endLon);
+        if (chipGroup.getChildCount() > 0) {
+            notes.clear();
+            for (int i = 0; i < chipGroup.getChildCount(); i++) {
+                Chip chip = (Chip) chipGroup.getChildAt(i);
+                Note note = new Note(chip.getText().toString().trim());
+                notes.add(note);
+            }
+            Log.i(TAG, "array size: " + notes.size());
+            newTrip.setListOfNotes(notes);
+        }
+        firestoreRepository.updateTrip(updateTrip,newTrip).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(getContext(), "Trip Updated Successfully", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
     private void addTripToFirestore(String tripTitle, String tripStartLocation, String tripEndLocation, String tripTime
             , String tripDate, double startLat, double startLon, double endLat, double endLon) {
-        newTrip = new Trip(tripTitle, tripDate,tripTime,tripStartLocation, tripEndLocation, startLat, startLon, endLat, endLon);
+        newTrip = new Trip(tripTitle, tripDate, tripTime, tripStartLocation, tripEndLocation, startLat, startLon, endLat, endLon);
         if (chipGroup.getChildCount() > 0) {
             notes.clear();
             for (int i = 0; i < chipGroup.getChildCount(); i++) {
@@ -374,10 +385,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         int currDate = currYear + currMonth + currDay;
         int currTime = calendar.get(Calendar.HOUR_OF_DAY) + calendar.get(Calendar.MINUTE);
 
-        if (selectedDate == currDate && selectedTime < currTime) {
-            time.setError("if Date is Today , Time must be current or in the future");
-            return;
-        }
+
         if (hourOfDay > 0) {
             isTimeSet = true;
         }
@@ -483,10 +491,6 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         startLon = trip.getStartLongitude();
         endLat = trip.getEndtLatitude();
         endLon = trip.getEndLongitude();
-        Log.i("args", "tripId: in update "+trip.getTripId());
-        firestoreRepository.updateTrip(trip,trip).addOnSuccessListener(success->{
-            Toast.makeText(requireActivity(),"Updated",Toast.LENGTH_LONG).show();
-        });
     }
 
     /*Ashraf*/
