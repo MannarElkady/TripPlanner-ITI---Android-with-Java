@@ -1,6 +1,8 @@
 package com.example.tripplanner.core.model;
 
-public class Note {
+import java.io.Serializable;
+
+public class Note implements Serializable {
 
     private String description;
     private int priority ;

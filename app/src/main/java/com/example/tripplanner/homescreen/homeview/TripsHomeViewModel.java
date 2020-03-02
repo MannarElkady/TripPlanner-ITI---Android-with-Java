@@ -88,4 +88,9 @@ public class TripsHomeViewModel extends ViewModel {
         }
         allTripsLiveList.postValue(allTrips);
     }
+
+    public void deleteTrip(Trip trip, int index) {
+        firestoreConnection.deleteTrip(trip);
+        allTripsLiveList.getValue().remove(index);
+    }
 }
