@@ -83,8 +83,6 @@ public class PastTripsFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-
-        pastTripsViewModel.setPastTrips();
     }
 
     @Override

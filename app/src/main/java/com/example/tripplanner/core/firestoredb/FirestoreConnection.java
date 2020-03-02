@@ -103,6 +103,9 @@ public class FirestoreConnection implements FirestoreContract {
     }
 
 
+    public Query getPastTripsCollectionReference (String tripStatus){
+        return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS).whereEqualTo("tripStatus",tripStatus);
+    }
 
 
 
