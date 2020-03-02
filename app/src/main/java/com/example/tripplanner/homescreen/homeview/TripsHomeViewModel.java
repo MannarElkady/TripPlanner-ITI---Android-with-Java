@@ -29,6 +29,7 @@ public class TripsHomeViewModel extends ViewModel {
         firestoreConnection = FirestoreConnection.getInstance(new User(FirebaseAuth.getInstance().getCurrentUser().getUid()));
         allTrips = new ArrayList<>();
         setTripsListener(TripStatus.UPCOMING);
+
     }
 
     public LiveData<List<Trip>> getTripLiveData() {
@@ -87,5 +88,11 @@ public class TripsHomeViewModel extends ViewModel {
             }
         }
         allTripsLiveList.postValue(allTrips);
+
+    }
+
+    public void deleteTrip(Trip trip, int index) {
+        firestoreConnection.deleteTrip(trip);
+        allTripsLiveList.getValue().remove(index);
     }
 }

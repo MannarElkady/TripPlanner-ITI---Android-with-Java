@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -77,6 +78,7 @@ public class CurrentTripsHomeFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+        new ItemTouchHelper(itemTouchHelper).attachToRecyclerView(recyclerView);
     }
 
     public interface OnRecycleItemClickListener {
@@ -101,6 +103,26 @@ public class CurrentTripsHomeFragment extends Fragment {
         recyclerView.setAdapter(currentTripsHomeAdapter);
     }
 
+
+    //itemTouchHelper is for swip items to delete it
+    ItemTouchHelper.SimpleCallback itemTouchHelper = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            //get swiped item position
+            int index = viewHolder.getAdapterPosition();
+            //get trip position
+            Trip trip = mViewModel.allTrips.get(index);
+            //delete from firestore and update Livedata
+            mViewModel.deleteTrip(trip,index);
+            //notify adapter with changes
+            currentTripsHomeAdapter.notifyDataSetChanged();
+        }
+    };
     @Override
     public void onStop() {
         super.onStop();

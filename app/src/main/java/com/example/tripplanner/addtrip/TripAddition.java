@@ -16,7 +16,9 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,8 +72,8 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
     private static final String fromPlaceHolder = "Where to start ?";
     private static final String timePlaceHolder = "The time ?";
     private static final String datePlaceHolder = "The date ?";
-
-    private TextInputLayout title, to , from,time,date;
+    private int selectedDate, selectedTime;
+    private TextInputLayout title, to, from, time, date;
     private Button doneButton;
     private ImageView addNote;
     private List<Note> notes;
@@ -177,19 +179,24 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
             }
         });
 
-        time.setEndIconOnClickListener(timeView->{
+        time.setEndIconOnClickListener(timeView -> {
+            time.getEditText().setOnClickListener(v -> {
+                time.setError(null);
+            });
             Calendar now = Calendar.getInstance();
             TimePickerDialog time = TimePickerDialog.newInstance(this, now.get(Calendar.HOUR), now.get(Calendar.MINUTE), true);
             time.show(getParentFragmentManager(), "TimePicker");
         });
 
 
-        date.setEndIconOnClickListener(timeView->{
+        date.setEndIconOnClickListener(dateView -> {
+            date.getEditText().setOnClickListener(v -> {
+                date.setError(null);
+            });
             Calendar calendar = Calendar.getInstance();
             DatePickerDialog date = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
             date.show(getParentFragmentManager(), "DatePicker");
         });
-
 
 
         addNote.setOnClickListener((v) -> {
@@ -202,9 +209,9 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     String noteDesc = input.getText().toString().trim();
-                    if(!noteDesc.isEmpty()){
-                        Chip chip = (Chip)inflater.inflate(R.layout.note_item, null, false);
-                        chip.setOnCloseIconClickListener(v->{
+                    if (!noteDesc.isEmpty()) {
+                        Chip chip = (Chip) inflater.inflate(R.layout.note_item, null, false);
+                        chip.setOnCloseIconClickListener(v -> {
                             chipGroup.removeView(v);
                         });
                         chip.setText(noteDesc);
@@ -250,44 +257,44 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         if (title.getEditText().getText().toString().isEmpty()) {
             title.setError("Title is required");
             return false;
-        }else{
+        } else {
             title.setErrorEnabled(!title.isErrorEnabled());
         }
         if (to.getEditText().getText().toString().isEmpty()) {
             to.setError("need destination");
             return false;
-        }else{
+        } else {
             to.setErrorEnabled(!title.isErrorEnabled());
         }
         if (startLat == 0.0 || startLon == 0.0) {
             to.setError("destination not recognized");
             return false;
-        }else{
+        } else {
             to.setErrorEnabled(!title.isErrorEnabled());
         }
 
         if (from.getEditText().getText().toString().isEmpty()) {
             from.setError("need start Location");
             return false;
-        }else{
+        } else {
             from.setErrorEnabled(!title.isErrorEnabled());
         }
         if (endLat == 0.0 || endLon == 0.0) {
             from.setError("start Location not recognized");
             return false;
-        }else{
+        } else {
             from.setErrorEnabled(!title.isErrorEnabled());
         }
         if (!isTimeSet) {
             time.setError("need start time");
             return false;
-        }else{
+        } else {
             time.setErrorEnabled(!title.isErrorEnabled());
         }
         if (!isDateSet) {
             date.setError("need date");
             return false;
-        }else{
+        } else {
             date.setErrorEnabled(!title.isErrorEnabled());
         }
         return true;
@@ -296,22 +303,40 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         monthOfYear++;
-        if (year > 0 || monthOfYear > 0 || dayOfMonth > 0) {
+        Log.i("current date", "SELECTED: year" + year + "   month :" + monthOfYear + "   day:" + dayOfMonth);
+        selectedDate = year + monthOfYear + dayOfMonth;
+        if ((year > 0 || monthOfYear > 0 || dayOfMonth > 0) && checkSelectedDate(year, monthOfYear, dayOfMonth)) {
             isDateSet = true;
-        }
-        date.getEditText().setText("");
-        date.getEditText().setText(year + "/" + monthOfYear + "/" + dayOfMonth);
-        //TODO:add date to trip object
+            date.getEditText().setText("");
+            date.getEditText().setText(year + "/" + monthOfYear + "/" + dayOfMonth);
+            //TODO:add date to trip object
 
-        //set Date
-        myDate.setYear(year);
-        myDate.setMonth(monthOfYear);
-        myDate.setDay(dayOfMonth);
+            //set Date
+            myDate.setYear(year);
+            myDate.setMonth(monthOfYear);
+            myDate.setDay(dayOfMonth);
+
+        } else {
+            date.setError("Date need to be selected, Year, Month and the day must be the current or a coming date\n if Date is today Time must be current or upcoming time");
+        }
     }
 
     @Override
     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
         hourOfDay = (hourOfDay == 0) ? 12 : hourOfDay;
+        selectedTime = hourOfDay + minute;
+        Calendar calendar = Calendar.getInstance();
+        int currYear = calendar.get(Calendar.YEAR);
+        int currMonth = calendar.get(Calendar.MONTH);
+        currMonth++;
+        int currDay = calendar.get(Calendar.DAY_OF_MONTH);
+        int currDate = currYear + currMonth + currDay;
+        int currTime = calendar.get(Calendar.HOUR_OF_DAY) + calendar.get(Calendar.MINUTE);
+
+        if (selectedDate == currDate && selectedTime < currTime) {
+            time.setError("if Date is Today , Time must be current or in the future");
+            return;
+        }
         if (hourOfDay > 0) {
             isTimeSet = true;
         }
@@ -379,6 +404,34 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
 
             }
         }
+    }
+
+    private boolean checkSelectedDate(int year, int monthOfYear, int dayOfMonth) {
+        Calendar calendar = Calendar.getInstance();
+        int currYear = calendar.get(Calendar.YEAR);
+        int currMonth = calendar.get(Calendar.MONTH);
+        currMonth++;
+        int currDay = calendar.get(Calendar.DAY_OF_MONTH);
+        int currDate = currYear + currMonth + currDay;
+        int currTime = calendar.get(Calendar.HOUR) + calendar.get(Calendar.MINUTE);
+        Log.i("current date", "Current: year" + currYear + "   month :" + currMonth + "   day:" + currDay);
+        if (selectedTime>0 && selectedTime < currTime && selectedDate == currDate) {
+            return false;
+        }
+        if (year > currYear) {
+            return true;
+        } else if (year == currYear) {
+            if (monthOfYear > currMonth) {
+                return true;
+            } else if (monthOfYear == currMonth) {
+                if (dayOfMonth > currDay) {
+                    return true;
+                } else if (dayOfMonth == currDay) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /*Ashraf*/
