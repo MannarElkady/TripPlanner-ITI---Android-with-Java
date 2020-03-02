@@ -13,6 +13,7 @@ public class Trip implements Serializable {
     private double startLongitude;
     private double endtLatitude;
     private double endLongitude;
+    private String tripTime;
     private String tripDate;
     private List<Note> listOfNotes;
     private String tripStatus;
@@ -25,12 +26,13 @@ public class Trip implements Serializable {
     public Trip(){
 
     }
-    public Trip(String title, String tripData, String startLocation, String endLocation,double startLat
+    public Trip(String title, String tripData, String tripTime, String startLocation, String endLocation,double startLat
             ,double startLon,double endLat,double endLon) {
         this.tripDate = tripData;
         this.title = title;
         this.endLocation = endLocation;
         this.startLocation = startLocation;
+        this.tripTime = tripTime;
         this.startLatitude = startLat;
         this.startLongitude = startLon;
         this.endLongitude = endLon;
@@ -42,11 +44,12 @@ public class Trip implements Serializable {
     }
 
     //construct a trip with Notes
-    public Trip(String title, String tripData, String startLocation, String endLocation
+    public Trip(String title, String tripData,String tripTime, String startLocation, String endLocation
             ,double startLat,double startLon,double endLat,double endLon,List<Note> notes) {
         this.tripDate = tripData;
         this.title = title;
         this.endLocation = endLocation;
+        this.tripTime = tripTime;
         this.startLocation = startLocation;
         this.listOfNotes = notes;
         this.startLatitude = startLat;
@@ -61,13 +64,14 @@ public class Trip implements Serializable {
 
 
     //construct a trip with tripStatus
-    public Trip(String title, String tripDate, String startLocation, String endLocation
+    public Trip(String title, String tripDate,String tripTime, String startLocation, String endLocation
             ,double startLat,double startLon,double endLat,double endLon,List<Note> notes,String status) {
         this.tripDate = tripDate;
         this.title = title;
         this.endLocation = endLocation;
         this.startLocation = startLocation;
         this.listOfNotes = notes;
+        this.tripTime = tripTime;
         this.startLatitude = startLat;
         this.startLongitude = startLon;
         this.endLongitude = endLon;
@@ -134,6 +138,14 @@ public class Trip implements Serializable {
     public String getTripId() { return tripId; }
 
     public String getTripStatus() { return tripStatus; }
+
+    public String getTripTime() {
+        return tripTime;
+    }
+
+    public void setTripTime(String tripTime) {
+        this.tripTime = tripTime;
+    }
 
     public List<Note> getListOfNotes() { return listOfNotes; }
 

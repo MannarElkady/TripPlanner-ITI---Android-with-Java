@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "4ee1468693cea47977e82c69c13c9ec6",
+    "identityHash": "0059ae8fb9e8d63efbd91d883e82afd5",
     "entities": [
       {
         "tableName": "Trip",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tripId` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT, `startLocation` TEXT, `endLocation` TEXT, `startLatitude` REAL NOT NULL, `startLongitude` REAL NOT NULL, `endtLatitude` REAL NOT NULL, `endLongitude` REAL NOT NULL, `tripDate` TEXT, `tripStatus` TEXT, `tripKey` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tripId` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT, `startLocation` TEXT, `endLocation` TEXT, `startLatitude` REAL NOT NULL, `startLongitude` REAL NOT NULL, `endtLatitude` REAL NOT NULL, `endLongitude` REAL NOT NULL, `tripDate` TEXT, `tripStatus` TEXT, `tripTime` TEXT, `tripKey` TEXT)",
         "fields": [
           {
             "fieldPath": "tripId",
@@ -65,6 +65,12 @@
           {
             "fieldPath": "tripStatus",
             "columnName": "tripStatus",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tripTime",
+            "columnName": "tripTime",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -150,7 +156,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4ee1468693cea47977e82c69c13c9ec6')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0059ae8fb9e8d63efbd91d883e82afd5')"
     ]
   }
 }

@@ -53,11 +53,13 @@ public class TimeUpAlertDialog {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        mAlertDialog = null;
+                        mAlertDialog.dismiss();
                         mediaPlayer.release();
                         mediaPlayer = null;
                         snoozeService();
-                        ((Activity)context).finish();
+                        Intent i = new Intent(Intent.ACTION_MAIN);
+                        i.addCategory(Intent.CATEGORY_HOME);
+                        context.startActivity(i);
                     }
                 });
 
@@ -67,6 +69,7 @@ public class TimeUpAlertDialog {
                     public void onClick(DialogInterface dialog, int which) {
                         //start google map intent
                         dialog.dismiss();
+                        mAlertDialog.dismiss();
                         /*String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f",myDirectionData.getStartLatitude(),
                                 myDirectionData.getStartLongitude(),myDirectionData.getEndLatitude(),myDirectionData.getEndLongitude());*/
                         String uri = String.format(Locale.ENGLISH,"google.navigation:q=%f,%f",myDirectionData.getEndLatitude(),myDirectionData.getEndLongitude());
@@ -75,9 +78,8 @@ public class TimeUpAlertDialog {
                         Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
                         intent.setPackage("com.google.android.apps.maps");
                         dialog.dismiss();
-                        mAlertDialog = null;
                         mediaPlayer.release();
-                        tripToUpdate = new Trip(trip.getTitle(),trip.getTripDate(),trip.getStartLocation(),trip.getEndLocation()
+                        tripToUpdate = new Trip(trip.getTitle(),trip.getTripDate(),trip.getTripTime(),trip.getStartLocation(),trip.getEndLocation()
                                 ,trip.getStartLatitude(),trip.getStartLongitude(),trip.getEndtLatitude(),trip.getEndLongitude(),trip.getListOfNotes(),TripStatus.FINISHED);
                         mViewModel.updateTrip(trip,tripToUpdate);
                         ((AppCompatActivity) context).startActivityForResult(intent,INTENTREQUESTCODE);
@@ -90,10 +92,11 @@ public class TimeUpAlertDialog {
             public void onClick(DialogInterface dialog, int which) {
                 //cancel trip here
                 dialog.dismiss();
+                mAlertDialog.dismiss();
                 mAlertDialog = null;
                 mediaPlayer.release();
                 mediaPlayer = null;
-                tripToUpdate = new Trip(trip.getTitle(),trip.getTripDate(),trip.getStartLocation(),trip.getEndLocation()
+                tripToUpdate = new Trip(trip.getTitle(),trip.getTripDate(),trip.getTripTime(),trip.getStartLocation(),trip.getEndLocation()
                         ,trip.getStartLatitude(),trip.getStartLongitude(),trip.getEndtLatitude(),trip.getEndLongitude(),trip.getListOfNotes(),TripStatus.CANCELED);
                 mViewModel.updateTrip(trip,tripToUpdate);
                 stopSnoozeService();
