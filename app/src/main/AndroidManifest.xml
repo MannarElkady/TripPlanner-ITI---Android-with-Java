@@ -37,7 +37,6 @@
             android:exported="false"
             android:process=":remote"/>
 
-        <activity android:name=".reminder.TestAlarmManagerWithNotification" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/SplashScreenTheme">

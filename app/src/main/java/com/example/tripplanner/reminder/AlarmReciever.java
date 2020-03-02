@@ -36,7 +36,7 @@ public class AlarmReciever  extends BroadcastReceiver {
             this.context = context;
             notificationHelper = new NotificationHelper(context);
             Bundle args = intent.getBundleExtra("Data");
-            Log.e((((Trip) args.getSerializable("MyNewTrip")).getTitle()), "Alarm has Initiated Broadcast Receiver....");
+            Log.i((((Trip) args.getSerializable("MyNewTrip")).getTitle()), "Alarm has Initiated Broadcast Receiver....");
             Toast.makeText(context, "Alarm Triggered", Toast.LENGTH_SHORT).show();
             sendOnChannel("Alarm", "Alarm has Initiated Broadcast Receiver...");
 
