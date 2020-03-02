@@ -643,18 +643,23 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
 
 
     class SecondTimeAndDateCallBack implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
-
+    MyDate returnDate = new MyDate();
         @Override
         public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
             monthOfYear++;
             date2.getEditText().setText(year + "/" + monthOfYear + "/" + dayOfMonth);
-
+            returnDate.setDay(dayOfMonth);
+            returnDate.setMonth(monthOfYear);
+            returnDate.setYear(year);
         }
 
         @Override
         public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
             Log.i("secondPickers", "onDateSet: " + hourOfDay + "  " + minute);
             time2.getEditText().setText(hourOfDay + ":" +((minute<10)?"0"+minute:minute));
+            returnDate.setMinute(minute);
+            returnDate.setSecond(second);
+            returnDate.setHour(hourOfDay);
         }
     }
 }
