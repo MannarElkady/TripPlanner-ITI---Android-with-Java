@@ -36,6 +36,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class TripDetailsFragment extends Fragment {
 
+    /*Manar*/
     private TripDetailsViewModel mViewModel;
     private Trip selectedTrip;
     TextView tripNameText;
@@ -103,6 +104,7 @@ public class TripDetailsFragment extends Fragment {
             }
         });
     }
+    /*Manar*/
     /*Reham*/
     public boolean checkSettings(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(getActivity())) {

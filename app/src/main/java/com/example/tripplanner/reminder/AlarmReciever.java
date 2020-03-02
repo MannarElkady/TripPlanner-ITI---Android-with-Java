@@ -20,6 +20,9 @@ import com.example.tripplanner.core.model.MyDirectionData;
 import com.example.tripplanner.core.model.Trip;
 
 
+//author manar
+
+
 //Alarm BroadCast Reciever
 public class AlarmReciever  extends BroadcastReceiver {
     /*Manar*/
@@ -30,17 +33,17 @@ public class AlarmReciever  extends BroadcastReceiver {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onReceive(Context context, Intent intent) {
-        this.context = context;
-        notificationHelper = new NotificationHelper(context);
-        Bundle args = intent.getBundleExtra("Data");
-        Log.e((((Trip)args.getSerializable("MyNewTrip")).getTitle()), "Alarm has Initiated Broadcast Receiver....");
-        Toast.makeText(context, "Alarm Triggered", Toast.LENGTH_SHORT).show();
-        sendOnChannel("Alarm","Alarm has Initiated Broadcast Receiver...");
-        //to do open pop up with start, cancel and snooze buttons
-        Intent intentDialog = new Intent(context,DialogActivity.class);
-        intentDialog.putExtra("Data",args);
-        intentDialog.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intentDialog);
+            this.context = context;
+            notificationHelper = new NotificationHelper(context);
+            Bundle args = intent.getBundleExtra("Data");
+            Log.e((((Trip) args.getSerializable("MyNewTrip")).getTitle()), "Alarm has Initiated Broadcast Receiver....");
+            Toast.makeText(context, "Alarm Triggered", Toast.LENGTH_SHORT).show();
+            sendOnChannel("Alarm", "Alarm has Initiated Broadcast Receiver...");
+
+            Intent intentDialog = new Intent(context, DialogActivity.class);
+            intentDialog.putExtra("Data", args);
+            intentDialog.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            context.startActivity(intentDialog);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

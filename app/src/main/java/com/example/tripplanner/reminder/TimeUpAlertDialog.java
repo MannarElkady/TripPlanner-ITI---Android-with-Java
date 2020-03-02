@@ -20,6 +20,8 @@ import com.example.tripplanner.core.model.Trip;
 
 import java.util.Locale;
 
+//author manar
+
 public class TimeUpAlertDialog {
     private Context context;
     private AlertDialog mAlertDialog = null;
@@ -48,6 +50,7 @@ public class TimeUpAlertDialog {
         // Setting Dialog Message
         mAlertDialog.setMessage(message);
         mAlertDialog.setCancelable(false);
+
         mAlertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,context.getString(R.string.snooze_trip),
                 new DialogInterface.OnClickListener() {
                     @Override

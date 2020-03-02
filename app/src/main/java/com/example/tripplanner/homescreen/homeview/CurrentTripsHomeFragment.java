@@ -27,7 +27,7 @@ import java.util.List;
 
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
-
+//author manar
 public class CurrentTripsHomeFragment extends Fragment {
 
     private TripsHomeViewModel mViewModel;

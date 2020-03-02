@@ -31,6 +31,8 @@ import com.example.tripplanner.R;
 import java.text.DateFormat;
 import java.util.Calendar;
 
+//author manar
+
 public class ReminderFragmnt extends Fragment implements TimePickerDialog.OnTimeSetListener{
 
     private ReminderViewModel mViewModel;
