@@ -23,6 +23,8 @@ public interface FirestoreContract {
     //update trip in user trip collection
     Task<Void> updateTrip(Trip oldTrip, Trip newTrip);
 
+    //update trip in user trip collection with the same id
+    Task<Void> updateTrip(Trip newTrip);
 
     //get a specific trip
     Task<DocumentSnapshot> getTrip(Trip trip);

@@ -37,6 +37,7 @@ import com.example.tripplanner.core.model.Trip;
 import com.example.tripplanner.core.model.User;
 import com.example.tripplanner.core.repository.remote.FirestoreRepository;
 import com.example.tripplanner.reminder.AlarmReciever;
+import com.example.tripplanner.tripdetail.TripAdditionArgs;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -101,7 +102,6 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         notes = new ArrayList<>();
-        firestoreRepository = new FirestoreRepository(new User(FirebaseAuth.getInstance().getCurrentUser().getUid()));
         inflater = LayoutInflater.from(getContext());
         initPlaces();
     }
@@ -111,6 +111,19 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         Places.initialize(getActivity().getApplicationContext(), API_KEY);
 
         PlacesClient placesClient = Places.createClient(getActivity().getApplicationContext());
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        firestoreRepository = new FirestoreRepository(new User(FirebaseAuth.getInstance().getCurrentUser().getUid()));
+        TripAdditionArgs args = TripAdditionArgs.fromBundle(getArguments());
+        Trip trip = args.getTripData();
+        Log.i("args", "tripId: in activityCreated "+trip.getTripId());
+
+        if(trip.getTitle()!=null){
+            updateUIwithPassedTrip(trip);
+        }
     }
 
 
@@ -160,6 +173,12 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
             }
         });
 
+        to.getEditText().setOnClickListener(v -> {
+            to.setError(null);
+            Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+                    .build(getActivity().getApplicationContext());
+            startActivityForResult(intent, AUTOCOMPLETE_TO_PLACE_REQUEST_ID);
+        });
         to.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,6 +189,13 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         });
 
 
+        from.getEditText().setOnClickListener(v -> {
+            from.setError(null);
+            Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+                    .build(getActivity().getApplicationContext());
+            startActivityForResult(intent, AUTOCOMPLETE_FROM_PLACE_REQUEST_ID);
+        });
+
         from.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,6 +205,14 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
             }
         });
 
+        time.setOnClickListener(timeView -> {
+            time.getEditText().setOnClickListener(v -> {
+                time.setError(null);
+            });
+            Calendar now = Calendar.getInstance();
+            TimePickerDialog time = TimePickerDialog.newInstance(this, now.get(Calendar.HOUR), now.get(Calendar.MINUTE), true);
+            time.show(getParentFragmentManager(), "TimePicker");
+        });
         time.setEndIconOnClickListener(timeView -> {
             time.getEditText().setOnClickListener(v -> {
                 time.setError(null);
@@ -188,7 +222,14 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
             time.show(getParentFragmentManager(), "TimePicker");
         });
 
-
+        date.setOnClickListener(dateView -> {
+            date.getEditText().setOnClickListener(v -> {
+                date.setError(null);
+            });
+            Calendar calendar = Calendar.getInstance();
+            DatePickerDialog date = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+            date.show(getParentFragmentManager(), "DatePicker");
+        });
         date.setEndIconOnClickListener(dateView -> {
             date.getEditText().setOnClickListener(v -> {
                 date.setError(null);
@@ -234,7 +275,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
 
     private void addTripToFirestore(String tripTitle, String tripStartLocation, String tripEndLocation, String tripTime
             , String tripDate, double startLat, double startLon, double endLat, double endLon) {
-        newTrip = new Trip(tripTitle, tripDate, tripStartLocation, tripEndLocation, startLat, startLon, endLat, endLon);
+        newTrip = new Trip(tripTitle, tripDate,tripTime,tripStartLocation, tripEndLocation, startLat, startLon, endLat, endLon);
         if (chipGroup.getChildCount() > 0) {
             notes.clear();
             for (int i = 0; i < chipGroup.getChildCount(); i++) {
@@ -264,38 +305,38 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
             to.setError("need destination");
             return false;
         } else {
-            to.setErrorEnabled(!title.isErrorEnabled());
+            to.setError(null);
         }
         if (startLat == 0.0 || startLon == 0.0) {
             to.setError("destination not recognized");
             return false;
         } else {
-            to.setErrorEnabled(!title.isErrorEnabled());
+            to.setError(null);
         }
 
         if (from.getEditText().getText().toString().isEmpty()) {
             from.setError("need start Location");
             return false;
         } else {
-            from.setErrorEnabled(!title.isErrorEnabled());
+            from.setError(null);
         }
         if (endLat == 0.0 || endLon == 0.0) {
             from.setError("start Location not recognized");
             return false;
         } else {
-            from.setErrorEnabled(!title.isErrorEnabled());
+            from.setError(null);
         }
         if (!isTimeSet) {
             time.setError("need start time");
             return false;
         } else {
-            time.setErrorEnabled(!title.isErrorEnabled());
+            time.setError(null);
         }
         if (!isDateSet) {
             date.setError("need date");
             return false;
         } else {
-            date.setErrorEnabled(!title.isErrorEnabled());
+            date.setError(null);
         }
         return true;
     }
@@ -368,7 +409,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
                 myDirectionData.setEndLongitude(endLon);
                 /*Mannar*/
                 Log.i(TAG, "onActivityResult: lon :" + startLon + "  lat:" + startLat);
-                String toName = place.getName();
+                String toName = (place.getName() == null) ? to.getEditText().getText().toString() : place.getName();
                 if (toName != null) {
                     to.getEditText().setText("");
                     to.getEditText().setTextColor(Color.BLACK);
@@ -415,7 +456,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         int currDate = currYear + currMonth + currDay;
         int currTime = calendar.get(Calendar.HOUR) + calendar.get(Calendar.MINUTE);
         Log.i("current date", "Current: year" + currYear + "   month :" + currMonth + "   day:" + currDay);
-        if (selectedTime>0 && selectedTime < currTime && selectedDate == currDate) {
+        if (selectedTime > 0 && selectedTime < currTime && selectedDate == currDate) {
             return false;
         }
         if (year > currYear) {
@@ -432,6 +473,20 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
             }
         }
         return false;
+    }
+
+    private void updateUIwithPassedTrip(Trip trip) {
+        title.getEditText().setText(trip.getTitle());
+        to.getEditText().setText(trip.getEndLocation());
+        from.getEditText().setText(trip.getStartLocation());
+        startLat = trip.getStartLatitude();
+        startLon = trip.getStartLongitude();
+        endLat = trip.getEndtLatitude();
+        endLon = trip.getEndLongitude();
+        Log.i("args", "tripId: in update "+trip.getTripId());
+        firestoreRepository.updateTrip(trip,trip).addOnSuccessListener(success->{
+            Toast.makeText(requireActivity(),"Updated",Toast.LENGTH_LONG).show();
+        });
     }
 
     /*Ashraf*/

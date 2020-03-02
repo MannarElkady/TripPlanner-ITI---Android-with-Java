@@ -72,6 +72,7 @@ public class CurrentTripsHomeAdapter extends RecyclerView.Adapter<CurrentTripsHo
             super(itemView);
             this.title = itemView.findViewById(R.id.trip_title_textview);
             this.tripImage = itemView.findViewById(R.id.trip_imageview);
+
             this.date = itemView.findViewById(R.id.date_textview);
             this.locationFromTo = itemView.findViewById(R.id.tripFromToLocationOverview);
         }
