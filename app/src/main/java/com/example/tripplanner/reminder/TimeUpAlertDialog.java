@@ -91,7 +91,7 @@ public class TimeUpAlertDialog {
                                 ,trip.getStartLatitude(),trip.getStartLongitude(),trip.getEndtLatitude(),trip.getEndLongitude(),trip.getListOfNotes(),TripStatus.FINISHED);
                         mViewModel.updateTrip(trip,tripToUpdate);
                         /*Reham*/
-                        if(checkSettings())
+                        if(!checkSettings())
                             displayFloatingIcon();
                         /*Reham*/
                         ((AppCompatActivity) context).startActivityForResult(intent,INTENTREQUESTCODE);

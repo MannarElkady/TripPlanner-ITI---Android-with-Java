@@ -105,8 +105,10 @@ public class TripDetailsFragment extends Fragment {
                             , selectedTrip.getStartLatitude(), selectedTrip.getStartLongitude(), selectedTrip.getEndtLatitude(), selectedTrip.getEndLongitude()
                             , selectedTrip.getListOfNotes(), TripStatus.CANCELED);
                     mViewModel.updateTrip(selectedTrip, tripToUpdate);
-                    if(checkSettings())
+
+                    if(!checkSettings())
                         displayFloatingIcon();
+
                     cancelAlarm();
                     startActivity(intent);
 
