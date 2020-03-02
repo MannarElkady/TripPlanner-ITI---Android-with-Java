@@ -212,31 +212,15 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
             }
         });
 
-        time.setOnClickListener(timeView -> {
-            time.getEditText().setOnClickListener(v -> {
-                time.setError(null);
-            });
-            Calendar now = Calendar.getInstance();
-            TimePickerDialog time = TimePickerDialog.newInstance(this, now.get(Calendar.HOUR), now.get(Calendar.MINUTE), true);
-            time.show(getParentFragmentManager(), "TimePicker");
-        });
         time.setEndIconOnClickListener(timeView -> {
             time.getEditText().setOnClickListener(v -> {
                 time.setError(null);
             });
             Calendar now = Calendar.getInstance();
-            TimePickerDialog time = TimePickerDialog.newInstance(this, now.get(Calendar.HOUR), now.get(Calendar.MINUTE), true);
+            TimePickerDialog time = TimePickerDialog.newInstance(this, now.get(Calendar.HOUR), now.get(Calendar.MINUTE), false);
             time.show(getParentFragmentManager(), "TimePicker");
         });
 
-        date.setOnClickListener(dateView -> {
-            date.getEditText().setOnClickListener(v -> {
-                date.setError(null);
-            });
-            Calendar calendar = Calendar.getInstance();
-            DatePickerDialog date = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-            date.show(getParentFragmentManager(), "DatePicker");
-        });
         date.setEndIconOnClickListener(dateView -> {
             date.getEditText().setOnClickListener(v -> {
                 date.setError(null);
@@ -401,10 +385,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         int currDate = currYear + currMonth + currDay;
         int currTime = calendar.get(Calendar.HOUR_OF_DAY) + calendar.get(Calendar.MINUTE);
 
-        if (selectedDate == currDate && selectedTime < currTime) {
-            time.setError("if Date is Today , Time must be current or in the future");
-            return;
-        }
+
         if (hourOfDay > 0) {
             isTimeSet = true;
         }
