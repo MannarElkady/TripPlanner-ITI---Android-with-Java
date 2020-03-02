@@ -45,8 +45,8 @@ public class FirestoreRepository implements FirestoreContract {
     }
 
     @Override
-    public Task<DocumentSnapshot> getTrips(Trip trip) {
-        return firestoreConnection.getTrips(trip);
+    public Task<DocumentSnapshot> getTrip(Trip trip) {
+        return firestoreConnection.getTrip(trip);
     }
 
     @Override
@@ -57,5 +57,10 @@ public class FirestoreRepository implements FirestoreContract {
     @Override
     public Task<QuerySnapshot> getTrips(String tripStatus) {
         return firestoreConnection.getTrips(tripStatus);
+    }
+
+    @Override
+    public Task<QuerySnapshot> getTrip(String tripStatus) {
+        return firestoreConnection.getTrip(tripStatus);
     }
 }

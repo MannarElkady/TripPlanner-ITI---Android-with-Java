@@ -49,10 +49,8 @@ public class FloatingIconAdapter extends RecyclerView.Adapter<FloatingIconAdapte
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        TextView textView = holder.getView().findViewById(R.id.textView);
+        TextView textView = holder.getView().findViewById(R.id.floatingNoteTextView);
         textView.setText(notes.get(position));
-
-
     }
 
     @Override

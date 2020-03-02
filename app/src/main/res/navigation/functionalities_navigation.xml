@@ -57,7 +57,11 @@
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.example.tripplanner.register.RegisterFragment"
-        android:label="RegisterFragment" />
+        android:label="RegisterFragment" >
+        <action
+            android:id="@+id/action_registerFragment_to_currentTripsHomeFragment"
+            app:destination="@id/currentTripsHomeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/tripAddition"
         android:name="com.example.tripplanner.addtrip.TripAddition"
@@ -74,6 +78,9 @@
         <action
             android:id="@+id/action_pastTripsFragment_to_mapFragment2"
             app:destination="@id/pastTripsMapFragment" />
+        <action
+            android:id="@+id/action_pastTripsFragment_to_currentTripsHomeFragment"
+            app:destination="@id/currentTripsHomeFragment" />
     </fragment>
     <fragment
         android:id="@+id/pastTripsMapFragment"
