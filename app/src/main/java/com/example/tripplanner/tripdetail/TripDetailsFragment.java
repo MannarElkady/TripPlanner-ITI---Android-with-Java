@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.tripplanner.R;
 import com.example.tripplanner.core.constant.TripStatus;
+import com.example.tripplanner.core.model.Note;
 import com.example.tripplanner.core.model.Trip;
 import com.example.tripplanner.floatingicon.FloatingIconService;
 import com.example.tripplanner.homescreen.homeview.CurrentTripsHomeFragmentDirections;
@@ -88,58 +89,39 @@ public class TripDetailsFragment extends Fragment {
         startTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String uri = String.format(Locale.ENGLISH,"google.navigation:q=%f,%f",selectedTrip.getEndtLatitude(),selectedTrip.getEndLongitude());
-                Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
-                intent.setPackage("com.google.android.apps.maps");
-                Trip tripToUpdate = new Trip(selectedTrip.getTitle(),selectedTrip.getTripDate(),selectedTrip.getTripTime(),selectedTrip.getStartLocation(),selectedTrip.getEndLocation()
-                        ,selectedTrip.getStartLatitude(),selectedTrip.getStartLongitude(),selectedTrip.getEndtLatitude(),selectedTrip.getEndLongitude()
-                        ,selectedTrip.getListOfNotes(), TripStatus.CANCELED);
-                mViewModel.updateTrip(selectedTrip,tripToUpdate);
-                displayFloatingIcon();
-                startActivity(intent);
+                if(checkSettings()) {
+                    String uri = String.format(Locale.ENGLISH, "google.navigation:q=%f,%f", selectedTrip.getEndtLatitude(), selectedTrip.getEndLongitude());
+                    Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+                    intent.setPackage("com.google.android.apps.maps");
+                    Trip tripToUpdate = new Trip(selectedTrip.getTitle(), selectedTrip.getTripDate(), selectedTrip.getTripTime(), selectedTrip.getStartLocation(), selectedTrip.getEndLocation()
+                            , selectedTrip.getStartLatitude(), selectedTrip.getStartLongitude(), selectedTrip.getEndtLatitude(), selectedTrip.getEndLongitude()
+                            , selectedTrip.getListOfNotes(), TripStatus.CANCELED);
+                    mViewModel.updateTrip(selectedTrip, tripToUpdate);
+                    displayFloatingIcon();
+                    startActivity(intent);
+                }
             }
         });
     }
     /*Reham*/
-    private static final int CODE_DRAW_OVER_OTHER_APP_PERMISSION = 2084;
-    private void displayFloatingIcon(){
-
+    public boolean checkSettings(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(getActivity())) {
             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getActivity().getPackageName()));
-            startActivityForResult(intent, CODE_DRAW_OVER_OTHER_APP_PERMISSION);
-        } else {
-            launchIcon();
+            startActivity(intent);
+            return false;
+        }
+        else{
+            return true;
         }
     }
-    private void launchIcon(){
+    private void displayFloatingIcon(){
         ArrayList<String> notes = new ArrayList<>();
-        selectedTrip.getListOfNotes();
-        notes.add("note1");
-        notes.add("note2");
-        notes.add("note2");
-        notes.add("note2");
-        notes.add("note2");
-        notes.add("note6");
+        for(Note note : selectedTrip.getListOfNotes())
+            notes.add(note.getDescription());
 
         Intent intent = new Intent(getActivity(), FloatingIconService.class);
         intent.putStringArrayListExtra("notes", notes);
         getActivity().startService(intent);
-        //finish();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == CODE_DRAW_OVER_OTHER_APP_PERMISSION) {
-            //Check if the permission is granted or not.
-            if (resultCode == RESULT_OK) {
-                launchIcon();
-            } else { //Permission is not available
-                Toast.makeText(getActivity(),"Draw over other app permission not available. No Floating Icon.",Toast.LENGTH_SHORT).show();
-                //finish();
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
     }
     /*Reham*/
 }
