@@ -28,6 +28,11 @@
         <action
             android:id="@+id/action_currentTripsHomeFragment_to_pastTripsFragment"
             app:destination="@id/pastTripsFragment" />
+        <!--Ashraf Edit Action-->
+        <action
+            android:id="@+id/action_currentTripsHomeFragment_to_TripAddition_WithTripData"
+            app:destination="@id/tripAddition"/>
+        <!--Ashraf Edit Action-->
     </fragment>
     <fragment
         android:id="@+id/tripDetailsFragment"
@@ -65,6 +70,9 @@
         <action
             android:id="@+id/action_tripAddition_to_currentTripsHomeFragment"
             app:destination="@id/currentTripsHomeFragment" />
+        <argument
+            android:name="tripDataForEdit"
+            app:argType="com.example.tripplanner.core.model.Trip"/>
     </fragment>
     <fragment
         android:id="@+id/pastTripsFragment"

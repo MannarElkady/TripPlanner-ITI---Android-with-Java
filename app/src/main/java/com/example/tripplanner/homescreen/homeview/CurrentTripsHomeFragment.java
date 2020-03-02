@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.tripplanner.R;
+import com.example.tripplanner.addtrip.TripAdditionDirections;
 import com.example.tripplanner.core.model.Trip;
 import java.util.List;
 
@@ -65,7 +66,7 @@ public class CurrentTripsHomeFragment extends Fragment {
         view.findViewById(R.id.add_Trip_floating_point).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(v).navigate(CurrentTripsHomeFragmentDirections.actionCurrentTripsHomeFragmentToTripAddition());
+                Navigation.findNavController(v).navigate(CurrentTripsHomeFragmentDirections.actionCurrentTripsHomeFragmentToTripAddition(new Trip()));
             }
         });
         return view;
@@ -104,7 +105,7 @@ public class CurrentTripsHomeFragment extends Fragment {
     }
 
     //itemTouchHelper is for swip items to delete it
-    ItemTouchHelper.SimpleCallback itemTouchHelper = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
+    ItemTouchHelper.SimpleCallback itemTouchHelper = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
             return false;
@@ -116,10 +117,22 @@ public class CurrentTripsHomeFragment extends Fragment {
             int index = viewHolder.getAdapterPosition();
             //get trip position
             Trip trip = mViewModel.allTrips.get(index);
-            //delete from firestore and update Livedata
-            mViewModel.deleteTrip(trip,index);
-            //notify adapter with changes
-            currentTripsHomeAdapter.notifyDataSetChanged();
+            switch(direction) {
+                case ItemTouchHelper.RIGHT: {
+
+                    Toast.makeText(requireActivity(),"Edit Trip",Toast.LENGTH_LONG).show();
+                    //delete from firestore and update Livedata
+                    mViewModel.deleteTrip(trip, index);
+                    //notify adapter with changes
+                    currentTripsHomeAdapter.notifyDataSetChanged();
+                }break;
+                case ItemTouchHelper.LEFT:{
+                    //TODO: get data and go to TripAddition
+                    Toast.makeText(requireActivity(),"Edit Trip",Toast.LENGTH_LONG).show();
+                    Navigation.findNavController(viewHolder.itemView).navigate(CurrentTripsHomeFragmentDirections
+                            .actionCurrentTripsHomeFragmentToTripAdditionWithTripData(trip));
+                }break;
+            }
         }
     };
     @Override
