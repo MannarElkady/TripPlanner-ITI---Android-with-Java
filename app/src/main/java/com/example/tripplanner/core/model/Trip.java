@@ -17,6 +17,9 @@ public class Trip implements Serializable {
     private String tripDate;
     private List<Note> listOfNotes;
     private String tripStatus;
+    private boolean isRoundTrip ;
+    private String secondtripTime;
+    private String secondtripDate;
 
     //this for trip identification
     //No setter for tripId to prevent external modification
@@ -84,6 +87,19 @@ public class Trip implements Serializable {
 
     // setters
 
+
+    public void setRoundTrip(boolean roundTrip) {
+        isRoundTrip = roundTrip;
+    }
+
+    public void setSecondtripTime(String secondtripTime) {
+        this.secondtripTime = secondtripTime;
+    }
+
+    public void setSecondtripDate(String secondtripDate) {
+        this.secondtripDate = secondtripDate;
+    }
+
     public void setStartLongitude(double startLongitude) {
         this.startLongitude = startLongitude;
     }
@@ -119,6 +135,20 @@ public class Trip implements Serializable {
     public void setListOfNotes(List<Note> listOfNotes) { this.listOfNotes = listOfNotes; }
 
     // getters
+
+
+    public boolean isRoundTrip() {
+        return isRoundTrip;
+    }
+
+    public String getSecondtripTime() {
+        return secondtripTime;
+    }
+
+    public String getSecondtripDate() {
+        return secondtripDate;
+    }
+
     public String getTitle() {
         return title;
     }

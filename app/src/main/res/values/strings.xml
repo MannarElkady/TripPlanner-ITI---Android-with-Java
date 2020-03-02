@@ -55,4 +55,7 @@
     <string name="ShowDirection">Show Direction</string>
     <string name="title">Enter Trip Title</string>
     <string name="SignOutBtn">sign out</string>
+    <string name="RoundTrip">Round Trip</string>
+    <string name="backTrip">Back</string>
+    <string name="forthTrip">Forth</string>
 </resources>

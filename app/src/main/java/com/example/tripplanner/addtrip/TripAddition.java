@@ -14,18 +14,17 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,7 +45,6 @@ import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -58,8 +56,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-import static android.view.View.VISIBLE;
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -69,12 +65,11 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
     private static final int AUTOCOMPLETE_FROM_PLACE_REQUEST_ID = 2;
     private static final String TAG = "AddTrip";
     private static final String API_KEY = "AIzaSyALcG0V7aW1ezNKKc_74PTXTKyAG7hdM5w";
-    private static final String toPlaceHolder = "Where to go ?";
-    private static final String fromPlaceHolder = "Where to start ?";
-    private static final String timePlaceHolder = "The time ?";
-    private static final String datePlaceHolder = "The date ?";
+
     private int selectedDate, selectedTime;
-    private TextInputLayout title, to, from, time, date;
+    private TextInputLayout title, to, from, time, date, time2, date2;
+    private TextView backTrip, forthTrip;
+    private Switch roundTripSwitch;
     private Button doneButton;
     private ImageView addNote;
     private List<Note> notes;
@@ -138,8 +133,12 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         to = view.findViewById(R.id.toId);
         from = view.findViewById(R.id.fromId);
         time = view.findViewById(R.id.timeId);
+        time2 = view.findViewById(R.id.time2Id);
         date = view.findViewById(R.id.dateId);
-
+        date2 = view.findViewById(R.id.date2Id);
+        backTrip = view.findViewById(R.id.backTripTextId);
+        forthTrip = view.findViewById(R.id.forthTripTextId);
+        roundTripSwitch = view.findViewById(R.id.switchId);
         /*Manar*/
         getActivity().findViewById(R.id.buttom_nav).setVisibility(View.GONE);
         /*Manar*/
@@ -151,16 +150,12 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         addNote = view.findViewById(R.id.addNoteId);
 
         doneButton.setOnClickListener(v -> {
+            Trip inputTrip = getTripInputData();
             if (checkForRequierdData()) {
                 Log.i("check", "checkData : true");
-                String tripTitle = title.getEditText().getText().toString().trim();
-                String tripStartLocation = to.getEditText().getText().toString().trim();
-                String tripEndLocation = from.getEditText().getText().toString().trim();
-                String tripTime = time.getEditText().getText().toString().trim();
-                String tripDate = date.getEditText().getText().toString().trim();
 
                 if (updateTrip.getTripId() == null) {
-                    addTripToFirestore(tripTitle, tripStartLocation, tripEndLocation, tripTime, tripDate, startLat, startLon, endLat, endLon);
+                    addTripToFirestore(inputTrip);
                     //TODO: 2- get data and initialize an Trip object
                     /*Manar*/
                     //TODO: 3- add reminder according to time and date selected
@@ -169,9 +164,8 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
 
                     //Navigate to Home Screen
                     Navigation.findNavController(getActivity(), R.id.fragments_functionality_layout).navigate(TripAdditionDirections.actionTripAdditionToCurrentTripsHomeFragment());
-                }else{
-                    updateToFirestore(tripTitle, tripStartLocation, tripEndLocation, tripTime, tripDate, startLat, startLon, endLat, endLon);
-
+                } else {
+                    updateToFirestore(inputTrip);
                 }
             } else {
                 Toast.makeText(getContext(), "Review Trip Data", Toast.LENGTH_SHORT).show();
@@ -212,21 +206,37 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
             }
         });
 
-        time.setEndIconOnClickListener(timeView -> {
-            time.getEditText().setOnClickListener(v -> {
-                time.setError(null);
-            });
+        time.getEditText().setOnClickListener(v -> {
+            time.setError(null);
             Calendar now = Calendar.getInstance();
             TimePickerDialog time = TimePickerDialog.newInstance(this, now.get(Calendar.HOUR), now.get(Calendar.MINUTE), false);
             time.show(getParentFragmentManager(), "TimePicker");
         });
 
-        date.setEndIconOnClickListener(dateView -> {
-            date.getEditText().setOnClickListener(v -> {
-                date.setError(null);
-            });
+        time.setEndIconOnClickListener(timeView -> {
+            time.setError(null);
+            Calendar now = Calendar.getInstance();
+            TimePickerDialog time = TimePickerDialog.newInstance(this, now.get(Calendar.HOUR), now.get(Calendar.MINUTE), false);
+            time.show(getParentFragmentManager(), "TimePicker");
+        });
+
+        date.getEditText().setOnClickListener(v -> {
+            date.setError(null);
             Calendar calendar = Calendar.getInstance();
             DatePickerDialog date = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+            date.setMinDate(calendar);
+            date.setCancelText(R.string.cancel_trip);
+            date.setOkText(R.string.mdtp_ok);
+            date.show(getParentFragmentManager(), "DatePicker");
+
+        });
+
+        date.setEndIconOnClickListener(dateView -> {
+            Calendar calendar = Calendar.getInstance();
+            DatePickerDialog date = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+            date.setMinDate(calendar);
+            date.setCancelText(R.string.cancel_trip);
+            date.setOkText(R.string.mdtp_ok);
             date.show(getParentFragmentManager(), "DatePicker");
         });
 
@@ -260,12 +270,61 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
             builder.show();
         });
 
+        roundTripSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Log.i("switch", "isChecked: ");
+                    backTrip.setVisibility(View.VISIBLE);
+                    forthTrip.setVisibility(View.VISIBLE);
+                    time2.setVisibility(View.VISIBLE);
+                    date2.setVisibility(View.VISIBLE);
+                } else {
+                    backTrip.setVisibility(View.GONE);
+                    forthTrip.setVisibility(View.GONE);
+                    time2.setVisibility(View.GONE);
+                    date2.setVisibility(View.GONE);
+                }
+            }
+        });
+        time2.getEditText().setOnClickListener(v -> {
+            time2.setError(null);
+            Log.i("switch", "time2 click listener");
+            Calendar now = Calendar.getInstance();
+            TimePickerDialog time = TimePickerDialog.newInstance(new SecondTimeAndDateCallBack(), now.get(Calendar.HOUR), now.get(Calendar.MINUTE), false);
+            time.show(getParentFragmentManager(), "TimePicker2");
 
+        });
+
+        time2.setEndIconOnClickListener(timeView -> {
+            time2.getEditText().setError(null);
+            Calendar now = Calendar.getInstance();
+            TimePickerDialog time = TimePickerDialog.newInstance(new SecondTimeAndDateCallBack(), now.get(Calendar.HOUR), now.get(Calendar.MINUTE), false);
+            time.show(getParentFragmentManager(), "TimePicker2");
+        });
+
+        date2.getEditText().setOnClickListener(v -> {
+            date2.setError(null);
+            Calendar calendar = Calendar.getInstance();
+            DatePickerDialog date = DatePickerDialog.newInstance(new SecondTimeAndDateCallBack(), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+            date.setMinDate(calendar);
+            date.setCancelText(R.string.cancel_trip);
+            date.setOkText(R.string.mdtp_ok);
+            date.show(getParentFragmentManager(), "DatePicker2");
+        });
+        date2.setEndIconOnClickListener(dateView -> {
+            date2.setError(null);
+            Calendar calendar = Calendar.getInstance();
+            DatePickerDialog date = DatePickerDialog.newInstance(new SecondTimeAndDateCallBack(), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+            date.setMinDate(calendar);
+            date.setCancelText(R.string.cancel_trip);
+            date.setOkText(R.string.mdtp_ok);
+            date.show(getParentFragmentManager(), "DatePicker2");
+        });
         return view;
     }
 
-    private void updateToFirestore(String tripTitle, String tripStartLocation, String tripEndLocation, String tripTime, String tripDate, double startLat, double startLon, double endLat, double endLon) {
-        newTrip = new Trip(tripTitle, tripDate, tripTime, tripStartLocation, tripEndLocation, startLat, startLon, endLat, endLon);
+    private void updateToFirestore(Trip trip) {
         if (chipGroup.getChildCount() > 0) {
             notes.clear();
             for (int i = 0; i < chipGroup.getChildCount(); i++) {
@@ -274,9 +333,9 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
                 notes.add(note);
             }
             Log.i(TAG, "array size: " + notes.size());
-            newTrip.setListOfNotes(notes);
+            trip.setListOfNotes(notes);
         }
-        firestoreRepository.updateTrip(updateTrip,newTrip).addOnSuccessListener(new OnSuccessListener<Void>() {
+        firestoreRepository.updateTrip(updateTrip, trip).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Toast.makeText(getContext(), "Trip Updated Successfully", Toast.LENGTH_LONG).show();
@@ -284,9 +343,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         });
     }
 
-    private void addTripToFirestore(String tripTitle, String tripStartLocation, String tripEndLocation, String tripTime
-            , String tripDate, double startLat, double startLon, double endLat, double endLon) {
-        newTrip = new Trip(tripTitle, tripDate, tripTime, tripStartLocation, tripEndLocation, startLat, startLon, endLat, endLon);
+    private void addTripToFirestore(Trip trip) {
         if (chipGroup.getChildCount() > 0) {
             notes.clear();
             for (int i = 0; i < chipGroup.getChildCount(); i++) {
@@ -295,9 +352,9 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
                 notes.add(note);
             }
             Log.i(TAG, "array size: " + notes.size());
-            newTrip.setListOfNotes(notes);
+            trip.setListOfNotes(notes);
         }
-        firestoreRepository.addTrip(newTrip).addOnSuccessListener(new OnSuccessListener<Void>() {
+        firestoreRepository.addTrip(trip).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Toast.makeText(getContext(), "Trip Added Successfully", Toast.LENGTH_LONG).show();
@@ -349,7 +406,40 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         } else {
             date.setError(null);
         }
+
+        if (roundTripSwitch.isChecked()) {
+            if (time2.getEditText().getText().toString().isEmpty()) {
+                time2.setError("need to set Back Time");
+                return false;
+            }
+            if (date2.getEditText().getText().toString().isEmpty()) {
+                date2.setError("need to set Back date");
+                return false;
+            }
+        }
         return true;
+    }
+
+    private Trip getTripInputData() {
+        String tripTitle = title.getEditText().getText().toString().trim();
+        String tripStartLocation = to.getEditText().getText().toString().trim();
+        String tripEndLocation = from.getEditText().getText().toString().trim();
+        String tripTime = time.getEditText().getText().toString().trim();
+        String tripDate = date.getEditText().getText().toString().trim();
+        String tripTime2 = time2.getEditText().getText().toString().trim();
+        String tripDate2 = date2.getEditText().getText().toString().trim();
+        Trip trip = new Trip(tripTitle, tripDate, tripTime, tripStartLocation, tripEndLocation, startLat, startLon, endLat, endLon);
+        trip.setSecondtripTime(tripTime2);
+        trip.setSecondtripDate(tripDate2);
+        if (roundTripSwitch.isChecked()) {
+            trip.setRoundTrip(true);
+        }
+        Log.i("switch", "Trip in switch mode: id:" + trip.getTripId() + "\ntitle:" + trip.getTitle()
+                + "\nstartLocation1:" + trip.getStartLocation() + "\n endLocation:" + trip.getEndLocation()
+                + "\n tripStartTime " + trip.getTripTime() + "\n tripStartDate: " + trip.getTripDate() + "\n tripSecondStartTime:"
+                + trip.getSecondtripTime() + "\n tripSecondStartDate:" + trip.getSecondtripDate() + "\n isRoundTrip " + trip.isRoundTrip());
+        //trip.setListOfNotes(notes);
+        return trip;
     }
 
     @Override
@@ -487,10 +577,34 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         title.getEditText().setText(trip.getTitle());
         to.getEditText().setText(trip.getEndLocation());
         from.getEditText().setText(trip.getStartLocation());
+        time.getEditText().setText(trip.getTripTime());
+        date.getEditText().setText(trip.getTripDate());
+        if(trip.isRoundTrip()){
+            showSecondTimeDataField(trip);
+        }
+        List<Note> notes = trip.getListOfNotes();
+        if(notes!=null && notes.size()>0){
+            for (int i = 0; i < trip.getListOfNotes().size(); i++) {
+                Note note = notes.get(i);
+                Chip chip = (Chip) inflater.inflate(R.layout.note_item, null, false);
+                chip.setOnCloseIconClickListener(v -> {
+                    chipGroup.removeView(v);
+                });
+                chip.setText(note.getDescription() );
+                chipGroup.addView(chip);
+            }
+        }
         startLat = trip.getStartLatitude();
         startLon = trip.getStartLongitude();
         endLat = trip.getEndtLatitude();
         endLon = trip.getEndLongitude();
+    }
+
+    private void showSecondTimeDataField(Trip trip) {
+        time2.setVisibility(View.VISIBLE);
+        time2.getEditText().setText(trip.getSecondtripTime());
+        date2.setVisibility(View.VISIBLE);
+        date2.getEditText().setText(trip.getSecondtripDate());
     }
 
     /*Ashraf*/
@@ -519,4 +633,21 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         return calendar;
     }
     /*Manar*/
+
+
+    class SecondTimeAndDateCallBack implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+            monthOfYear++;
+            date2.getEditText().setText(year + "/" + monthOfYear + "/" + dayOfMonth);
+
+        }
+
+        @Override
+        public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
+            Log.i("secondPickers", "onDateSet: " + hourOfDay + "  " + minute);
+            time2.getEditText().setText(hourOfDay + ":" +((minute<10)?"0"+minute:minute));
+        }
+    }
 }
