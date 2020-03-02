@@ -108,6 +108,7 @@ public class FirestoreConnection implements FirestoreContract {
 
     //update trip in user trip collection
     public Task<Void> updateTrip(Trip oldTrip, Trip newTrip){
+        Log.i("update", "oldTrip :"+oldTrip.getTripId()+"    newTrip:"+newTrip.getTripId());
         return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS)
                                 .document(oldTrip.getTripId()).set(newTrip);
         //TODO: optimize update, to update the changed field only, not the whole document of a trip
