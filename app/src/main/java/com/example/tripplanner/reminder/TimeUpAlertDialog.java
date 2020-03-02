@@ -119,7 +119,7 @@ public class TimeUpAlertDialog {
     public void destroyAllertDialog(){
         if(mAlertDialog!=null) {
             mAlertDialog.dismiss();
-            mAlertDialog = null;
+           // mAlertDialog = null;
         }
     }
 }

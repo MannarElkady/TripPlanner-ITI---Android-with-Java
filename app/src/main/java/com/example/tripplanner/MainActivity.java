@@ -1,28 +1,16 @@
 package com.example.tripplanner;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.Navigation;
-
 import android.os.Bundle;
 import android.view.View;
-
-
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.example.tripplanner.core.firestoredb.FirestoreConnection;
 import com.example.tripplanner.core.model.User;
 import com.example.tripplanner.homescreen.homeview.CurrentTripsHomeFragmentDirections;
 import com.example.tripplanner.pasttrips.PastTripsFragmentDirections;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Calendar;
-
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
