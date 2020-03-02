@@ -104,6 +104,7 @@ public class CurrentTripsHomeFragment extends Fragment {
         recyclerView.setAdapter(currentTripsHomeAdapter);
     }
 
+
     //itemTouchHelper is for swip items to delete it
     ItemTouchHelper.SimpleCallback itemTouchHelper = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
         @Override

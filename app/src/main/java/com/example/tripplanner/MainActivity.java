@@ -49,14 +49,14 @@ public class MainActivity extends AppCompatActivity {
         /*Manar*/
         //check user
         buttomNavigation = findViewById(R.id.buttom_nav);
+        initBar();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if(currentUser == null){
-            buttomNavigation.setVisibility(View.GONE);
+            //buttomNavigation.setVisibility(View.GONE);
             Navigation.findNavController(this,R.id.fragments_functionality_layout).navigate(CurrentTripsHomeFragmentDirections.actionCurrentTripsHomeFragmentToLoginFragment());
         }
         else{
             User user = new User(currentUser.getUid());
-            initBar();
             buttomNavigation.setVisibility(View.VISIBLE);
             firestoreConnection = FirestoreConnection.getInstance(user);
         }
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         buttomNavigation.add(new MeowBottomNavigation.Model(ID_HISTORY,R.drawable.ic_history_black_24dp));
         buttomNavigation.add(new MeowBottomNavigation.Model(ID_HOME,R.drawable.ic_home_black_24dp));
         buttomNavigation.add(new MeowBottomNavigation.Model(ID_PROFILE,R.drawable.ic_account_circle_black_24dp));
-        buttomNavigation.setVisibility(View.INVISIBLE);
+        //buttomNavigation.setVisibility(View.INVISIBLE);
         buttomNavigation.show(ID_HOME,true);
         buttomNavigation.setOnShowListener(new Function1<MeowBottomNavigation.Model, Unit>() {
             @Override
@@ -89,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
                     case ID_PROFILE:
                         if(currentTab==ID_PROFILE-1){
                             //go from home
-                            Navigation.findNavController(MainActivity.this,R.id.fragments_functionality_layout).navigate(CurrentTripsHomeFragmentDirections.actionCurrentTripsHomeFragmentToReminderFragmnt());
+                            //Navigation.findNavController(MainActivity.this,R.id.fragments_functionality_layout).navigate(CurrentTripsHomeFragmentDirections.actionCurrentTripsHomeFragmentToReminderFragmnt());
+                            Navigation.findNavController(MainActivity.this, R.id.fragments_functionality_layout).navigate(CurrentTripsHomeFragmentDirections.actionCurrentTripsHomeFragmentToProfileFragment());
                         }
                         else if(currentTab == ID_PROFILE-2){
                             //go from history

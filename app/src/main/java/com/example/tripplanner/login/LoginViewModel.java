@@ -3,6 +3,9 @@ package com.example.tripplanner.login;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.tripplanner.R;
 import com.example.tripplanner.core.firestoredb.FirestoreConnection;
@@ -50,8 +53,7 @@ public class LoginViewModel extends ViewModel {
                                 Log.i(TAG, "From onactres: " + userFirebase.getEmail());
 
                             } else {
-                                Log.w(TAG, "signInWithCredential:failure", task.getException());
-
+                                Log.i(TAG, "signInWithCredential:failure, " + task.getException().getCause());
                             }
 
                         }
@@ -63,13 +65,14 @@ public class LoginViewModel extends ViewModel {
 
     }
 
-    public void loginWithEmailAndPassword(String email, String password, Activity activity){
+    public void loginWithEmailAndPassword(String email, String password, Activity activity, ProgressBar progressBar){
 
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
 
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressBar.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
 
                             Log.d(TAG, "signInWithEmail:success");
@@ -82,8 +85,9 @@ public class LoginViewModel extends ViewModel {
                             Log.i(TAG, userFirebase.getEmail());
 
                         } else {
-
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(activity, "Email or Password is incorrect!", Toast.LENGTH_LONG).show();
+                            if(task.getException().getMessage().equals("The password is invalid or the user does not have a password"))
+                                Log.i(TAG, "Invalid password");
 
                         }
                     }

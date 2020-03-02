@@ -18,7 +18,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.example.tripplanner.MainActivity;
@@ -43,6 +45,7 @@ import kotlin.jvm.functions.Function1;
 public class LoginFragment extends Fragment {
 
     private EditText email, password;
+    private ProgressBar progressBar;
 
     private SignInButton googleSignInButton;
     private Button signInButton, registerButton;
@@ -58,6 +61,8 @@ public class LoginFragment extends Fragment {
     private FirestoreConnection firestoreConnection;
     private final int GOOGLE_SIGN_IN_REQ_CODE = 123;
 
+
+
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -67,10 +72,12 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+        getActivity().findViewById(R.id.buttom_nav).setVisibility(View.GONE);
 
         googleSignInButton = view.findViewById(R.id.googleSignInButton);
         signInButton = view.findViewById(R.id.signInButton);
         registerButton = view.findViewById(R.id.registerButton);
+        progressBar = view.findViewById(R.id.progressBar);
 
         email = view.findViewById(R.id.emailTextInput);
         password = view.findViewById(R.id.passwordTextInput);
@@ -89,7 +96,18 @@ public class LoginFragment extends Fragment {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loginViewModel.loginWithEmailAndPassword(email.getText().toString(), password.getText().toString(), LoginFragment.this.getActivity());
+                String userEmail = email.getText().toString();
+                String userPassword = password.getText().toString();
+                if(userEmail.trim().equals("")){
+                    Toast.makeText(LoginFragment.this.getActivity(), "Enter Email", Toast.LENGTH_LONG).show();
+                }
+                else if(userPassword.trim().equals("")){
+                    Toast.makeText(LoginFragment.this.getActivity(), "Enter Password", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    progressBar.setVisibility(View.VISIBLE);
+                    loginViewModel.loginWithEmailAndPassword(userEmail, userPassword, LoginFragment.this.getActivity(), progressBar);
+                }
             }
         });
 
@@ -131,8 +149,8 @@ public class LoginFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        buttomNavigation = getActivity().findViewById(R.id.buttom_nav);
-        buttomNavigation.setVisibility(View.VISIBLE);
+        //buttomNavigation = getActivity().findViewById(R.id.buttom_nav);
+        //buttomNavigation.setVisibility(View.VISIBLE);
     }
     /*Manar*/
 }

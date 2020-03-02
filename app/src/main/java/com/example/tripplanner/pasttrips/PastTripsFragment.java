@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 
 import com.example.tripplanner.R;
 import com.example.tripplanner.core.model.Trip;
+import com.example.tripplanner.homescreen.homeview.CurrentTripsHomeFragment;
 
 import java.util.List;
 
@@ -36,6 +37,8 @@ public class PastTripsFragment extends Fragment {
     private LinearLayout noPastTripsLayout;
     private Button viewMapBtn;
     private final String TAG = "PastTripsFragment";
+    private CurrentTripsHomeFragment.OnRecycleItemClickListener pastTripListner;
+    private List<Trip> pastTrips;
 
     public PastTripsFragment() {
         // Required empty public constructor
@@ -59,6 +62,13 @@ public class PastTripsFragment extends Fragment {
                 Navigation.findNavController(getActivity(), R.id.fragments_functionality_layout).navigate(PastTripsFragmentDirections.actionPastTripsFragmentToMapFragment2());
             }
         });
+
+        pastTripListner = new CurrentTripsHomeFragment.OnRecycleItemClickListener() {
+            @Override
+            public void onItemClick(View item, int position) {
+                Navigation.findNavController(getActivity(), R.id.fragments_functionality_layout).navigate(PastTripsFragmentDirections.actionPastTripsFragmentToTripDetailsFragment(pastTrips.get(position)));
+            }
+        };
         return view;
     }
 
@@ -83,16 +93,17 @@ public class PastTripsFragment extends Fragment {
 
         pastTripsViewModel.getPastTrips().observe(getViewLifecycleOwner(), (trips) -> {
             Log.i(TAG, "***********pastTripsViewModel.getPastTrips()");
+            pastTrips = trips;
             if(trips.size() > 0)
-                displayPastTrips(trips);
+                displayPastTrips();
             else
                 displayNoPastTrips();
         });
 
     }
 
-    public void displayPastTrips(List<Trip> trips){
-        pastTripsAdapter = new PastTripsAdapter(trips);
+    public void displayPastTrips(){
+        pastTripsAdapter = new PastTripsAdapter(pastTrips, pastTripListner);
         recyclerView.setAdapter(pastTripsAdapter);
 
         recyclerView.setVisibility(View.VISIBLE);
