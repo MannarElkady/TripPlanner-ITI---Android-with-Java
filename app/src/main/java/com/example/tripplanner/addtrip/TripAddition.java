@@ -227,7 +227,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
 
     private void addTripToFirestore(String tripTitle, String tripStartLocation, String tripEndLocation, String tripTime
             , String tripDate, double startLat, double startLon, double endLat, double endLon) {
-        newTrip = new Trip(tripTitle, tripDate, tripStartLocation, tripEndLocation, startLat, startLon, endLat, endLon);
+        newTrip = new Trip(tripTitle, tripDate,tripTime,tripStartLocation, tripEndLocation, startLat, startLon, endLat, endLon);
         if (chipGroup.getChildCount() > 0) {
             notes.clear();
             for (int i = 0; i < chipGroup.getChildCount(); i++) {

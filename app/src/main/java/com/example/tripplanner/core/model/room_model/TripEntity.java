@@ -27,6 +27,7 @@ public class TripEntity {
     private double endLongitude;
     private String tripDate;
     private String tripStatus;
+    private String tripTime;
 
     public void setTripKey(String tripKey) {
         this.tripKey = tripKey;
@@ -38,13 +39,13 @@ public class TripEntity {
     public TripEntity(){}
 
     @Ignore
-    public TripEntity(String title, String tripData, String startLocation, String endLocation,String tripStatus
+    public TripEntity(String title, String tripData, String tripTime, String startLocation, String endLocation,String tripStatus
             ,double startLatitude , double startLongitude ,double endtLatitude,double endLongitude) {
         this.tripDate = tripData;
         this.title = title;
         this.endLocation = endLocation;
         this.startLocation = startLocation;
-
+        this.tripTime = tripTime;
         this.startLatitude=startLatitude;
         this.startLongitude=startLongitude;
         this.endtLatitude=endtLatitude;
@@ -112,6 +113,13 @@ public class TripEntity {
 
     public void setTripStatus(String tripStatus) { this.tripStatus = tripStatus; }
 
+    public String getTripTime() {
+        return tripTime;
+    }
+
+    public void setTripTime(String tripTime) {
+        this.tripTime = tripTime;
+    }
 
     // getters
     public double getStartLatitude() {

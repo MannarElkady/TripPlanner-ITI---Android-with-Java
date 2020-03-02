@@ -36,6 +36,7 @@ public class TripDetailsFragment extends Fragment {
     TextView tripEndLocationText;
     Button startTripButton;
     Button showDirectionButton;
+    TextView tripStatus;
 
     public static TripDetailsFragment newInstance() {
         return new TripDetailsFragment();
@@ -51,6 +52,7 @@ public class TripDetailsFragment extends Fragment {
         tripStartLocationText = view.findViewById(R.id.startLocationDetailsTextField);
         tripEndLocationText = view.findViewById(R.id.endLocationDetailsTextField);
         startTripButton = view.findViewById(R.id.startTripButton);
+        tripStatus = view.findViewById(R.id.statusDetailsTextField);
         showDirectionButton = view.findViewById(R.id.showDirectionButton);
         return view;
     }
@@ -63,9 +65,10 @@ public class TripDetailsFragment extends Fragment {
         TripDetailsFragmentArgs tripDetailsFragmentArgs = TripDetailsFragmentArgs.fromBundle(getArguments());
         selectedTrip = tripDetailsFragmentArgs.getTripData();
         tripNameText.setText(selectedTrip.getTitle());
-        tripDateText.setText(selectedTrip.getTripDate());
+        tripDateText.setText("Date : "+selectedTrip.getTripDate()+ " Time: "+selectedTrip.getTripTime());
         tripStartLocationText.setText(selectedTrip.getStartLocation());
         tripEndLocationText.setText(selectedTrip.getEndLocation());
+        tripStatus.setText(selectedTrip.getTripStatus());
         showDirectionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +84,7 @@ public class TripDetailsFragment extends Fragment {
                 String uri = String.format(Locale.ENGLISH,"google.navigation:q=%f,%f",selectedTrip.getEndtLatitude(),selectedTrip.getEndLongitude());
                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
                 intent.setPackage("com.google.android.apps.maps");
-                Trip tripToUpdate = new Trip(selectedTrip.getTitle(),selectedTrip.getTripDate(),selectedTrip.getStartLocation(),selectedTrip.getEndLocation()
+                Trip tripToUpdate = new Trip(selectedTrip.getTitle(),selectedTrip.getTripDate(),selectedTrip.getTripTime(),selectedTrip.getStartLocation(),selectedTrip.getEndLocation()
                         ,selectedTrip.getStartLatitude(),selectedTrip.getStartLongitude(),selectedTrip.getEndtLatitude(),selectedTrip.getEndLongitude()
                         ,selectedTrip.getListOfNotes(), TripStatus.CANCELED);
                 mViewModel.updateTrip(selectedTrip,tripToUpdate);

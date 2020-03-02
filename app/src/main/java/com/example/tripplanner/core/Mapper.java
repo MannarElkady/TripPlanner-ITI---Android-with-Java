@@ -24,7 +24,7 @@ public class Mapper {
         List<NoteEntity>  noteEntities = tripWithNotes.getTripNotes();
 
         //initialize Trip object from TripEntity object
-        Trip mappedTrip = new Trip(tripEntity.getTitle(),tripEntity.getTripDate(),tripEntity.getStartLocation()
+        Trip mappedTrip = new Trip(tripEntity.getTitle(),tripEntity.getTripDate(),tripEntity.getTripTime(),tripEntity.getStartLocation()
                 ,tripEntity.getEndLocation(),tripEntity.getStartLatitude(),tripEntity.getStartLongitude()
                 ,tripEntity.getEndtLatitude(),tripEntity.getStartLongitude());
 
