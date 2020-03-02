@@ -115,14 +115,6 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
         });
-
-  /*      buttomNavigation.setOnShowListener(new Function1<MeowBottomNavigation.Model, Unit>() {
-            @Override
-            public Unit invoke(MeowBottomNavigation.Model model) {
-                // YOUR CODES
-                return null;
-            }
-        });*/
     }
     /*Manar*/
 }

@@ -171,7 +171,6 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
                 }
             } else {
                 Toast.makeText(getContext(), "Review Trip Data", Toast.LENGTH_SHORT).show();
-                //Navigation.findNavController(getActivity(),R.id.fragments_functionality_layout).navigate(TripAdditionDirections.actionTripAdditionToCurrentTripsHomeFragment());
                 /*Manar*/
             }
         });
@@ -454,12 +453,12 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
             date.getEditText().setText("");
             date.getEditText().setText(year + "/" + monthOfYear + "/" + dayOfMonth);
             //TODO:add date to trip object
-
+            /*Manar*/
             //set Date
             myDate.setYear(year);
             myDate.setMonth(monthOfYear);
             myDate.setDay(dayOfMonth);
-
+            /*Manar*/
         } else {
             date.setError("Date need to be selected, Year, Month and the day must be the current or a coming date\n if Date is today Time must be current or upcoming time");
         }
@@ -477,7 +476,6 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         int currDate = currYear + currMonth + currDay;
         int currTime = calendar.get(Calendar.HOUR_OF_DAY) + calendar.get(Calendar.MINUTE);
 
-
         if (hourOfDay > 0) {
             isTimeSet = true;
         }
@@ -489,11 +487,12 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         time.getEditText().setText("");
         time.getEditText().setText(hourOfDay + ":" + sb.toString());
         //TODO: add to trip object
-
+        /*Manar*/
         //save time
         myDate.setHour(hourOfDay);
         myDate.setMinute(minute);
         myDate.setSecond(second);
+        /*Manar*/
     }
 
     //Recive result from place search fragment
@@ -614,8 +613,6 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
     private void startAlarm(Calendar calendar) {
         alarmMgr = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getActivity(), AlarmReciever.class);
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("SOME_ACTION");
         Bundle args = new Bundle();
         args.putSerializable("myDirectionData", (Serializable) myDirectionData);
         args.putSerializable("MyNewTrip", newTrip);

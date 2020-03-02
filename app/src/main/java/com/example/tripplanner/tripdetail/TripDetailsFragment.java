@@ -3,6 +3,9 @@ package com.example.tripplanner.tripdetail;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -27,6 +30,7 @@ import com.example.tripplanner.core.model.Note;
 import com.example.tripplanner.core.model.Trip;
 import com.example.tripplanner.floatingicon.FloatingIconService;
 import com.example.tripplanner.homescreen.homeview.CurrentTripsHomeFragmentDirections;
+import com.example.tripplanner.reminder.AlarmReciever;
 import com.example.tripplanner.reminder.ReminderViewModel;
 
 import java.util.ArrayList;
@@ -46,6 +50,9 @@ public class TripDetailsFragment extends Fragment {
     Button startTripButton;
     Button showDirectionButton;
     TextView tripStatus;
+    public static final int ALARM_REQUEST_CODE = 101;
+    AlarmManager alarmMgr;
+    PendingIntent alarmIntent;
 
     public static TripDetailsFragment newInstance() {
         return new TripDetailsFragment();
@@ -98,7 +105,8 @@ public class TripDetailsFragment extends Fragment {
                             , selectedTrip.getStartLatitude(), selectedTrip.getStartLongitude(), selectedTrip.getEndtLatitude(), selectedTrip.getEndLongitude()
                             , selectedTrip.getListOfNotes(), TripStatus.CANCELED);
                     mViewModel.updateTrip(selectedTrip, tripToUpdate);
-                    displayFloatingIcon();
+//                    displayFloatingIcon();
+                    cancelAlarm();
                     startActivity(intent);
                 }
             }
@@ -116,6 +124,15 @@ public class TripDetailsFragment extends Fragment {
             return true;
         }
     }
+    //cancel alarm
+    private void cancelAlarm() {
+        alarmMgr = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getActivity(), AlarmReciever.class);
+        alarmIntent = PendingIntent.getBroadcast(getActivity(), ALARM_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmMgr.cancel(alarmIntent);
+        Toast.makeText(getActivity().getApplicationContext(), "Alarm Cancelled", Toast.LENGTH_LONG).show();
+    }
+
     private void displayFloatingIcon(){
         ArrayList<String> notes = new ArrayList<>();
         for(Note note : selectedTrip.getListOfNotes())
