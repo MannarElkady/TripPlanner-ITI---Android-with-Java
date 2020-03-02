@@ -24,6 +24,8 @@ import com.example.tripplanner.R;
 import java.text.DateFormat;
 import java.util.Calendar;
 
+//author manar
+
 public class TestAlarmManagerWithNotification extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
     /*Manar*/
     private AlarmManager alarmMgr;

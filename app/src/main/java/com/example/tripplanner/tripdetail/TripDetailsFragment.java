@@ -35,6 +35,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class TripDetailsFragment extends Fragment {
 
+    /*Manar*/
     private TripDetailsViewModel mViewModel;
     private Trip selectedTrip;
     TextView tripNameText;
@@ -100,6 +101,7 @@ public class TripDetailsFragment extends Fragment {
             }
         });
     }
+    /*Manar*/
     /*Reham*/
     private static final int CODE_DRAW_OVER_OTHER_APP_PERMISSION = 2084;
     private void displayFloatingIcon(){

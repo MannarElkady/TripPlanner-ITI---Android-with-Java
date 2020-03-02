@@ -15,8 +15,9 @@ import com.example.tripplanner.core.constant.TripStatus;
 import com.example.tripplanner.core.model.MyDirectionData;
 import com.example.tripplanner.core.model.Trip;
 
+
+//author manar
 public class DialogActivity extends AppCompatActivity {
-    Context context;
     AlertDialog mAlertDialog = null;
     Trip currentTrip;
     int INTENTREQUESTCODE = 5;
@@ -32,7 +33,7 @@ public class DialogActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(ReminderViewModel.class);
-        this.context = this;
+        //getActivity().registerReceiver(intent, filter);
         intent = getIntent();
         if(intent !=null){
             if(intent.getBundleExtra("Data") !=null) {
@@ -54,7 +55,7 @@ public class DialogActivity extends AppCompatActivity {
         super.onStart();
 
 
-        timeUpAlertDialog.showAlertDialog(context,currentTrip,
+        timeUpAlertDialog.showAlertDialog(this,currentTrip,
                 "click START to navigate to your trip",
                 myDirectionData);
     }

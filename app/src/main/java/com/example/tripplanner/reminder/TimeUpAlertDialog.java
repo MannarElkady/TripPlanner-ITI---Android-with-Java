@@ -20,6 +20,8 @@ import com.example.tripplanner.core.model.Trip;
 
 import java.util.Locale;
 
+//author manar
+
 public class TimeUpAlertDialog {
     private Context context;
     private AlertDialog mAlertDialog = null;
