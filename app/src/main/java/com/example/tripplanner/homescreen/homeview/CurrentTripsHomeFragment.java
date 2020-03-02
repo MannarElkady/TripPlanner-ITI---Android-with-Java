@@ -121,7 +121,7 @@ public class CurrentTripsHomeFragment extends Fragment {
             switch(direction) {
                 case ItemTouchHelper.RIGHT: {
 
-                    Toast.makeText(requireActivity(),"Edit Trip",Toast.LENGTH_LONG).show();
+                    Toast.makeText(requireActivity(),"Delete Trip",Toast.LENGTH_LONG).show();
                     //delete from firestore and update Livedata
                     mViewModel.deleteTrip(trip, index);
                     //notify adapter with changes
