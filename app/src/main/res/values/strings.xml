@@ -54,4 +54,5 @@
     <string name="AddNote">Add Note</string>
     <string name="ShowDirection">Show Direction</string>
     <string name="title">Enter Trip Title</string>
+    <string name="SignOutBtn">sign out</string>
 </resources>

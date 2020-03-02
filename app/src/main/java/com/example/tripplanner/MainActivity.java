@@ -101,7 +101,8 @@ public class MainActivity extends AppCompatActivity {
                     case ID_PROFILE:
                         if(currentTab==ID_PROFILE-1){
                             //go from home
-                            Navigation.findNavController(MainActivity.this,R.id.fragments_functionality_layout).navigate(CurrentTripsHomeFragmentDirections.actionCurrentTripsHomeFragmentToReminderFragmnt());
+                            //Navigation.findNavController(MainActivity.this,R.id.fragments_functionality_layout).navigate(CurrentTripsHomeFragmentDirections.actionCurrentTripsHomeFragmentToReminderFragmnt());
+                            Navigation.findNavController(MainActivity.this, R.id.fragments_functionality_layout).navigate(CurrentTripsHomeFragmentDirections.actionCurrentTripsHomeFragmentToProfileFragment());
                         }
                         else if(currentTab == ID_PROFILE-2){
                             //go from history
