@@ -21,14 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.tripplanner.R;
-import com.example.tripplanner.core.constant.TripStatus;
 import com.example.tripplanner.core.model.Trip;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.MetadataChanges;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.HashSet;
 import java.util.List;
 
 import static android.view.View.INVISIBLE;
@@ -110,7 +103,6 @@ public class CurrentTripsHomeFragment extends Fragment {
         recyclerView.setAdapter(currentTripsHomeAdapter);
     }
 
-
     //itemTouchHelper is for swip items to delete it
     ItemTouchHelper.SimpleCallback itemTouchHelper = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
         @Override
@@ -130,4 +122,8 @@ public class CurrentTripsHomeFragment extends Fragment {
             currentTripsHomeAdapter.notifyDataSetChanged();
         }
     };
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
 }

@@ -74,6 +74,9 @@
         <action
             android:id="@+id/action_pastTripsFragment_to_mapFragment2"
             app:destination="@id/pastTripsMapFragment" />
+        <action
+            android:id="@+id/action_pastTripsFragment_to_currentTripsHomeFragment"
+            app:destination="@id/currentTripsHomeFragment" />
     </fragment>
     <fragment
         android:id="@+id/pastTripsMapFragment"

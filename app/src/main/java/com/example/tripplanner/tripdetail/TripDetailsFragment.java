@@ -1,5 +1,6 @@
 package com.example.tripplanner.tripdetail;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
@@ -18,8 +19,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.tripplanner.R;
+import com.example.tripplanner.core.constant.TripStatus;
 import com.example.tripplanner.core.model.Trip;
 import com.example.tripplanner.homescreen.homeview.CurrentTripsHomeFragmentDirections;
+import com.example.tripplanner.reminder.ReminderViewModel;
 
 import java.util.Locale;
 
@@ -37,10 +40,10 @@ public class TripDetailsFragment extends Fragment {
     public static TripDetailsFragment newInstance() {
         return new TripDetailsFragment();
     }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(requireActivity()).get(TripDetailsViewModel.class);
         View view= inflater.inflate(R.layout.trip_details_fragment, container, false);
         tripNameText = view.findViewById(R.id.tripNameDetailsTextField);
         getActivity().findViewById(R.id.buttom_nav).setVisibility(View.INVISIBLE);
@@ -78,6 +81,10 @@ public class TripDetailsFragment extends Fragment {
                 String uri = String.format(Locale.ENGLISH,"google.navigation:q=%f,%f",selectedTrip.getEndtLatitude(),selectedTrip.getEndLongitude());
                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
                 intent.setPackage("com.google.android.apps.maps");
+                Trip tripToUpdate = new Trip(selectedTrip.getTitle(),selectedTrip.getTripDate(),selectedTrip.getStartLocation(),selectedTrip.getEndLocation()
+                        ,selectedTrip.getStartLatitude(),selectedTrip.getStartLongitude(),selectedTrip.getEndtLatitude(),selectedTrip.getEndLongitude()
+                        ,selectedTrip.getListOfNotes(), TripStatus.CANCELED);
+                mViewModel.updateTrip(selectedTrip,tripToUpdate);
                 startActivity(intent);
             }
         });

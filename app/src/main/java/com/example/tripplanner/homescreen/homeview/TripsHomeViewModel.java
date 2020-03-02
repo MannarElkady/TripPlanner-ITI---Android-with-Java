@@ -31,23 +31,6 @@ public class TripsHomeViewModel extends ViewModel {
         setTripsListener(TripStatus.UPCOMING);
     }
 
-    /*public LiveData<List<Trip>> getCurrentTrips() {
-        firestoreConnection.getTrip(TripStatus.UPCOMING).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    if (document.exists()) {
-                        Trip temp = document.toObject(Trip.class);
-                        allTrips.add(temp);
-                    }
-                    allTripsLiveList.postValue(allTrips);
-                }
-            }
-        });
-
-        return allTripsLiveList;
-    }*/
-
     public LiveData<List<Trip>> getTripLiveData() {
         return allTripsLiveList;
     }
@@ -75,7 +58,6 @@ public class TripsHomeViewModel extends ViewModel {
                                 case MODIFIED:
                                     updateTrip(trip);
                                     break;
-
                             }
 
                         }

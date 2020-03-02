@@ -124,7 +124,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         date = view.findViewById(R.id.dateId);
 
         /*Manar*/
-        getActivity().findViewById(R.id.buttom_nav).setVisibility(View.INVISIBLE);
+        getActivity().findViewById(R.id.buttom_nav).setVisibility(View.GONE);
         /*Manar*/
         myDate = new MyDate();
         doneButton = view.findViewById(R.id.doneId);

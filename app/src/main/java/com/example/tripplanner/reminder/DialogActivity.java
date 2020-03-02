@@ -55,7 +55,7 @@ public class DialogActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        timeUpAlertDialog = null;
+        //timeUpAlertDialog = null;
     }
 
     @Override
