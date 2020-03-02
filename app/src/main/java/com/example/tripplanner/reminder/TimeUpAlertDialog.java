@@ -57,8 +57,6 @@ public class TimeUpAlertDialog {
                         mediaPlayer.release();
                         mediaPlayer = null;
                         snoozeService();
-                       // ((Activity)context).finish();
-                      //  ((AppCompatActivity) context).onBackPressed();
                         Intent i = new Intent(Intent.ACTION_MAIN);
                         i.addCategory(Intent.CATEGORY_HOME);
                         context.startActivity(i);

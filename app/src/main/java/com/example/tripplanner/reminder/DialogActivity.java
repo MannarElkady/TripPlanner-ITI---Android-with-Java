@@ -62,7 +62,7 @@ public class DialogActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        timeUpAlertDialog.destroyAllertDialog();
+       // timeUpAlertDialog.destroyAllertDialog();
     }
 
     @Override
