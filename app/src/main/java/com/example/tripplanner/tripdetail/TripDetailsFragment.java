@@ -5,26 +5,33 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.tripplanner.R;
 import com.example.tripplanner.core.constant.TripStatus;
 import com.example.tripplanner.core.model.Trip;
+import com.example.tripplanner.floatingicon.FloatingIconService;
 import com.example.tripplanner.homescreen.homeview.CurrentTripsHomeFragmentDirections;
 import com.example.tripplanner.reminder.ReminderViewModel;
 
+import java.util.ArrayList;
 import java.util.Locale;
+
+import static android.app.Activity.RESULT_OK;
 
 public class TripDetailsFragment extends Fragment {
 
@@ -88,9 +95,51 @@ public class TripDetailsFragment extends Fragment {
                         ,selectedTrip.getStartLatitude(),selectedTrip.getStartLongitude(),selectedTrip.getEndtLatitude(),selectedTrip.getEndLongitude()
                         ,selectedTrip.getListOfNotes(), TripStatus.CANCELED);
                 mViewModel.updateTrip(selectedTrip,tripToUpdate);
+                displayFloatingIcon();
                 startActivity(intent);
             }
         });
     }
+    /*Reham*/
+    private static final int CODE_DRAW_OVER_OTHER_APP_PERMISSION = 2084;
+    private void displayFloatingIcon(){
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(getActivity())) {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getActivity().getPackageName()));
+            startActivityForResult(intent, CODE_DRAW_OVER_OTHER_APP_PERMISSION);
+        } else {
+            launchIcon();
+        }
+    }
+    private void launchIcon(){
+        ArrayList<String> notes = new ArrayList<>();
+        selectedTrip.getListOfNotes();
+        notes.add("note1");
+        notes.add("note2");
+        notes.add("note2");
+        notes.add("note2");
+        notes.add("note2");
+        notes.add("note6");
+
+        Intent intent = new Intent(getActivity(), FloatingIconService.class);
+        intent.putStringArrayListExtra("notes", notes);
+        getActivity().startService(intent);
+        //finish();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == CODE_DRAW_OVER_OTHER_APP_PERMISSION) {
+            //Check if the permission is granted or not.
+            if (resultCode == RESULT_OK) {
+                launchIcon();
+            } else { //Permission is not available
+                Toast.makeText(getActivity(),"Draw over other app permission not available. No Floating Icon.",Toast.LENGTH_SHORT).show();
+                //finish();
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+    /*Reham*/
 }

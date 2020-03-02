@@ -15,6 +15,8 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.HashMap;
+
 
 /*
 Structure  :
@@ -108,6 +110,15 @@ public class FirestoreConnection implements FirestoreContract {
     public Task<Void> updateTrip(Trip oldTrip, Trip newTrip){
         return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS)
                                 .document(oldTrip.getTripId()).set(newTrip);
+        //TODO: optimize update, to update the changed field only, not the whole document of a trip
+    }
+
+    @Override
+    public Task<Void> updateTrip(Trip newTrip) {
+        if(newTrip==null)
+            return null;
+        return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS)
+                .document(newTrip.getTripId()).set(newTrip);
         //TODO: optimize update, to update the changed field only, not the whole document of a trip
     }
 

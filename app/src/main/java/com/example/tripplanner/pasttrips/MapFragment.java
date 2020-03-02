@@ -62,6 +62,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapViewModel = new ViewModelProvider(requireActivity()).get(MapViewModel.class);
         pastTripsViewModel = new ViewModelProvider(requireActivity()).get(PastTripsViewModel.class);
 
+        getActivity().findViewById(R.id.buttom_nav).setVisibility(View.GONE);
+
         return view;
     }
 
@@ -121,7 +123,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             polyline.setColor(0xffF57F17);
             polyline.setJointType(JointType.ROUND);
 
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pastTripRoute.get(0), 6));
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pastTripRoute.get(0), 10));
         //}
 
         // zoom camera on Egypt.

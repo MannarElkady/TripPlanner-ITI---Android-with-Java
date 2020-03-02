@@ -9,18 +9,22 @@ import android.widget.TextView;
 
 import com.example.tripplanner.R;
 import com.example.tripplanner.core.model.Trip;
+import com.example.tripplanner.homescreen.homeview.CurrentTripsHomeFragment;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class PastTripsAdapter extends RecyclerView.Adapter<PastTripsAdapter.PastTripsViewHolder> {
 
     private List<Trip> pastTrips;
+    private CurrentTripsHomeFragment.OnRecycleItemClickListener pastTripListner;
 
-    public PastTripsAdapter(List<Trip> pastTrips) {
+    public PastTripsAdapter(List<Trip> pastTrips, CurrentTripsHomeFragment.OnRecycleItemClickListener listener) {
         this.pastTrips = pastTrips;
+        pastTripListner = listener;
     }
 
     public static class PastTripsViewHolder extends RecyclerView.ViewHolder{
@@ -62,7 +66,7 @@ public class PastTripsAdapter extends RecyclerView.Adapter<PastTripsAdapter.Past
         holder.myView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Display Trip Details
+                pastTripListner.onItemClick(holder.myView, position);
             }
         });
     }
