@@ -17,6 +17,7 @@ import com.example.tripplanner.core.firestoredb.FirestoreConnection;
 import com.example.tripplanner.core.model.User;
 import com.example.tripplanner.homescreen.homeview.CurrentTripsHomeFragmentDirections;
 import com.example.tripplanner.pasttrips.PastTripsFragmentDirections;
+import com.example.tripplanner.profile.ProfileFragmentDirections;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import kotlin.Unit;
@@ -92,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                     case ID_HOME:
                         if(currentTab==ID_HOME+1){
                             //go from profile
+                            Navigation.findNavController(MainActivity.this,R.id.fragments_functionality_layout).navigate(ProfileFragmentDirections.actionProfileFragmentToCurrentTripsHomeFragment());
                         }
                         else if(currentTab==ID_HOME-1){
                             //go from history
@@ -107,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         else if(currentTab == ID_PROFILE-2){
                             //go from history
+                            Navigation.findNavController(MainActivity.this,R.id.fragments_functionality_layout).navigate(PastTripsFragmentDirections.actionPastTripsFragmentToProfileFragment());
                         }
                         currentTab = ID_PROFILE;
                         break;
@@ -117,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         else if(currentTab==ID_HISTORY+2){
                             //go from profile
+                            Navigation.findNavController(MainActivity.this,R.id.fragments_functionality_layout).navigate(ProfileFragmentDirections.actionProfileFragmentToPastTripsFragment());
                         }
                         currentTab = ID_HISTORY;
                         break;
@@ -124,6 +128,14 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
         });
+
+  /*      buttomNavigation.setOnShowListener(new Function1<MeowBottomNavigation.Model, Unit>() {
+            @Override
+            public Unit invoke(MeowBottomNavigation.Model model) {
+                // YOUR CODES
+                return null;
+            }
+        });*/
     }
     /*Manar*/
     /*Reham*/

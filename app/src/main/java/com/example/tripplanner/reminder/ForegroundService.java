@@ -11,6 +11,8 @@ import androidx.annotation.RequiresApi;
 
 import com.example.tripplanner.MainActivity;
 
+//author manar
+
 public class ForegroundService extends Service {
     /*Manar*/
     public static final String CHANNEL = "MyChannel";
@@ -35,10 +37,8 @@ public class ForegroundService extends Service {
                 REQUEST_CODE, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         Notification notification = notificationHelper.buildNotification(CHANNEL,NOTIFICATION_HEADER,input).setContentIntent(pendingIntent).build();
         startForeground(NOTIFICATION_ID,notification);
-
         //do heavy work on a background thread
         //stopSelf();
-
         return START_NOT_STICKY;
         //return super.onStartCommand(intent, flags, startId);
     }

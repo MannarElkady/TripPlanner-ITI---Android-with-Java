@@ -12,25 +12,21 @@
             android:id="@+id/action_currentTripsHomeFragment_to_tripDetailsFragment"
             app:destination="@id/tripDetailsFragment"/>
         <action
-            android:id="@+id/toSelf"
-            app:destination="@id/currentTripsHomeFragment"
-            app:enterAnim="@anim/fragment_fade_enter"
-            app:exitAnim="@anim/fragment_close_exit" />
-        <action
             android:id="@+id/action_currentTripsHomeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
-        <action
-            android:id="@+id/action_currentTripsHomeFragment_to_reminderFragmnt"
-            app:destination="@id/reminderFragmnt" />
         <action
             android:id="@+id/action_currentTripsHomeFragment_to_tripAddition"
             app:destination="@id/tripAddition" />
         <action
             android:id="@+id/action_currentTripsHomeFragment_to_pastTripsFragment"
-            app:destination="@id/pastTripsFragment" />
+            app:destination="@id/pastTripsFragment"
+            app:popUpTo="@+id/currentTripsHomeFragment"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_currentTripsHomeFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profileFragment"
+            app:popUpTo="@+id/currentTripsHomeFragment"
+            app:popUpToInclusive="true"/>
         <!--Ashraf Edit Action-->
         <action
             android:id="@+id/action_currentTripsHomeFragment_to_TripAddition_WithTripData"
@@ -58,10 +54,6 @@
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/reminderFragmnt"
-        android:name="com.example.tripplanner.reminder.ReminderFragmnt"
-        android:label="ReminderFragmnt" />
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.example.tripplanner.register.RegisterFragment"
@@ -91,10 +83,17 @@
             app:destination="@id/pastTripsMapFragment" />
         <action
             android:id="@+id/action_pastTripsFragment_to_currentTripsHomeFragment"
-            app:destination="@id/currentTripsHomeFragment" />
+            app:destination="@id/currentTripsHomeFragment"
+            app:popUpTo="@+id/pastTripsFragment"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_pastTripsFragment_to_tripDetailsFragment"
             app:destination="@id/tripDetailsFragment" />
+        <action
+            android:id="@+id/action_pastTripsFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:popUpTo="@+id/pastTripsFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/pastTripsMapFragment"
@@ -109,5 +108,15 @@
         <action
             android:id="@+id/action_profileFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_currentTripsHomeFragment"
+            app:destination="@id/currentTripsHomeFragment"
+            app:popUpTo="@+id/profileFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_profileFragment_to_pastTripsFragment"
+            app:destination="@id/pastTripsFragment"
+            app:popUpTo="@+id/profileFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
 </navigation>

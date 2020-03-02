@@ -9,22 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tripplanner.R;
 import com.example.tripplanner.core.model.Trip;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
 import java.util.List;
 
+//author manar
 public class CurrentTripsHomeAdapter extends RecyclerView.Adapter<CurrentTripsHomeAdapter.TripHolder> {
     private Context ctx;
     private List<Trip> myTripList;
@@ -54,6 +45,7 @@ public class CurrentTripsHomeAdapter extends RecyclerView.Adapter<CurrentTripsHo
         holder.locationFromTo.setTypeface(holder.title.getTypeface(), Typeface.BOLD);
         holder.title.setTypeface(holder.title.getTypeface(), Typeface.BOLD);
 
+        holder.tripImage.setImageResource(R.drawable.ic_book_bag);
         //add listener to each item
         holder.bind(holder.itemView,recycleListener);
     }
@@ -72,7 +64,6 @@ public class CurrentTripsHomeAdapter extends RecyclerView.Adapter<CurrentTripsHo
             super(itemView);
             this.title = itemView.findViewById(R.id.trip_title_textview);
             this.tripImage = itemView.findViewById(R.id.trip_imageview);
-
             this.date = itemView.findViewById(R.id.date_textview);
             this.locationFromTo = itemView.findViewById(R.id.tripFromToLocationOverview);
         }

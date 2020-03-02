@@ -12,6 +12,8 @@ import androidx.core.app.NotificationCompat;
 
 import com.example.tripplanner.R;
 
+//author manar
+
 public class NotificationHelper extends ContextWrapper {
     /*Manar*/
     private NotificationManager notificationManager;

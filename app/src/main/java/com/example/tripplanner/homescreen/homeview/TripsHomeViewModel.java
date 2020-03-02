@@ -18,8 +18,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 // @author (Mannar - Ashraf)
-
-
 public class TripsHomeViewModel extends ViewModel {
     FirestoreConnection firestoreConnection;
     List<Trip> allTrips;
