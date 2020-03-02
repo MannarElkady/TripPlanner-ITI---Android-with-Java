@@ -48,6 +48,7 @@ public class TimeUpAlertDialog {
         // Setting Dialog Message
         mAlertDialog.setMessage(message);
         mAlertDialog.setCancelable(false);
+
         mAlertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,context.getString(R.string.snooze_trip),
                 new DialogInterface.OnClickListener() {
                     @Override
