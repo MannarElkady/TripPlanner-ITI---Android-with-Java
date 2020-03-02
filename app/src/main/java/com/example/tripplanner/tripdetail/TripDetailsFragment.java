@@ -89,7 +89,7 @@ public class TripDetailsFragment extends Fragment {
         startTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkSettings()) {
+
                     String uri = String.format(Locale.ENGLISH, "google.navigation:q=%f,%f", selectedTrip.getEndtLatitude(), selectedTrip.getEndLongitude());
                     Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
                     intent.setPackage("com.google.android.apps.maps");
@@ -97,22 +97,24 @@ public class TripDetailsFragment extends Fragment {
                             , selectedTrip.getStartLatitude(), selectedTrip.getStartLongitude(), selectedTrip.getEndtLatitude(), selectedTrip.getEndLongitude()
                             , selectedTrip.getListOfNotes(), TripStatus.CANCELED);
                     mViewModel.updateTrip(selectedTrip, tripToUpdate);
-                    displayFloatingIcon();
+                    if(checkSettings())
+                        displayFloatingIcon();
                     startActivity(intent);
-                }
+
             }
         });
     }
     /*Reham*/
     public boolean checkSettings(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(getActivity())) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(getActivity())) {
             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getActivity().getPackageName()));
             startActivity(intent);
             return false;
         }
         else{
             return true;
-        }
+        }*/
+        return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(getActivity()));
     }
     private void displayFloatingIcon(){
         ArrayList<String> notes = new ArrayList<>();

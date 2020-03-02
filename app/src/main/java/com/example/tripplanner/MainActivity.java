@@ -1,9 +1,17 @@
 package com.example.tripplanner;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.Navigation;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
+import android.widget.Toast;
+
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.example.tripplanner.core.firestoredb.FirestoreConnection;
 import com.example.tripplanner.core.model.User;
@@ -20,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private final static int ID_HISTORY=1;
     private final static int ID_PROFILE=3;
     public static int currentTab = ID_HOME;
-
+    private static final int CODE_DRAW_OVER_OTHER_APP_PERMISSION = 2084;
 
     FirebaseUser currentUser;
     private static final String TAG = "MainActivity";
@@ -44,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         FirebaseAuth.getInstance().signOut();*/
+        if(checkSettings()){
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + this.getPackageName()));
+            startActivityForResult(intent, CODE_DRAW_OVER_OTHER_APP_PERMISSION);
+        }
+
         /*Reham*/
 
         /*Manar*/
@@ -113,4 +126,26 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     /*Manar*/
+    /*Reham*/
+
+
+    public boolean checkSettings(){
+        return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this));
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CODE_DRAW_OVER_OTHER_APP_PERMISSION) {
+            //Check if the permission is granted or not.
+            if (resultCode == RESULT_OK) {
+               if(checkSettings()){
+                   Toast.makeText(this,"The Floating Icon Will Not Appear",Toast.LENGTH_SHORT).show();
+               }
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    /*Reham*/
 }
