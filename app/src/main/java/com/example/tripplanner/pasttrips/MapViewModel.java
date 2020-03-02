@@ -38,12 +38,11 @@ public class MapViewModel extends ViewModel {
                 @Override
                 public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
                     DirectionsResponse directionsResponse = response.body();
-                    Log.i(TAG, "***********" + response.body().getStatus());
-                    Log.i(TAG, "***********");
 
-                    List<LatLng> oneRoutePoints = PolyUtil.decode(directionsResponse.getRoutes().get(0).getOverview_polyline().getPoints());
-                    //allRoutesPoints.add(oneRoutePoints);
-                    route.postValue(oneRoutePoints);
+                    if(directionsResponse.getRoutes().size() > 0) {
+                        List<LatLng> oneRoutePoints = PolyUtil.decode(directionsResponse.getRoutes().get(0).getOverview_polyline().getPoints());
+                        route.postValue(oneRoutePoints);
+                    }
                 }
 
                 @Override

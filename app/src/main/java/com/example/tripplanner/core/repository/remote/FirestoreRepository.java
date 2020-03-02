@@ -7,6 +7,7 @@ import com.example.tripplanner.core.model.User;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 //Entities Names ( Trip , Note )
@@ -67,5 +68,13 @@ public class FirestoreRepository implements FirestoreContract {
     @Override
     public Task<QuerySnapshot> getTrip(String tripStatus) {
         return firestoreConnection.getTrip(tripStatus);
+    }
+
+    public Query getPastTripCollectionReference(String tripStatus){
+        return firestoreConnection.getPastTripsCollectionReference(tripStatus);
+    }
+
+    public Query getTripsCollectionReference(String tripStatus){
+        return firestoreConnection.getTripsCollectionReference(tripStatus);
     }
 }

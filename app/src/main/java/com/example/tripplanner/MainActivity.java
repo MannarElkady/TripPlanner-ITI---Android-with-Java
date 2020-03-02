@@ -42,17 +42,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         /*Reham*/
-      /*  GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
-        googleSignInClient.signOut().addOnCompleteListener(this,new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-            }
-        });
-        FirebaseAuth.getInstance().signOut();*/
+
         if(checkSettings()){
             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + this.getPackageName()));
             startActivityForResult(intent, CODE_DRAW_OVER_OTHER_APP_PERMISSION);
@@ -128,14 +118,6 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
         });
-
-  /*      buttomNavigation.setOnShowListener(new Function1<MeowBottomNavigation.Model, Unit>() {
-            @Override
-            public Unit invoke(MeowBottomNavigation.Model model) {
-                // YOUR CODES
-                return null;
-            }
-        });*/
     }
     /*Manar*/
     /*Reham*/

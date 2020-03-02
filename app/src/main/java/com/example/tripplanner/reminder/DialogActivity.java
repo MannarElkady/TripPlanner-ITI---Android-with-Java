@@ -49,7 +49,14 @@ public class DialogActivity extends AppCompatActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow ().setBackgroundDrawableResource (android.R.color.transparent);
     }
-
+/*
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        currentTrip = (Trip) savedInstanceState.getSerializable("MyNewTrip");
+        myDirectionData = (MyDirectionData) savedInstanceState.getSerializable("myDirectionData");
+    }
+*/
     @Override
     protected void onStart() {
         super.onStart();

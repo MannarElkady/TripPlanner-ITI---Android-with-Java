@@ -8,7 +8,6 @@ import com.example.tripplanner.core.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 
 //author manar
-
 public class ReminderViewModel extends ViewModel {
     FirestoreConnection firestoreConnection;
     // TODO: Implement the ViewModel

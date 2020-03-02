@@ -41,8 +41,8 @@
         <!--View while view is expanded-->
         <LinearLayout
             android:id="@+id/expanded_container"
-            android:layout_width="250dp"
-            android:layout_height="150dp"
+            android:layout_width="280dp"
+            android:layout_height="250dp"
             android:background="@drawable/notes_container"
             android:visibility="gone"
             android:orientation="horizontal"
