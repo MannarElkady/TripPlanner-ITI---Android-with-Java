@@ -97,7 +97,7 @@ public class TripDetailsFragment extends Fragment {
         startTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkSettings()) {
+
                     String uri = String.format(Locale.ENGLISH, "google.navigation:q=%f,%f", selectedTrip.getEndtLatitude(), selectedTrip.getEndLongitude());
                     Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
                     intent.setPackage("com.google.android.apps.maps");
@@ -105,24 +105,20 @@ public class TripDetailsFragment extends Fragment {
                             , selectedTrip.getStartLatitude(), selectedTrip.getStartLongitude(), selectedTrip.getEndtLatitude(), selectedTrip.getEndLongitude()
                             , selectedTrip.getListOfNotes(), TripStatus.CANCELED);
                     mViewModel.updateTrip(selectedTrip, tripToUpdate);
-//                    displayFloatingIcon();
+
+                    if(!checkSettings())
+                        displayFloatingIcon();
+
                     cancelAlarm();
                     startActivity(intent);
-                }
+
             }
         });
     }
     /*Manar*/
     /*Reham*/
     public boolean checkSettings(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(getActivity())) {
-            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getActivity().getPackageName()));
-            startActivity(intent);
-            return false;
-        }
-        else{
-            return true;
-        }
+        return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(getActivity()));
     }
     //cancel alarm
     private void cancelAlarm() {
@@ -135,8 +131,9 @@ public class TripDetailsFragment extends Fragment {
 
     private void displayFloatingIcon(){
         ArrayList<String> notes = new ArrayList<>();
-        for(Note note : selectedTrip.getListOfNotes())
-            notes.add(note.getDescription());
+        if(selectedTrip.getListOfNotes() != null)
+            for(Note note : selectedTrip.getListOfNotes())
+                notes.add(note.getDescription());
 
         Intent intent = new Intent(getActivity(), FloatingIconService.class);
         intent.putStringArrayListExtra("notes", notes);

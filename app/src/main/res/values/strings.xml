@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TripPlanner</string>
+    <string name="app_name">My Trips</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="email">Email</string>
@@ -58,4 +58,6 @@
     <string name="RoundTrip">Round Trip</string>
     <string name="backTrip">Back</string>
     <string name="forthTrip">Forth</string>
+    <string name="pastTripsText">Past Trips</string>
+    <string name="registeration">Registeration</string>
 </resources>

@@ -85,9 +85,15 @@ public class LoginViewModel extends ViewModel {
                             Log.i(TAG, userFirebase.getEmail());
 
                         } else {
-                            Toast.makeText(activity, "Email or Password is incorrect!", Toast.LENGTH_LONG).show();
+                            //Toast.makeText(activity, "Email or Password is incorrect!", Toast.LENGTH_LONG).show();
+                            Log.i("MESAG", "****************" + task.getException().getMessage());
+                            //
                             if(task.getException().getMessage().equals("The password is invalid or the user does not have a password"))
-                                Log.i(TAG, "Invalid password");
+                                Toast.makeText(activity, "Invalid password!", Toast.LENGTH_LONG).show();
+                            else if(task.getException().getMessage().equals("The email address is badly formatted"))
+                                Toast.makeText(activity, "Wrong Email Format!", Toast.LENGTH_LONG).show();
+                            else if(task.getException().getMessage().equals("There is no user record corresponding to this identifier. The user may have been deleted"))
+                                Toast.makeText(activity, "Email Not Exist!", Toast.LENGTH_LONG).show();
 
                         }
                     }

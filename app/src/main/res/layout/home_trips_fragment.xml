@@ -15,12 +15,12 @@
             android:layout_marginLeft="24dp"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="10dp"
-            android:fontFamily="serif"
+            android:fontFamily="@font/open_sans_font"
             android:padding="5dp"
             android:text="@string/availableText"
-            android:textColor="#A5A1A1"
-            android:textSize="16sp"
-            android:textStyle="bold"></TextView>
+            android:textColor="@color/blue"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/trips_recyclerview"
             android:layout_width="match_parent"

@@ -71,6 +71,32 @@ public class PastTripsViewModel extends ViewModel {
             }
         });
 
+        firestoreRepository.getTripsCollectionReference(TripStatus.CANCELED).addSnapshotListener(MetadataChanges.INCLUDE, new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+
+                } else {
+                    if (queryDocumentSnapshots != null) {
+                        List<DocumentChange> changes = queryDocumentSnapshots.getDocumentChanges();
+                        for(DocumentChange documentChange : changes){
+                            Log.i("changes", "onEvent: "+documentChange.getType() + "   "+documentChange.getDocument().get("title"));
+                            Trip trip = documentChange.getDocument().toObject(Trip.class);
+                            Log.i("past", "onEvent: Type "+documentChange.getType().toString());
+                            switch(documentChange.getType()){
+                                case ADDED :
+                                    pastTripsTemp.add(trip);
+                                    break;
+                            }
+
+                        }
+                        pastTrips.postValue(pastTripsTemp);
+                        Log.i("past", "pastTrips size : "+pastTripsTemp.size());
+                    }
+                }
+            }
+        });
+
     }
     public LiveData<List<Trip>> getPastTrips(){
         return pastTrips;

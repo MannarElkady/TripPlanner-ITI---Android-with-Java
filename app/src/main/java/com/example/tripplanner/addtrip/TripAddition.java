@@ -160,6 +160,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
                     addTripToFirestore(inputTrip);
                     //TODO: 2- get data and initialize an Trip object
                     /*Manar*/
+                    newTrip = inputTrip;
                     //TODO: 3- add reminder according to time and date selected
                     startAlarm(getEquivlentCalender(myDate));
                     //TODO: 4- add to firestore and room (if requierd)

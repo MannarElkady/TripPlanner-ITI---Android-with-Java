@@ -34,34 +34,55 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="40dp"
-                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:src="@drawable/ic_close"
                 tools:ignore="ContentDescription"/>
         </RelativeLayout>
 
         <!--View while view is expanded-->
         <LinearLayout
             android:id="@+id/expanded_container"
-            android:layout_width="250dp"
-            android:layout_height="150dp"
+            android:layout_width="280dp"
+            android:layout_height="250dp"
             android:background="@drawable/notes_container"
             android:visibility="gone"
             android:orientation="horizontal"
             android:padding="8dp"
-
+            android:weightSum="2"
             >
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Notes"
+                    android:textAlignment="center"
+                    android:textColor="@color/mdtp_white"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/open_sans_font"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_weight="1">
                 <ImageView
                     android:id="@+id/close_button"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@android:drawable/ic_menu_close_clear_cancel"
+                    android:src="@drawable/ic_close"
+
                     />
             </RelativeLayout>
         </LinearLayout>

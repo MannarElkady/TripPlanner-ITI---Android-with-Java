@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
+import android.provider.Settings;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AlertDialog;
@@ -16,8 +18,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.tripplanner.R;
 import com.example.tripplanner.core.constant.TripStatus;
 import com.example.tripplanner.core.model.MyDirectionData;
+import com.example.tripplanner.core.model.Note;
 import com.example.tripplanner.core.model.Trip;
+import com.example.tripplanner.floatingicon.FloatingIconService;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 //author manar
@@ -85,6 +90,10 @@ public class TimeUpAlertDialog {
                         tripToUpdate = new Trip(trip.getTitle(),trip.getTripDate(),trip.getTripTime(),trip.getStartLocation(),trip.getEndLocation()
                                 ,trip.getStartLatitude(),trip.getStartLongitude(),trip.getEndtLatitude(),trip.getEndLongitude(),trip.getListOfNotes(),TripStatus.FINISHED);
                         mViewModel.updateTrip(trip,tripToUpdate);
+                        /*Reham*/
+                        if(!checkSettings())
+                            displayFloatingIcon();
+                        /*Reham*/
                         ((AppCompatActivity) context).startActivityForResult(intent,INTENTREQUESTCODE);
                         ((Activity)context).finish();
                     }
@@ -128,5 +137,19 @@ public class TimeUpAlertDialog {
             mAlertDialog = null;
         }
     }
+    /*Reham*/
+    public boolean checkSettings(){
+        return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(context));
+    }
+    private void displayFloatingIcon(){
+        ArrayList<String> notes = new ArrayList<>();
+        if(tripToUpdate.getListOfNotes() != null)
+            for(Note note : tripToUpdate.getListOfNotes())
+                notes.add(note.getDescription());
 
+        Intent intent = new Intent(context, FloatingIconService.class);
+        intent.putStringArrayListExtra("notes", notes);
+        context.startService(intent);
+    }
+    /*Reham*/
 }

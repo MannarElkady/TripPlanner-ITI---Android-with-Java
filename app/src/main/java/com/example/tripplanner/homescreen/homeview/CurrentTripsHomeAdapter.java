@@ -44,8 +44,12 @@ public class CurrentTripsHomeAdapter extends RecyclerView.Adapter<CurrentTripsHo
         holder.locationFromTo.setTextSize(14f);
         holder.locationFromTo.setTypeface(holder.title.getTypeface(), Typeface.BOLD);
         holder.title.setTypeface(holder.title.getTypeface(), Typeface.BOLD);
-
-        holder.tripImage.setImageResource(R.drawable.ic_book_bag);
+        if(myTripList.get(position).getTripTime() != null)
+            holder.time.setText(myTripList.get(position).getTripTime());
+        else
+            holder.time.setText("12:00");
+        holder.time.setTypeface(holder.title.getTypeface(), Typeface.BOLD);
+        //holder.tripImage.setImageResource(R.drawable.ic_book_bag);
         //add listener to each item
         holder.bind(holder.itemView,recycleListener);
     }
@@ -60,12 +64,14 @@ public class CurrentTripsHomeAdapter extends RecyclerView.Adapter<CurrentTripsHo
         TextView date;
         TextView locationFromTo;
         ImageView tripImage;
+        TextView time;
         public TripHolder(View itemView) {
             super(itemView);
             this.title = itemView.findViewById(R.id.trip_title_textview);
-            this.tripImage = itemView.findViewById(R.id.trip_imageview);
+            //this.tripImage = itemView.findViewById(R.id.trip_imageview);
             this.date = itemView.findViewById(R.id.date_textview);
             this.locationFromTo = itemView.findViewById(R.id.tripFromToLocationOverview);
+            this.time = itemView.findViewById(R.id.time_textview);
         }
         public void bind(View item, CurrentTripsHomeFragment.OnRecycleItemClickListener listener) {
            // name.setText(item.name);
