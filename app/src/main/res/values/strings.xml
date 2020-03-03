@@ -59,4 +59,5 @@
     <string name="backTrip">Back</string>
     <string name="forthTrip">Forth</string>
     <string name="pastTripsText">Past Trips</string>
+    <string name="registeration">Registeration</string>
 </resources>
