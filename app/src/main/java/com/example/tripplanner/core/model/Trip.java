@@ -4,6 +4,7 @@ import com.example.tripplanner.core.constant.TripStatus;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Random;
 
 public class Trip implements Serializable {
     private String title;
@@ -20,7 +21,7 @@ public class Trip implements Serializable {
     private boolean isRoundTrip ;
     private String secondtripTime;
     private String secondtripDate;
-
+    private long tripNumricId;
     //this for trip identification
     //No setter for tripId to prevent external modification
     private String tripId;
@@ -43,7 +44,7 @@ public class Trip implements Serializable {
         // by default the trip not start yet and upcoming
         tripStatus = TripStatus.UPCOMING;
         //concat title with start and end location to identify the Trip.
-        tripId = title + startLocation + endLocation;
+        tripId = generateKey(title ,startLocation ,endLocation);
     }
 
     //construct a trip with Notes
@@ -62,7 +63,7 @@ public class Trip implements Serializable {
         // by default the trip not start yet and upcoming
         tripStatus = TripStatus.UPCOMING;
         // concat title with start and end location to identify the Trip.
-        tripId = title + startLocation + endLocation;
+        tripId = generateKey(title ,startLocation ,endLocation);
     }
 
 
@@ -82,7 +83,7 @@ public class Trip implements Serializable {
         // by default the trip not start yet and upcoming
         tripStatus = status;
         // concat title with start and end location to identify the Trip.
-        tripId = title + startLocation + endLocation;
+        tripId = generateKey(title ,startLocation ,endLocation);
     }
 
     // setters
@@ -193,5 +194,28 @@ public class Trip implements Serializable {
 
     public double getEndtLatitude() {
         return endtLatitude;
+    }
+
+    public long getTripNumricId() {
+        return tripNumricId;
+    }
+
+    private String generateKey(String title, String startLocation, String endLocation) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(startLocation);
+        sb.append(title);
+        sb.append(endLocation);
+        String str;
+        char[] input = sb.toString().toCharArray();
+        int length = input.length;
+        for(int i = 0 ;i<length;i++){
+            Random random = new Random();
+            int temp = random.nextInt(length-1);
+            char ch = input[temp];
+            tripNumricId+=(ch+temp+i);
+            input[temp] = input[i];
+            input[i] = ch;
+        }
+        return new String(input);
     }
 }

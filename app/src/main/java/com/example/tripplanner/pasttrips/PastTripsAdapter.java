@@ -1,6 +1,7 @@
 package com.example.tripplanner.pasttrips;
 
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +61,12 @@ public class PastTripsAdapter extends RecyclerView.Adapter<PastTripsAdapter.Past
         tripLocationFromTo.setTextSize(14f); // Why this is done here, not in XML?!
         tripLocationFromTo.setTypeface(tripTitle.getTypeface(), Typeface.BOLD);
 
+        TextView tripTime = holder.myView.findViewById(R.id.time_textview);
+        if(pastTrips.get(position).getTripTime() != null)
+            tripTime.setText(pastTrips.get(position).getTripTime());
+        else
+            tripTime.setText("12:00");
+        tripTime.setTypeface(tripTitle.getTypeface(), Typeface.BOLD);
         // What to do with the image?!
         //ImageView tripImage = holder.myView.findViewById(R.id.trip_imageview);
 

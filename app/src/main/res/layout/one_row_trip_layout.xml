@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
@@ -18,13 +19,13 @@
         android:layout_height="match_parent"
         android:layout_margin="8dp">
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/trip_imageview"
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_marginRight="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />-->
 
         <TextView
             android:id="@+id/trip_title_textview"
@@ -32,28 +33,68 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintLeft_toRightOf="@+id/trip_imageview"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/trip_imageview" />
-
-        <TextView
-            android:id="@+id/date_textview"
-            android:layout_width="0dp"
+            android:text="title"
+            android:layout_marginRight="8dp"
+            android:paddingBottom="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+        <LinearLayout
+            android:id="@+id/date_linear_layout"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_marginTop="4dp"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="@+id/trip_title_textview"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/trip_title_textview" />
+            app:layout_constraintTop_toBottomOf="@+id/trip_title_textview"
+            android:weightSum="4">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/date_icon"
+                tools:ignore="VectorDrawableCompat" />
+
+            <TextView
+                android:id="@+id/date_textview"
+                android:text="date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+               />
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/time_icon"
+                android:layout_marginLeft="70dp"
+                tools:ignore="VectorDrawableCompat" />
+
+            <TextView
+                android:id="@+id/time_textview"
+                android:text="date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tripFromToLocationOverview"
+            android:text="from"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:layout_constraintLeft_toLeftOf="@+id/date_textview"
+            app:layout_constraintLeft_toLeftOf="@+id/date_linear_layout"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/date_textview" />
+            app:layout_constraintTop_toBottomOf="@+id/date_linear_layout" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
