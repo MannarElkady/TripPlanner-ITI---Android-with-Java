@@ -137,7 +137,6 @@ public class TripDetailsFragment extends Fragment {
         ArrayList<String> notes = new ArrayList<>();
         for(Note note : selectedTrip.getListOfNotes())
             notes.add(note.getDescription());
-
         Intent intent = new Intent(getActivity(), FloatingIconService.class);
         intent.putStringArrayListExtra("notes", notes);
         getActivity().startService(intent);
