@@ -88,6 +88,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
 
     /*Manar*/
     private MyDate myDate;
+    private MyDate returnDate;
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
     public static final int ALARM_REQUEST_CODE = 101;
@@ -163,12 +164,17 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
                     newTrip = inputTrip;
                     //TODO: 3- add reminder according to time and date selected
                     startAlarm(getEquivlentCalender(myDate));
+                    if(returnDate !=null) {
+                        startAlarm(getEquivlentCalender(returnDate));
+                    }
+
                     //TODO: 4- add to firestore and room (if requierd)
 
                     //Navigate to Home Screen
                     Navigation.findNavController(getActivity(), R.id.fragments_functionality_layout).navigate(TripAdditionDirections.actionTripAdditionToCurrentTripsHomeFragment());
                 } else {
                     updateToFirestore(inputTrip);
+                    updateTrip = null;
                 }
             } else {
                 Toast.makeText(getContext(), "Review Trip Data", Toast.LENGTH_SHORT).show();
@@ -212,6 +218,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
             time.setError(null);
             Calendar now = Calendar.getInstance();
             TimePickerDialog time = TimePickerDialog.newInstance(this, now.get(Calendar.HOUR), now.get(Calendar.MINUTE), false);
+            time.setCancelText(R.string.cancel_trip);
             time.show(getParentFragmentManager(), "TimePicker");
         });
 
@@ -276,12 +283,14 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    returnDate = new MyDate();
                     Log.i("switch", "isChecked: ");
                     backTrip.setVisibility(View.VISIBLE);
                     forthTrip.setVisibility(View.VISIBLE);
                     time2.setVisibility(View.VISIBLE);
                     date2.setVisibility(View.VISIBLE);
                 } else {
+                    returnDate = null;
                     backTrip.setVisibility(View.GONE);
                     forthTrip.setVisibility(View.GONE);
                     time2.setVisibility(View.GONE);
@@ -357,6 +366,13 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
             }
             Log.i(TAG, "array size: " + notes.size());
             trip.setListOfNotes(notes);
+        }
+        if(roundTripSwitch.isChecked()){
+            String secondTime = time2.getEditText().getText().toString().trim();
+            String secondData = date2.getEditText().getText().toString().trim();
+            trip.setSecondtripTime(secondTime);
+            trip.setSecondtripDate(secondData);
+            trip.setRoundTrip(true);
         }
         firestoreRepository.addTrip(trip).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -646,7 +662,6 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
 
 
     class SecondTimeAndDateCallBack implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
-    MyDate returnDate = new MyDate();
         @Override
         public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
             monthOfYear++;
@@ -663,6 +678,10 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
             returnDate.setMinute(minute);
             returnDate.setSecond(second);
             returnDate.setHour(hourOfDay);
+
+            returnDate.setHour(hourOfDay);
+            returnDate.setMinute(minute);
+            returnDate.setSecond(second);
         }
     }
 }

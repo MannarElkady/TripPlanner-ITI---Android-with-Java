@@ -23,7 +23,7 @@ public class Trip implements Serializable {
     private boolean isRoundTrip ;
     private String secondtripTime;
     private String secondtripDate;
-    private long tripNumricId;
+    private int tripNumricId;
     //this for trip identification
     //No setter for tripId to prevent external modification
     private String tripId;
@@ -207,7 +207,7 @@ public class Trip implements Serializable {
         return endtLatitude;
     }
 
-    public long getTripNumricId() {
+    public int getTripNumricId() {
         return tripNumricId;
     }
 
