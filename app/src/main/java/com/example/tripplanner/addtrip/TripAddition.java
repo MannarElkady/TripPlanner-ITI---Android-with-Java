@@ -341,6 +341,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
             @Override
             public void onSuccess(Void aVoid) {
                 Toast.makeText(getContext(), "Trip Updated Successfully", Toast.LENGTH_LONG).show();
+                Navigation.findNavController(getActivity(), R.id.fragments_functionality_layout).navigate(TripAdditionDirections.actionTripAdditionToCurrentTripsHomeFragment());
             }
         });
     }
