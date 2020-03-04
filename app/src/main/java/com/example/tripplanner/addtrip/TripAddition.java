@@ -619,7 +619,9 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         args.putSerializable("myDirectionData", (Serializable) myDirectionData);
         args.putSerializable("MyNewTrip", newTrip);
         intent.putExtra("Data", args);
-        alarmIntent = PendingIntent.getBroadcast(getActivity(), ALARM_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Log.i("3aaa",String.valueOf((int)newTrip.getTripNumricId()));
+        Log.i("3aaa",String.valueOf(newTrip.getTripNumricId()));
+        alarmIntent = PendingIntent.getBroadcast(getActivity(), (int)newTrip.getTripNumricId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
         if (Build.VERSION.SDK_INT >= 23) {
             alarmMgr.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
         }
