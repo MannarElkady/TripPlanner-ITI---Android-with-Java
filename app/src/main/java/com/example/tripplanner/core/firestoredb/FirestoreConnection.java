@@ -98,8 +98,7 @@ public class FirestoreConnection implements FirestoreContract {
     }
     // delete trip from user trip collection
     public Task<Void> deleteTrip(Trip trip){
-        return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS)
-                                .document(trip.getTripId()).delete();
+        return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS).document(trip.getDocumentName()).delete();
     }
 
 
@@ -119,8 +118,7 @@ public class FirestoreConnection implements FirestoreContract {
 
     @Override
     public Task<Void> updateTrip(Trip newTrip) {
-        if(newTrip==null)
-            return null;
+        HashMap<String,Object>tripMap = new HashMap<>();
         return tripsCollectionReference.collection(SUB_COLLECTION_OF_TRIPS)
                 .document(newTrip.getTripId()).set(newTrip);
         //TODO: optimize update, to update the changed field only, not the whole document of a trip

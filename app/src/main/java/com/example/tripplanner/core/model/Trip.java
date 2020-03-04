@@ -1,5 +1,7 @@
 package com.example.tripplanner.core.model;
 
+import android.util.Log;
+
 import com.example.tripplanner.core.constant.TripStatus;
 
 import java.io.Serializable;
@@ -25,6 +27,15 @@ public class Trip implements Serializable {
     //this for trip identification
     //No setter for tripId to prevent external modification
     private String tripId;
+    private String documentName;
+
+    public String getDocumentName() {
+        return documentName;
+    }
+
+    public void setDocumentName(String documentName) {
+        this.documentName = documentName;
+    }
 
     //construct a trip without list of notes
     public Trip(){
@@ -212,10 +223,18 @@ public class Trip implements Serializable {
             Random random = new Random();
             int temp = random.nextInt(length-1);
             char ch = input[temp];
-            tripNumricId+=(ch+temp+i);
+            tripNumricId+=ch+i+temp;
             input[temp] = input[i];
             input[i] = ch;
         }
         return new String(input);
+    }
+
+    private void setTripNumricId(){
+        for(int i = 0 ;i<6;i++){
+            Random random = new Random();
+            tripNumricId+= random.nextInt(1000);
+        }
+        Log.i("id", "setTripNumricId: "+tripNumricId);
     }
 }

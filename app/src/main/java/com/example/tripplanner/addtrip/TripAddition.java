@@ -83,7 +83,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
     private ChipGroup chipGroup;
     private Chip noteChip;
     private LayoutInflater inflater;
-    private Trip updateTrip;
+    public static Trip updateTrip;
     /*Ashraf*/
 
     /*Manar*/
@@ -326,7 +326,8 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         return view;
     }
 
-    private void updateToFirestore(Trip trip) {
+    private void updateToFirestore(Trip newTrip) {
+        Log.i("update", "new: "+newTrip.getTripId()+"   old:"+updateTrip.getTripId());
         if (chipGroup.getChildCount() > 0) {
             notes.clear();
             for (int i = 0; i < chipGroup.getChildCount(); i++) {
@@ -335,9 +336,9 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
                 notes.add(note);
             }
             Log.i(TAG, "array size: " + notes.size());
-            trip.setListOfNotes(notes);
+            newTrip.setListOfNotes(notes);
         }
-        firestoreRepository.updateTrip(updateTrip, trip).addOnSuccessListener(new OnSuccessListener<Void>() {
+        firestoreRepository.updateTrip(updateTrip, newTrip).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Toast.makeText(getContext(), "Trip Updated Successfully", Toast.LENGTH_LONG).show();
