@@ -146,6 +146,7 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
         getActivity().findViewById(R.id.buttom_nav).setVisibility(View.GONE);
         /*Manar*/
         myDate = new MyDate();
+        returnDate = new MyDate();
         doneButton = view.findViewById(R.id.doneId);
         chipGroup = view.findViewById(R.id.chipGroupId);
         noteChip = view.findViewById(R.id.noteChipId);
@@ -164,8 +165,10 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
                     newTrip = inputTrip;
                     //TODO: 3- add reminder according to time and date selected
                     startAlarm(getEquivlentCalender(myDate));
-                    if(returnDate !=null) {
+                    if(returnDate!=null) {
                         startAlarm(getEquivlentCalender(returnDate));
+                    }else{
+                        Toast.makeText(requireActivity(),"returnDate is Null",Toast.LENGTH_LONG).show();
                     }
 
                     //TODO: 4- add to firestore and room (if requierd)
@@ -283,14 +286,12 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    returnDate = new MyDate();
                     Log.i("switch", "isChecked: ");
                     backTrip.setVisibility(View.VISIBLE);
                     forthTrip.setVisibility(View.VISIBLE);
                     time2.setVisibility(View.VISIBLE);
                     date2.setVisibility(View.VISIBLE);
                 } else {
-                    returnDate = null;
                     backTrip.setVisibility(View.GONE);
                     forthTrip.setVisibility(View.GONE);
                     time2.setVisibility(View.GONE);
@@ -687,9 +688,6 @@ public class TripAddition extends Fragment implements TimePickerDialog.OnTimeSet
             returnDate.setSecond(second);
             returnDate.setHour(hourOfDay);
 
-            returnDate.setHour(hourOfDay);
-            returnDate.setMinute(minute);
-            returnDate.setSecond(second);
         }
     }
 }

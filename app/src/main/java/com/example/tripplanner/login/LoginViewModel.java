@@ -81,7 +81,7 @@ public class LoginViewModel extends ViewModel {
                             //navigate to main fragment
                             firestoreConnection = FirestoreConnection.getInstance(user);
                             Navigation.findNavController(activity, R.id.fragments_functionality_layout).navigate(LoginFragmentDirections.actionLoginFragmentToCurrentTripsHomeFragment());
-
+                            Toast.makeText(activity,"Welcome "+email,Toast.LENGTH_LONG).show();
                             Log.i(TAG, userFirebase.getEmail());
 
                         } else {

@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.tripplanner.R;
 import com.example.tripplanner.login.LoginFragment;
+import com.example.tripplanner.login.LoginFragmentDirections;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,16 +48,16 @@ public class RegisterFragment extends Fragment {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String userEmail = email.getText().toString();
-                String userPassword = password.getText().toString();
-                String userConfirmPassword = confirmPassword.getText().toString();
-                if(userEmail.trim().equals("")){
-                    Toast.makeText(RegisterFragment.this.getActivity(), "Enter Email", Toast.LENGTH_LONG).show();
+                String userEmail = email.getText().toString().trim();
+                String userPassword = password.getText().toString().trim();
+                String userConfirmPassword = confirmPassword.getText().toString().trim();
+                if(userEmail.equals("") || userEmail.length()<11){
+                    Toast.makeText(RegisterFragment.this.getActivity(), "Enter Valid Email", Toast.LENGTH_LONG).show();
                 }
-                else if(userPassword.trim().equals("")){
-                    Toast.makeText(RegisterFragment.this.getActivity(), "Enter Password", Toast.LENGTH_LONG).show();
+                else if(userPassword.equals("") || userPassword.length()<6){
+                    Toast.makeText(RegisterFragment.this.getActivity(), "Enter Strong Password", Toast.LENGTH_LONG).show();
                 }
-                else if(userConfirmPassword.trim().equals("")){
+                else if(userConfirmPassword.equals("")){
                     Toast.makeText(RegisterFragment.this.getActivity(), "Enter Confirm Password", Toast.LENGTH_LONG).show();
                 }
                 else {

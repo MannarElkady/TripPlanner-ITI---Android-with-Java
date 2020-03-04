@@ -3,6 +3,7 @@ package com.example.tripplanner.register;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.tripplanner.MainActivity;
 import com.example.tripplanner.core.firestoredb.FirestoreConnection;
@@ -34,10 +35,12 @@ public class RegisterViewModel extends ViewModel {
                             User user = new User(userFirebase.getUid());
                             //navigate to main fragment
                             firestoreConnection = FirestoreConnection.getInstance(user);
-                            Navigation.findNavController(activity, R.id.fragments_functionality_layout).navigate(RegisterFragmentDirections.actionRegisterFragmentToCurrentTripsHomeFragment());
+                            Navigation.findNavController(activity, R.id.fragments_functionality_layout).navigate(RegisterFragmentDirections.actionRegisterFragmentToLoginFragment());
+                            Toast.makeText(activity,"Successful Registeration",Toast.LENGTH_SHORT).show();
 
                             //Log.i(TAG, user.getEmail());
                         } else {
+                            Toast.makeText(activity,"this username or email is exist",Toast.LENGTH_SHORT).show();
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
 
                         }
