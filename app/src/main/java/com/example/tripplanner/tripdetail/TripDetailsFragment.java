@@ -124,7 +124,7 @@ public class TripDetailsFragment extends Fragment {
     private void cancelAlarm() {
         alarmMgr = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getActivity(), AlarmReciever.class);
-        alarmIntent = PendingIntent.getBroadcast(getActivity(), ALARM_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmIntent = PendingIntent.getBroadcast(getActivity(), (int)selectedTrip.getTripNumricId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmMgr.cancel(alarmIntent);
         Toast.makeText(getActivity().getApplicationContext(), "Alarm Cancelled", Toast.LENGTH_LONG).show();
     }
