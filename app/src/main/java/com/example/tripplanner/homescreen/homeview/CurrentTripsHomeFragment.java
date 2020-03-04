@@ -49,6 +49,7 @@ public class CurrentTripsHomeFragment extends Fragment {
         super.onStart();
         mViewModel.getTripLiveData().observe(this,trips->{
             if(trips!=null&&trips.size() > 0){
+                Log.i("listener", "onStart: triggered");
                 displayTrips(trips);
             }else{
                 displayNoTrips();
@@ -91,6 +92,9 @@ public class CurrentTripsHomeFragment extends Fragment {
         recyclerView.setVisibility(INVISIBLE);
     }
     public void displayTrips(List<Trip> trips){
+        for(Trip trip: trips){
+            Log.i("displayed", "title:"+trip.getTitle());
+        }
         noTrips.setVisibility(INVISIBLE);
         recyclerView.setVisibility(VISIBLE);
         //create adapter with it's listener
